@@ -61,6 +61,7 @@ For now the assumption that $\phi' > 0$ is kind of strong, but I hope to general
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In the following proof of uniqueness of weak solutions I'll try out assuming that $\Phi' \geq 0$.
 \section{Uniqueness}
 \begin{theorem}[Uniqueness]
 	Assuming $u \in L^2(Q_T)$ and that $\Phi \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
@@ -70,7 +71,6 @@ This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1
 \begin{equation*}
 \iint_{Q_T}\nabla(\Phi(u_2) - \Phi(u_1)) \cdot \nabla \eta - (u_2 - u_1)\partial_t \eta dxdt = 0.
 \end{equation*}
-
 Now the inspired move\footnote{Of course, this isn't my proof so that sort of horn-tooting is in good taste.} is choosing
 \begin{equation*}
 \eta(x,t) = \begin{cases}
@@ -82,14 +82,39 @@ It is then easily verified that
 \begin{equation*}
 \begin{cases}
 	\partial_t \eta &= -(\Phi(u_2) - \Phi(u_1) ) \\
-	\nabla \eta &= \int_t^T(\nabla (\Phi(u_2) - \Phi(u_1))ds,
+	\nabla \eta &= \int_t^T\nabla (\Phi(u_2) - \Phi(u_1))ds,
 \end{cases}
 \end{equation*}
 which put into the integral equality above yields
+\begin{equation}
+\label{unique}
+\begin{aligned}
+	&\iint_{Q_T}(\Phi(u_2) - \Phi(u_1))(u_2 - u_1)dxdt \\ 
+	&+ \iint_{Q_T}\nabla(\Phi(u_2(t)) - \Phi(u_1(t))) \cdot \left(\int_t^T 					\nabla(\Phi(u_2(s)) - \Phi(u_1(s))ds\right)dtdx = 0.
+\end{aligned}
+\end{equation}
+Let's take these in order:
+\begin{enumerate}[i)]
+	\item In the first integral we notice that $u_2 > u_1 \Rightarrow \Phi(u_2) \geq \Phi(u_1)$ and vice versa, so this integral is nonnegative.
+	
+	\item For the second integral it is helpful to first only consider integration of the temporal dimensions, leaving us with
+	\begin{align*}
+	&\int_0^T\int_t^T \nabla(\Phi(u_2(t)) - \Phi(u_1(t)))\cdot \nabla(\Phi(u_2(s))-\Phi(u_1(s)))dsdt \\
+	&= \int_0^T\int_0^s\nabla(\Phi(u_2(t)) - \Phi(u_1(t)))\cdot \nabla(\Phi(u_2(s))-\Phi(u_1(s)))dtds.
+	\end{align*}
+	Due to the symmetry about the line $s=t$, we have
+	\begin{align*}
+	&\int_0^T\int_0^s\nabla(\Phi(u_2(t)) - \Phi(u_1(t)))\cdot \nabla(\Phi(u_2(s))-\Phi(u_1(s)))dtds \\
+	&= \frac{1}{2}\int_0^T \int_0^T \nabla(\Phi(u_2(t)) - \Phi(u_1(t)))\cdot \nabla(\Phi(u_2(s))-\Phi(u_1(s)))dtds \\
+	&= \frac{1}{2}\left( \int_0^T \nabla(\Phi(u_2)-\Phi(u_1))dt\right)^2,
+	\end{align*}
+	which is also nonnegative, and therefore the second integral in (\ref{unique}) must also be nonnegative.
+\end{enumerate}
+From this we may conclude that both integral terms in (\ref{unique}) are zero, which in turn implies that $(\Phi(u_2)-\Phi(u_1))(u_2 - u_1) = 0$ a.e. in $Q_T$. Wherever $\Phi'(u) > 0$ we have $u_2 = u_1$, but more care is needed when $u_1$ and $u_1$ take values where $\Phi'(u) = 0$. So suppose $u_1 \neq u_2$ on a set $E \subset Q_T$ of positive measure. That means $\nabla(\Phi(u_2) - \Phi(u_1)) = 0$ a.e. in $E$, and so we can deduce that 
 \begin{equation*}
-\iint_{Q_T}(\Phi(u_2) - \Phi(u_1))(u_2 - u_1)dxdt + \iint_{Q_T}\nabla(\Phi(u_2(t)) - \Phi(u_1(t))) \cdot \left(\int_t^T \nabla(\Phi(u_2(s)) - \Phi(u_1(s))ds\right)dtdx = 0.
+\iint_{Q_T}(u_2 - u_1)\partial_t \eta dxdt = 0
 \end{equation*}
-The first integral is nonnegative due to the assumption that $\Phi$ is increasing.
+for all test functions $\eta$ with support in $E$. This gives us that $u_2 = u_1$ a.e. in $E$ as well, so $u_2 = u_1$ a.e. in all of $Q_T$. Whoop-dee-doo!
 \end{proof}
 \end{document}
 
