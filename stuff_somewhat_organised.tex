@@ -1,0 +1,97 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{mathptmx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{amsthm}
+\usepackage{remreset}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+\title{Stuff that may well go into the project report}
+\author{Trygve Bærland}
+\maketitle
+\abstract{Funker dette?}
+\section{Basics}
+\newtheorem{theorem}{Theorem}
+\newtheorem{mydef}{Definition}
+\newtheorem{ex}{Example}
+
+Let $\Omega \subset \mathbb{R}^d$ be an open, simply connected domain. Then the filtration, or general porous medium equation is
+\begin{equation}
+\label{GPME}
+	\partial_t u = \Delta \Phi(u) + f,
+\end{equation}
+ where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. More specific assumptions on the nonlinearity $\phi$  and the forcing term $f$ will follow.
+
+\subsection{Problem statement}
+I will consider on the following Dirichlet problem:
+\begin{equation}
+\label{HDP}
+	\begin{cases}
+		\partial_t u = \Delta \Phi(u) + f, \quad \text{ in } Q_T \\
+		u(x,0) = u_0(x), \quad \text{ in } \Omega \\
+		u(x,t) = 0, \quad \text{ on } \partial\Omega \times (0,T)
+	\end{cases}
+\end{equation}
+
+\subsection{Weak formulation}
+\begin{mydef}[Weak solutions]
+A locally integrale function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of \ref{HDP} if
+\begin{enumerate}[i)]
+	\item $u \in L^1(Q_T)$ and $\Phi(u) \in L^1(0,T : W_0^{1,1}(\Omega))$\footnote{$f:\Omega \to \mathbb{R}$ is an element of $W^{k,p}(\Omega)$ if all weak derivatives with $|\alpha| \leq k$ exists and are in $L^p(\Omega)$. $W_0^{k,p}$ is the closure of $C^\infty_c(\Omega)$ in $W^{k,p}(\Omega)$.};
+	\item $u$ satisfies
+		\begin{equation}
+		\label{weak}
+		\iint_{Q_T} \{\nabla\Phi(u)\cdot \nabla\eta - u\partial_t \eta \}dxdt = \int_\Omega u_0(x)\eta(x,0)dx + \iint_{Q_T}f\eta dxdt
+		\end{equation}
+		for any $\eta \in C^1(\overline{Q}_T)$ that vanishes on the boundary and has compact support.
+\end{enumerate}
+\end{mydef}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					ESTIMATES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Some estimates}
+Now we need to make some assumptions on $\Phi$ and $f$:
+\begin{enumerate}[i)]
+	\item The function $\Phi: \mathbb{R} \to \mathbb{R}$ is continuous, strictly increasing and we assume $\Phi(0) = 0$ without any loss of generality.
+\end{enumerate}
+For now the assumption that $\phi' > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					UNIQUENESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Uniqueness}
+\begin{theorem}[Uniqueness]
+	Assuming $u \in L^2(Q_T)$ and that $\Phi \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
+\end{theorem}
+\begin{proof}
+This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1$ and $u_2$ are weak solutions. Then
+\begin{equation*}
+\iint_{Q_T}\nabla(\Phi(u_2) - \Phi(u_1)) \cdot \nabla \eta - (u_2 - u_1)\partial_t \eta dxdt = 0.
+\end{equation*}
+
+Now the inspired move\footnote{Of course, this isn't my proof so that sort of horn-tooting is in good taste.} is choosing
+\begin{equation*}
+\eta(x,t) = \begin{cases}
+		\int_t^T(\Phi(u_2) - \Phi(u_1))ds, \quad &\text{ if } 0 < t < T \\
+		0 \quad &\text{ if } t\geq T.
+	\end{cases}
+\end{equation*}
+It is then easily verified that
+\begin{equation*}
+\begin{cases}
+	\partial_t \eta &= -(\Phi(u_2) - \Phi(u_1) ) \\
+	\nabla \eta &= \int_t^T(\nabla (\Phi(u_2) - \Phi(u_1))ds,
+\end{cases}
+\end{equation*}
+which put into the integral equality above yields
+\begin{equation*}
+\iint_{Q_T}(\Phi(u_2) - \Phi(u_1))(u_2 - u_1)dxdt + \iint_{Q_T}\nabla(\Phi(u_2(t)) - \Phi(u_1(t))) \cdot \left(\int_t^T \nabla(\Phi(u_2(s)) - \Phi(u_1(s))ds\right)dtdx = 0.
+\end{equation*}
+The first integral is nonnegative due to the assumption that $\Phi$ is increasing.
+\end{proof}
+\end{document}
+
+
+
