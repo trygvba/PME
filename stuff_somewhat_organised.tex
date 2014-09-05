@@ -18,12 +18,12 @@
 \newtheorem{mydef}{Definition}
 \newtheorem{ex}{Example}
 
-Let $\Omega \subset \mathbb{R}^d$ be an open, simply connected domain. Then the filtration, or general porous medium equation is
+Let $\Omega \subset \mathbb{R}^d$ be an open, simply connected domain. Then the filtration-, or general porous medium equation is
 \begin{equation}
 \label{GPME}
 	\partial_t u = \Delta \Phi(u) + f,
 \end{equation}
- where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. More specific assumptions on the nonlinearity $\phi$  and the forcing term $f$ will follow.
+ where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. More specific assumptions on the nonlinearity $\Phi$  and the forcing term $f$ will follow.
 
 \subsection{Problem statement}
 I will consider on the following Dirichlet problem:
@@ -32,13 +32,13 @@ I will consider on the following Dirichlet problem:
 	\begin{cases}
 		\partial_t u = \Delta \Phi(u) + f, \quad \text{ in } Q_T \\
 		u(x,0) = u_0(x), \quad \text{ in } \Omega \\
-		u(x,t) = 0, \quad \text{ on } \partial\Omega \times (0,T)
+		u(x,t) = 0, \quad \text{ on } \partial\Omega \times (0,T).
 	\end{cases}
 \end{equation}
-
+Here $Q_T = \Omega \times (0,T)$, where $T$ may very well be infinite.
 \subsection{Weak formulation}
 \begin{mydef}[Weak solutions]
-A locally integrale function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of \ref{HDP} if
+A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of \ref{HDP} if
 \begin{enumerate}[i)]
 	\item $u \in L^1(Q_T)$ and $\Phi(u) \in L^1(0,T : W_0^{1,1}(\Omega))$\footnote{$f:\Omega \to \mathbb{R}$ is an element of $W^{k,p}(\Omega)$ if all weak derivatives with $|\alpha| \leq k$ exists and are in $L^p(\Omega)$. $W_0^{k,p}$ is the closure of $C^\infty_c(\Omega)$ in $W^{k,p}(\Omega)$.};
 	\item $u$ satisfies
@@ -57,11 +57,11 @@ Now we need to make some assumptions on $\Phi$ and $f$:
 \begin{enumerate}[i)]
 	\item The function $\Phi: \mathbb{R} \to \mathbb{R}$ is continuous, strictly increasing and we assume $\Phi(0) = 0$ without any loss of generality.
 \end{enumerate}
-For now the assumption that $\phi' > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
+For now the assumption that $\Phi'(u) > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi'(u) \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In the following proof of uniqueness of weak solutions I'll try out assuming that $\Phi' \geq 0$.
+In the following proof of uniqueness of weak solutions I'll try out assuming that $\Phi'(u) \geq 0$.
 \section{Uniqueness}
 \begin{theorem}[Uniqueness]
 	Assuming $u \in L^2(Q_T)$ and that $\Phi \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
@@ -110,11 +110,11 @@ Let's take these in order:
 	\end{align*}
 	which is also nonnegative, and therefore the second integral in (\ref{unique}) must also be nonnegative.
 \end{enumerate}
-From this we may conclude that both integral terms in (\ref{unique}) are zero, which in turn implies that $(\Phi(u_2)-\Phi(u_1))(u_2 - u_1) = 0$ a.e. in $Q_T$. Wherever $\Phi'(u) > 0$ we have $u_2 = u_1$, but more care is needed when $u_1$ and $u_1$ take values where $\Phi'(u) = 0$. So suppose $u_1 \neq u_2$ on a set $E \subset Q_T$ of positive measure. That means $\nabla(\Phi(u_2) - \Phi(u_1)) = 0$ a.e. in $E$, and so we can deduce that 
+From this we may conclude that both integral terms in (\ref{unique}) are zero, which in turn implies that $(\Phi(u_2)-\Phi(u_1))(u_2 - u_1) = 0$ a.e. in $Q_T$. Wherever $\Phi'(u) > 0$ we have $u_2 = u_1$, but more care is needed when $u_1$ and $u_2$ take values where $\Phi'(u) = 0$. So suppose $u_1 \neq u_2$ on a set $E \subset Q_T$ of positive measure. That means $\nabla(\Phi(u_2) - \Phi(u_1)) = 0$ a.e. in $E$, and so we can deduce that 
 \begin{equation*}
 \iint_{Q_T}(u_2 - u_1)\partial_t \eta dxdt = 0
 \end{equation*}
-for all test functions $\eta$ with support in $E$. This gives us that $u_2 = u_1$ a.e. in $E$ as well, so $u_2 = u_1$ a.e. in all of $Q_T$. Whoop-dee-doo!
+for all test functions $\eta$ with support in $E$. This gives us that $u_2 = u_1$ a.e. in $E$ as well, so $u_2 = u_1$. Whoop-dee-doo!
 \end{proof}
 \end{document}
 
