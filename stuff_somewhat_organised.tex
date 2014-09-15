@@ -18,12 +18,12 @@
 \newtheorem{mydef}{Definition}
 \newtheorem{ex}{Example}
 
-Let $\Omega \subset \mathbb{R}^d$ be an open, simply connected domain. Then the filtration, or general porous medium equation is
+Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
 \begin{equation}
 \label{GPME}
 	\partial_t u = \Delta \Phi(u) + f,
 \end{equation}
- where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. More specific assumptions on the nonlinearity $\phi$  and the forcing term $f$ will follow.
+ where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. For now we assume that $\Phi$ is continuous and nondecreasing.
 
 \subsection{Problem statement}
 I will consider on the following Dirichlet problem:
@@ -46,7 +46,7 @@ A locally integrale function $u$ defined in $Q_T$ is said to be a \textbf{weak s
 		\label{weak}
 		\iint_{Q_T} \{\nabla\Phi(u)\cdot \nabla\eta - u\partial_t \eta \}dxdt = \int_\Omega u_0(x)\eta(x,0)dx + \iint_{Q_T}f\eta dxdt
 		\end{equation}
-		for any $\eta \in C^1(\overline{Q}_T)$ that vanishes on the boundary and has compact support.
+		for any $\eta \in C^1(\overline{Q}_T)$ that vanishes on $\partial \Omega \time [0,T)$ and for $t=T$.
 \end{enumerate}
 \end{mydef}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,14 +57,14 @@ Now we need to make some assumptions on $\Phi$ and $f$:
 \begin{enumerate}[i)]
 	\item The function $\Phi: \mathbb{R} \to \mathbb{R}$ is continuous, strictly increasing and we assume $\Phi(0) = 0$ without any loss of generality.
 \end{enumerate}
-For now the assumption that $\phi' > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
+For now the assumption that $\Phi' > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In the following proof of uniqueness of weak solutions I'll try out assuming that $\Phi' \geq 0$.
 \section{Uniqueness}
 \begin{theorem}[Uniqueness]
-	Assuming $u \in L^2(Q_T)$ and that $\Phi \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
+	Assuming in addition that $u \in L^2(Q_T)$ and $\Phi(u) \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
 \end{theorem}
 \begin{proof}
 This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1$ and $u_2$ are weak solutions. Then
