@@ -17,11 +17,28 @@
 \title{Written assignment 1 in SPRÅK3501}
 \author{Trygve Bærland}
 \maketitle
+\section*{Introduction:}
+In my project I will consider a generalisation of the Porous Medium Equation, and specifically try to construct a numerical method that converges to a, in some sense, unique solution.
+
 \section*{First article:}
-\cite{Cifani} is an article showing the main strategy I want to do.
+\subsection*{Summary:}
+\cite{Cifani} presents a numerical method for solving a convection-diffusion equation with fractional, nonlinear diffusion. The article starts off by setting up a problem formulation, then introduce an entropy condition that ensures uniqueness of solutions that are bounded and integrable. After presenting a numerical method and proving that it converges to the entropy solution, the authors show that the numerical solutions also converge to a function of bounded variation, and hence they prove existence of solutions with bounded variation.
+
+\subsection*{Critique:}
+The article is quite impressive in that it introduces a new class of partial differential equations, and establishes existence, uniqueness and stability of solutions. However, it seems to me that the numerical method presented only works on simple problems, in the sense that if the domain cannot easily be made into a nice grid the implementation will be almost impossible.
+
+\subsection*{Reflections:}
+Although this article tackles a class of partial differential equations that easily are much harder to analyse than what I'm setting out to tackle, the overall strategy to get a new sense of existence is very similar to what I aim to do in my work, and hence is a quite useful article. Also, the numerical method used here is quite different from the one I will be using.
 
 \section*{Second article:}
-\cite{Schochet}
+\subsection*{Summary:}
+In \cite{Schochet} scalar hyperbolic conservation laws are considered. While not using novel numerical method on this class of partial differential equations the author is able to further the field by deriving a rate of convergence for the spectral- and pseudospectral methods.
+
+\subsection*{Critique:}
+The article assumes quite a bit of knowledge on the reader. E.g. extensive knowledge of Fourier analysis and certain convergence results in this field is assumed. This makes it a tough read. Luckily, in between paragraphs heavy on mathematical notation, the author is mostly very considerate and provides good discussions.
+
+\subsection*{Reflections:}
+Again, the family of equations considered are different from the ones I will be considered, but in contrast to \cite{Cifani}, the methods of analysis doesn't carry over as well as I'd hoped. The numerical method is quite similar to the one I will be using, and that is the main reason for this article's relevance to my work, however there are some key differences that I'm not yet sure of whether are significant or not.
 
 \newpage
 \bibliographystyle{plain}
