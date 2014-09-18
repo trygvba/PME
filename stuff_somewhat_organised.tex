@@ -17,10 +17,12 @@
 \author{Trygve Bærland}
 \maketitle
 \abstract{Funker dette?}
+
 \section{Basics}
 \newtheorem{theorem}{Theorem}
 \newtheorem{mydef}{Definition}
 \newtheorem{ex}{Example}
+\newtheorem{proposition}{Proposition}
 
 Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
 
@@ -45,7 +47,7 @@ I will consider on the following Dirichlet problem:
 Here $Q_T = \Omega \times (0,T)$, where $T$ may very well be infinite.
 \subsection{Weak formulation}
 \begin{mydef}[Weak solutions]
-A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of \ref{HDP} if
+A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of (\ref{HDP}) if
 \begin{enumerate}[i)]
 	\item $u \in L^1(Q_T)$ and $\Phi(u) \in L^1(0,T : W_0^{1,1}(\Omega))$\footnote{$f:\Omega \to \mathbb{R}$ is an element of $W^{k,p}(\Omega)$ if all weak derivatives with $|\alpha| \leq k$ exists and are in $L^p(\Omega)$. $W_0^{k,p}$ is the closure of $C^\infty_c(\Omega)$ in $W^{k,p}(\Omega)$.};
 	\item $u$ satisfies
@@ -67,19 +69,52 @@ Now we need to make some assumptions on $\Phi$ and $f$:
 
 For now the assumption that $\Phi'(u) > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi'(u) \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
 
+\subsection{$L^1$-contractivity}
+Now we'll try to prove the following result:
+
+\begin{proposition}
+For two weak energy solutions $u$ and $\hat{u}$ with initial data $u_0$, $\hat{u}_0$ and forcing terms $f$, $\hat{f}$ respectively, we have for every $t > \tau \geq 0$
+\begin{equation}
+\label{l1_con}
+||(u(t) - \hat{u}(t))_+||_1 \leq ||(u(\tau) - \hat{u}(\tau))_+||_1 + \int_\tau^t ||(f(s) - \hat{f}(s))_+||_1ds. 
+\end{equation}
+\end{proposition}
+
+The proof will be done by establishing the result for smooth solutions of (\ref{HDP}). For such a solution to exist we must require that $\Phi'(u) > 0$, as well as some smoothness requirements on $f$ and $\partial\Omega \times (0,T)$ (I will check these smoothness assumptions). Then approximating the problem by smooth data, for which the $L^1$-contractivity holds, and pass to the limit.
+
+\subsubsection{$L^1$-contractivity for smooth solutions}
+Let $p: \mathbb{R} \to \mathbb{R}$ be a smooth function satisfying $p(s) = 0$ for $s \leq 0$, $p'(s) \geq 0$ for all $s\in \mathbb{R}$, and $0 \leq p(s) \leq 1$ for $s > 0$. Define now $w = \Phi(u) - \Phi(\hat{u})$, and multiply $p(w)$ with the difference of (\ref{GPME}) for $u$ and $\hat{u}$ to get
+\begin{equation*}
+\partial_t(u-\hat{u})p(w) = p(w)\Delta w + p(w)f.
+\end{equation*}
+Integrating over $\Omega$, and using integration by parts on the first part on the right hand side yields
+\begin{align*}
+\int_{\Omega}\partial_t(u-\hat{u})p(w)dx &= -\int_{\Omega}p'(w)|\nabla w|^2dx + \int_{\Omega}p(w)(f-\hat{f}) dx \\
+	&\leq \int_{\Omega}p(w)(f-\hat{f}) dx \\
+	&\leq \int_{\Omega}(f-\hat{f})_+ dx,
+\end{align*}
+where the last step follows from the fact that $0 \leq p(w) \leq 1$.
+Now, let $p$ converge to the Heaviside function $H(w)$. Then, it is worth noticing that $H(w) = H(u-\hat{u})$, because of the strict monotonicity of $\Phi$. Also see that $\partial_t(u-\hat{u})_+ = \partial_t(u-\hat{u})H(u-\hat{u})$. Thus we get that
+\begin{equation*}
+\partial_t \int_{\Omega}(u-\hat{u})_+dx \leq \int_{\Omega}(f-\hat{f})_+ dx,
+\end{equation*}
+and integrating in time from $\tau$ to $t$ yields
+\begin{equation*}
+\int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
+\end{equation*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In the following proof of uniqueness of weak solutions I'll try out assuming that $\Phi'(u) \geq 0$.
 \section{Uniqueness}
 \begin{theorem}[Uniqueness]
 	Assuming in addition that $u \in L^2(Q_T)$ and $\Phi(u) \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
 \end{theorem}
 \begin{proof}
-This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1$ and $u_2$ are weak solutions. Then
-\begin{equation*}
+This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1$ and $u_2$ are weak solutions. Then, when putting $u_1$ and $u_2$ into (\ref{weak}) and subtracting one from the other, we get
+\begin{equation}
+\label{weak_diff}
 \iint_{Q_T}\nabla(\Phi(u_2) - \Phi(u_1)) \cdot \nabla \eta - (u_2 - u_1)\partial_t \eta dxdt = 0.
-\end{equation*}
+\end{equation}
 Now the inspired move\footnote{Of course, this isn't my proof so that sort of horn-tooting is in good taste.} is choosing
 \begin{equation*}
 \eta(x,t) = \begin{cases}
@@ -87,14 +122,16 @@ Now the inspired move\footnote{Of course, this isn't my proof so that sort of ho
 		0 \quad &\text{ if } t\geq T.
 	\end{cases}
 \end{equation*}
-It is then easily verified that
+We then have
 \begin{equation*}
 \begin{cases}
 	\partial_t \eta &= -(\Phi(u_2) - \Phi(u_1) ) \\
 	\nabla \eta &= \int_t^T\nabla (\Phi(u_2) - \Phi(u_1))ds,
 \end{cases}
 \end{equation*}
-which put into the integral equality above yields
+where the time derivation is valid using the First Fundamentel Theorem of Calculus and that $\Phi(u_i) \in L^1(0,T : W_0^{1,1}(\Omega))$ by the definition of weak soultion.
+
+When putting these derivatives into the above equality we end up with
 \begin{equation}
 \label{unique}
 \begin{aligned}
@@ -119,11 +156,11 @@ Let's take these in order:
 	\end{align*}
 	which is also nonnegative, and therefore the second integral in (\ref{unique}) must also be nonnegative.
 \end{enumerate}
-From this we may conclude that both integral terms in (\ref{unique}) are zero, which in turn implies that $(\Phi(u_2)-\Phi(u_1))(u_2 - u_1) = 0$ a.e. in $Q_T$. Wherever $\Phi'(u) > 0$ we have $u_2 = u_1$, but more care is needed when $u_1$ and $u_2$ take values where $\Phi'(u) = 0$. So suppose $u_1 \neq u_2$ on a set $E \subset Q_T$ of positive measure. That means $\nabla(\Phi(u_2) - \Phi(u_1)) = 0$ a.e. in $E$, and so we can deduce that 
+From this we may conclude that both integral terms in (\ref{unique}) are zero, which in turn implies, by the first integral that $(\Phi(u_2)-\Phi(u_1))(u_2 - u_1) = 0$ a.e. in $Q_T$. Actually, we have that $\Phi(u_2) - \Phi(u_1) = 0$ a.e., because wherever $u_2 = u_1$ it is trivially true, and wherever $ u_2 \neq u_1$ it holds from the first integral being zero. Thus, $ \nabla (\Phi(u_2) - \Phi(u_1) ) = 0$ a.e. and putting this into (\ref{weak_diff}) we get that
 \begin{equation*}
-\iint_{Q_T}(u_2 - u_1)\partial_t \eta dxdt = 0
+\iint_{Q_T}(u_2 - u_1)\partial_t \eta dx dt = 0.
 \end{equation*}
-for all test functions $\eta$ with support in $E$. This gives us that $u_2 = u_1$ a.e. in $E$ as well, so $u_2 = u_1$. Whoop-dee-doo!
+This should hold for any test function $\eta$, and so the weak derivative of $u_2 - u_1$ with respect to time is zero. Because $u_2$ and $u_1$ have identical initial condition $u_0$ we conclude that $u_2 = u_1$.
 \end{proof}
 \end{document}
 
