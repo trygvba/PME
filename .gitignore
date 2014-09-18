@@ -2,3 +2,5 @@
 *.aux
 stuff_somewhat_organised.pdf
 *.bak
+*.bbl
+*.blg
