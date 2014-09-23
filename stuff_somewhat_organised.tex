@@ -9,6 +9,7 @@
 \usepackage{amsthm}
 \usepackage{remreset}
 \usepackage[utf8]{inputenc}
+\usepackage[toc,page]{appendix}
 
 \usepackage{lmodern}
 
@@ -16,13 +17,25 @@
 \title{Stuff that may well go into the project report}
 \author{Trygve Bærland}
 \maketitle
-\abstract{Funker dette?}
+\abstract{For now, heavily reliant on \cite{vazquez2007porous}}
 
+% My text categories:
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[section]
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem{obs}{Observation}
+\newtheorem{rem}{Remark}
+
+% Reset numbering for each section
+\numberwithin{equation}{section}
 \section{Basics}
-\newtheorem{theorem}{Theorem}
-\newtheorem{mydef}{Definition}
-\newtheorem{ex}{Example}
-\newtheorem{proposition}{Proposition}
+
 
 Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
 
@@ -45,7 +58,7 @@ I will consider on the following Dirichlet problem:
 	\end{cases}
 \end{equation}
 Here $Q_T = \Omega \times (0,T)$, where $T$ may very well be infinite.
-\subsection{Weak formulation}
+\subsection{Weak solutions}
 \begin{mydef}[Weak solutions]
 A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of (\ref{HDP}) if
 \begin{enumerate}[i)]
@@ -58,6 +71,24 @@ A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak 
 for any $\eta \in C^1(\overline{Q}_T)$ that vanishes on $\partial \Omega \times [0,T)$ and for $t=T$.
 \end{enumerate}
 \end{mydef}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		ENERGY SOLUTIONS:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Energy solutions}
+We define  $\Psi$ as the primitive of $\Phi$ with $\Psi(0) = 0$, i.e.
+\begin{equation*}
+	\Psi(s) = \int_0^s \Phi(u) ds.
+\end{equation*}
+With this in mind we can define energy solutions in the following way:
+\begin{mydef}[Energy solution]
+We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and $u_0 \in L^1(\Omega)$ and $\Psi(u_0) \in L^1(\Omega)$, and the energy inequality
+\begin{equation}
+\label{energy_ineq}
+\iint_{Q_T} |\nabla \Phi(u)|^2 dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}f\Phi(u)dxdt
+\end{equation}
+holds.
+\end{mydef}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					ESTIMATES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,6 +99,9 @@ Now we need to make some assumptions on $\Phi$ and $f$:
 \end{enumerate}
 
 For now the assumption that $\Phi'(u) > 0$ is kind of strong, but I hope to generalise (or find analogues for) most of the estimates to the case $\Phi'(u) \geq 0$. In that case (\ref{GPME}) changes from nodegenerate parabolic to degenerate parabolic. But hopes are high.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%					L^1-CONTRACTIVITY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{$L^1$-contractivity}
 Now we'll try to prove the following result:
@@ -102,6 +136,8 @@ and integrating in time from $\tau$ to $t$ yields
 \begin{equation*}
 \int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
 \end{equation*}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,7 +165,7 @@ We then have
 	\nabla \eta &= \int_t^T\nabla (\Phi(u_2) - \Phi(u_1))ds,
 \end{cases}
 \end{equation*}
-where the time derivation is valid using the First Fundamentel Theorem of Calculus and that $\Phi(u_i) \in L^1(0,T : W_0^{1,1}(\Omega))$ by the definition of weak soultion.
+where the time derivation is valid using the First Fundamentel Theorem of Calculus and that $\Phi(u_i) \in L^1(0,T : W_0^{1,1}(\Omega))$ by the definition of weak soultion. For the validity of the spatial derivative, confer appendix \ref{sec:derivative}.
 
 When putting these derivatives into the above equality we end up with
 \begin{equation}
@@ -162,6 +198,59 @@ From this we may conclude that both integral terms in (\ref{unique}) are zero, w
 \end{equation*}
 This should hold for any test function $\eta$, and so the weak derivative of $u_2 - u_1$ with respect to time is zero. Because $u_2$ and $u_1$ have identical initial condition $u_0$ we conclude that $u_2 = u_1$.
 \end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				APPENDICES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{appendices}
+\section{Passing derivative inside the integral}
+\label{sec:derivative}
+
+We are now concern with whether
+\begin{equation}
+\label{diff_int}
+	\nabla \int_t^T \varphi(x,s)ds = \int_t^T \nabla\varphi(x,s)ds
+\end{equation}
+holds or not for $\varphi \in L^2(0,T:H_0^1 (\Omega))$. 
+For simplicity we now only consider one spatial dimension.
+
+To begin with, assume that $\psi, \eta \in C^{\infty}_c$, then we have that
+\begin{align*}
+\int_{\Omega}\psi \partial_x\left(\int_t^T \eta(x,s) ds\right)dx &= \int_{\Omega}\psi \lim_{h \to 0}\left(\int_t^T \frac{\eta(x+h,s)-\eta(x,s)}{h} ds\right)dx\\
+&= \int_{\Omega}\psi \lim_{h \to 0}\left(\int_t^T \eta_h(x,s) ds\right)dx.
+\end{align*}
+
+Assuming that $\partial_x \eta(x,s)$ is bounded, we can use the mean value theorem to state that $|\eta_h| \leq  ||\partial_x \eta||_\infty$. We also have that $\eta_h(x,s) \to \partial_x \eta(x,s)$ pointwise, and so we're in a position to use the Dominated Convergence theorem to conclude that
+\begin{equation}
+\label{results_diff_first}
+\int_{\Omega}\psi \partial_x\left(\int_t^T \eta(x,s) ds\right)dx = \int_{\Omega}\psi \left(\int_t^T \partial_x\eta(x,s) ds\right)dx.
+\end{equation}
+
+To extend the result to $L^2(0,T:H_0^1 (\Omega))$ we use that $C_c^\infty$ is dense in this space. So let $\{\psi_n\},\{\varphi_n\}$ be two sequence converging to $\psi$ and $\varphi$ in $L^2(\Omega)$ and $L^2(0,T:H_0^1(\Omega))$ respectively. Considering the left hand side of (\ref{results_diff_first}), we get
+\begin{align*}
+&\left|\int_{\Omega}\psi \partial_x \left( \int_t^T\varphi ds \right)dx - \int_{\Omega}\psi_n \partial_x \left( \int_t^T \varphi_n ds \right) dx \right| \\
+&\leq  \left| \int_{\Omega} \psi \partial_x \left(\int_t^T \varphi - \varphi_n ds\right)dx \right| + \left| \int_{\Omega}(\psi - \psi_n)\partial_x\left(\int_t^T \varphi_n ds\right) dx \right| \\
+&\leq ||\psi||_{L^2(H_0^1)}|(\varphi -\varphi_n)|_{L^2(H_0^1)} + ||\psi-\psi_n||_{L^2}| \varphi_n |_{L^2(H_0^1)} \\
+&\leq ||\psi||_{L^2(H_0^1)}||(\varphi -\varphi_n)||_{L^2(H_0^1)} + ||\psi-\psi_n||_{L^2}|| \varphi_n ||_{L^2(H_0^1)} \\
+&\to 0,
+\end{align*}
+after using the triangle- and Cauchy-Schwarz' inequality as well as the assumptions on convergence.
+
+An exactly similar approach can be done to the right hand side, and so passing the limit in (\ref{results_diff_first}) we get
+\begin{equation}
+\label{result_diff_final}
+\int_\Omega \psi \partial_x\left(\int_t^T \varphi(x,s)ds\right)dx = \int_\Omega \psi \left( \int_t^T \partial_x \varphi(x,s)ds \right) dx.
+\end{equation}
+
+To get the more general (\ref{diff_int}), we simply apply this result for each individual spatial dimension while keeping the others fixed.
+\end{appendices}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\bibliographystyle{plain}
+\bibliography{project_bibliography.bib}
 \end{document}
 
 
