@@ -28,7 +28,7 @@
 \newtheorem{mydef}{Definition}[section]
 \newtheorem{example}{Example}[section]
 
-\theoremstyle{remark}
+%\theoremstyle{plain}
 \newtheorem{obs}{Observation}
 \newtheorem{rem}{Remark}
 
@@ -72,6 +72,10 @@ for any $\eta \in C^1(\overline{Q}_T)$ that vanishes on $\partial \Omega \times 
 \end{enumerate}
 \end{mydef}
 
+\begin{obs}
+With $u_0 \in L^1(\Omega)$ and $f\in L^1(Q_T)$, all the integrals in (\ref{weak}) make sense.
+\end{obs}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		ENERGY SOLUTIONS:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -89,6 +93,52 @@ We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and 
 \end{equation}
 holds.
 \end{mydef}
+
+\subsubsection{Derivation of energy estimate for classical solutions}
+Suppose $u$ is a smooth solution of (\ref{HDP}). We proceed by multiplying the equation with $\Phi(u)$ to get
+\begin{equation*}
+\Phi(u)\partial_t u = \Phi(u)\Delta \Phi(u) + \Phi(u)f,
+\end{equation*}
+and we notice that $\Phi(u)\partial_t u = \partial_t \Psi(u)$. That means when we integrate over $Q_T$ we have
+\begin{equation*}
+\iint_{Q_T} \partial_t \Psi(u)dxdt = \int_\Omega \Psi(u(T))dx - \int_\Omega \Psi(u_0)dx.
+\end{equation*}
+On the diffusive term we can use integration by parts, so
+\begin{equation*}
+\iint_{Q_T}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_0^T \int_{\partial\Omega} \Phi(u)\nabla \Phi(u) \cdot \hat{n}dS,
+\end{equation*}
+where $\hat{n}$ is the outward unit normal. By the Dirichlet condition
+\begin{equation*}
+\iint_{Q_T}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T} |\nabla \Phi(u)|^2dxdt,
+\end{equation*}
+and notice that this step would have been valid for homogeneous Neumann condition as well. In toto 
+\begin{equation}
+\iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt.
+\end{equation}
+
+\setcounter{obs}{0}
+\begin{obs}
+In contrast to (\ref{energy_ineq}) we have equality for smooth solutions.
+\end{obs}
+
+\begin{obs}
+We can go even further and deal with the last term on the right hand side: Assuming $f,\Phi(u) \in L^2(Q_T)$, then
+\begin{equation*}
+\iint_{Q_T} f\Phi(u)dxdt \leq \left(\iint_{Q_T} f^2 dxdt\right)^\frac{1}{2}\left(\iint_{Q_T} \Phi(u)^2 dxdt\right)^\frac{1}{2},
+\end{equation*}
+by Cauchy-Schwarz'. With the inequality $\sqrt{ab} \leq \frac{1}{4c}a + cb$ for $c>0$
+\begin{equation*}
+\iint_{Q_T} f\Phi(u)dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\iint_{Q_T}\Phi(u)^2dxdt.
+\end{equation*}
+Lastly, because of the homogeneous Dirichlet conditions, we use the Poincaré inequality and set $c$ so that
+\begin{equation*}
+\iint_{Q_T} f\Phi(u)dxdt \leq C\iint_{Q_T}f^2dxdt + \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt,
+\end{equation*}
+and the final inequality becomes
+\begin{equation}
+\frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx \leq \int_\Omega \Psi(u_0)dx + C\iint_{Q_T}f^2dxdt.
+\end{equation}
+\end{obs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %					ESTIMATES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -198,6 +248,11 @@ From this we may conclude that both integral terms in (\ref{unique}) are zero, w
 \end{equation*}
 This should hold for any test function $\eta$, and so the weak derivative of $u_2 - u_1$ with respect to time is zero. Because $u_2$ and $u_1$ have identical initial condition $u_0$ we conclude that $u_2 = u_1$.
 \end{proof}
+
+\setcounter{obs}{0}
+\begin{obs}
+Provided $\iint_{Q_T} f\Phi(u)dxdt$ in (\ref{energy_ineq}) makes sense, $\Phi(u) \in L^2(0,T: H_0^1(\Omega))$ for weak energy solutions. If we can put on a condition on $u$ or any of the data to ensure that $u \in L^2(Q_T)$, we would have a condition under which weak energy solutions are unique. Hopefully, no such condition is required, but will perhaps follow from some other estimate.
+\end{obs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				APPENDICES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
