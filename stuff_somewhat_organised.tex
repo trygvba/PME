@@ -3,13 +3,14 @@
 \usepackage{mathtools}
 \usepackage{amssymb}
 %\usepackage{amsfonts}
-%\usepackage{amsmath}
+\usepackage{amsmath}
 \usepackage{fullpage}
 \usepackage{enumerate}
 \usepackage{amsthm}
 \usepackage{remreset}
 \usepackage[utf8x]{inputenc}
 \usepackage[toc,page]{appendix}
+\usepackage[numbers]{natbib}
 
 \usepackage{lmodern}
 
@@ -17,7 +18,7 @@
 \title{Stuff that may well go into the project report}
 \author{Trygve Bærland}
 \maketitle
-\abstract{For now, heavily reliant on \cite{vazquez2007porous}.}
+\abstract{For now, heavily reliant on \citep{vazquez2007porous}.}
 
 % My text categories:
 \theoremstyle{plain}
@@ -31,6 +32,7 @@
 %\theoremstyle{plain}
 \newtheorem{obs}{Observation}
 \newtheorem{rem}{Remark}
+
 
 % Reset numbering for each section
 \numberwithin{equation}{section}
@@ -305,7 +307,102 @@ To get the more general (\ref{diff_int}), we simply apply this result for each i
 %		B
 %%%%%%%%%%%%%%%%%%
 \section{Some major theorems}
- blahblah \cite{ladyzhenskaya}
+We now consider the problem of determining a function $u = u(x,t)$ in $\overline{Q}_T$ so that
+\begin{equation}
+\label{lady_parabolic_eq}
+	u_t - \sum_{i=1}^d\frac{d}{dx_i}a_i(x,t,u,\nabla u) + a(x,t,u,\nabla u) = 0
+\end{equation}
+in $Q_T$ and on $\Gamma_T$
+\begin{equation}
+\label{lady_bc}
+	u\big|_{\Gamma_T} = \psi\big|_{\Gamma_T}
+\end{equation}
+for some known function $\psi$.
+
+Furthermore, we define
+\begin{equation*}
+A(x,t,u,\nabla u) = a(x,t,u,\nabla u) - \sum_{i=1}^d \left[ \frac{\partial a_i(x,t,u,\nabla u)}{\partial u} + \frac{\partial a_i(x,t,u,\nabla u)}{\partial x_i} \right]
+\end{equation*}
+Immediately below is an existence theorem presented on this type of problem taken
+verbatim from \citep[ Theorem 6.1, p. 452]{ladyzhenskaya}.
+
+\begin{theorem}[Existence of classical solutions]
+\label{thm:classical_existence}
+Suppose that the following conditions hold.
+\begin{enumerate}[a)]
+	\item For $(x,t) \in \overline{Q}_T$ and either
+	\begin{equation}
+		\label{exist_cond1}
+		\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \Bigg|_{p=0} \geq 0, \quad A(x,t,u,0)u \geq -b_1 u^2 - b2
+	\end{equation}
+	or
+	\begin{equation}
+	\label{exist_cond2}
+	A(x,t,u,0)u \geq -\Phi(|u|)|u| - b_2, \quad \int_0^\infty \frac{d\tau}{\Phi(\tau)}= \infty, \quad \Phi > 0
+	\end{equation}
+	for arbitrary $u$ and $\xi = (\xi_1, \xi_2, \ldots, \xi_d)$.
+	
+	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and arbitrary $p$ the functions $a_i(x,t,u,p)$ and $a(x,t,u,p)$ are continuous, the $a_i(x,t,u,p)$ are differentiable with respect to $x$, $u$ and $p$ and the following inequalities are satisfied
+	\begin{equation}
+	\label{exist_cond3}
+		\begin{cases}
+			\nu\xi^2 \leq \frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu \xi^2, \quad \nu > 0 \\
+			\sum_{i=1}^d \left(|a_i| + |\frac{\partial a_i}{\partial u}|\right)(1+|p|) + \sum_{i,j=1}^d |\frac{\partial a_i}{\partial x_j}| + |a| \leq \mu (1 + |p|)^2. 		
+		\end{cases}
+	\end{equation}
+	where $\nu$ and $\mu$ are positive numbers.
+	
+	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$, the functions $a_i$, $a$, $\frac{\partial a_i}{\partial p_j}$, $\frac{\partial a_i}{\partial u}$, and $\frac{\partial a_i}{\partial x_i}$ are continuous functions satisfying a H\H{o}lder condition in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively.
+	
+	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$ the function $a(x,t,u,p)$ has the partial derivatives $\frac{\partial a}{\partial p_j}$ and $\frac{\partial a}{\partial u}$ and the functions $a_i$ and $a$ satisfy
+	\begin{equation}
+	\label{exist_cond4}
+	\begin{split}
+		&\Bigg| \frac{\partial a_i(x,t,u,p)}{\partial u}, \frac{a_i(x,t+h,u,p) - 		a_i(x,t,u,p)}{h}, \\
+		&\frac{\partial a}{\partial p}, \frac{\partial a}{\partial u}, \frac{a(x,t+h,u,p) - a(x,t,u,p)}{h} \Bigg| \leq \varphi(x,t)
+	\end{split}.
+	\end{equation}
+	
+	\item $\psi(x,t) \in H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$ and satisfy
+	\begin{equation}
+	\label{exist_cond5}
+	\psi_t - \frac{d}{dx_i}a_i(x,t,\psi,\psi_x) + a(x,t,\psi,\psi_x) = 0.
+	\end{equation}
+	
+	\item $S \in H^{2+\beta}$.
+\end{enumerate}
+
+Under these conditions there exists a unique solution of problem (\ref{lady_parabolic_eq}) with boundary condition (\ref{lady_bc}) from the class $H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$. Moreover, this solution has derivatives $u_{xt}$ from $L^2(\overline{Q}_T)$.
+\end{theorem}
+ 
+\subsection{This existence result applied to our problem}
+The general porous medium equation we are concerned with can be written
+\begin{equation*}
+u_t - \nabla \cdot (\nabla \Phi(u) ) - f(x,t) = 0,
+\end{equation*}
+which is of the form (\ref{lady_parabolic_eq}) with
+\begin{equation}
+a_i(x,t,u,\nabla u) = \Phi'(u) u_{x_i}, \quad a(x,t,u,\nabla) = -f(x,t).
+\end{equation}
+
+
+Let's go trhough each condition in theorem \ref{thm:classical_existence} to see what assumptions we must make to have a classical solution.
+
+\begin{enumerate}[a)]
+	\item We consider fullfilling (\ref{exist_cond1}). We have
+	\begin{equation*}
+		\frac{\partial a_i(x,t,u,p)}{\partial p_j} = \delta_{ij} \Phi'(u),
+	\end{equation*}
+	and so, since $\Phi'(u) \geq 0$ is assumed,
+	\begin{equation*}
+		\frac{\partial a_i(x,t,u,p)}{\partial p_j}\Bigg|_{p=0}\xi_i\xi_j = \Phi'(u)\xi_i^2 \geq 0.
+	\end{equation*}
+	
+	In the general porous medium equation
+	\begin{equation*}
+		A(x,t,u,p) = -f(x,t) - 
+	\end{equation*}
+\end{enumerate}
 \end{appendices}
 
 
@@ -313,7 +410,7 @@ To get the more general (\ref{diff_int}), we simply apply this result for each i
 %				BIBLIOGRAPHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{project_bibliography.bib}
 \end{document}
 
