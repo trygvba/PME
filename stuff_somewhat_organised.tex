@@ -262,6 +262,38 @@ Provided $\iint_{Q_T} f\Phi(u)dxdt$ in (\ref{energy_ineq}) makes sense, $\Phi(u)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		A
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notation and important spaces}
+Throughout this note $\Omega \subset \mathbb{R}^d$ will be a bounded domain, and $\partial \Omega$ will be its boundary. Furthermore we define $Q_T = \{ (x,t): x \in \Omega, t\in [0,T] \}$, and $\Gamma_T$ is the parabolic boundary, i.e. $\Gamma_T = \{(x,t): x \in \partial \Omega, t \in [0,T]\} \bigcup \{(x,t): x \in \Omega, t=0\}$.
+
+\subsection{Function spaces}
+Most, if not all, of the notation concerning function spaces will follow the notation in \citep{evans} (see in particular Ch. 5).
+
+To start off $C^k(U)$ is the set of all functions that are $k$ times continuously differentiable in $U \subset \mathbb{R}^n$. A norm for continuous functions is
+\begin{equation*}
+	||u||_{C(\bar{U})} = \underset{x\in U}{\text{sup}}|u(x)|.
+\end{equation*}
+Let now $0 < \gamma \leq 1$.
+\begin{mydef}[Hölder continuous]
+The $\gamma^{th}$-Hölder seminorm of $u: U \to \mathbb{R}$ is
+	\begin{equation*}
+	|u|_{C^{0,\gamma}(\bar{U}))} = \underset{\underset{x \neq y}{x,y \in U}}{\text{sup}} \left\{\frac{|u(x)-u(y)|}{|x-y|^\gamma} \right\}
+	\end{equation*}
+and the $\gamma^{th}$-Hölder norm is
+\begin{equation*}
+||u||_{C^{0,\gamma}} = ||u||_{C(\bar{U})} + |u|_{C^{0,\gamma}}.
+\end{equation*}
+\end{mydef}
+We continue by defining the Hölder spaces:
+\begin{mydef}[Hölder space]
+The Hölder space $C^{k,\gamma}(\bar{U})$ consists of all functions $u \in C^k(\bar{U})$ for which the norm
+\begin{equation*}
+ ||u||_{C^{k,\gamma}(\bar{U})} = \sum_{|\alpha| \leq k}||D^\alpha u||_{C(\bar{U})} + \sum_{|\alpha| = k} |D^\alpha u|_{C^{0,\gamma}(\bar{U})}
+\end{equation*}
+is finite.
+\end{mydef}
+%%%%%%%%%%%%%%%%%%
+%		B
+%%%%%%%%%%%%%%%%%%
 \section{Passing derivative inside the integral}
 \label{sec:derivative}
 
@@ -302,10 +334,9 @@ An exactly similar approach can be done to the right hand side, and so passing t
 \end{equation}
 
 To get the more general (\ref{diff_int}), we simply apply this result for each individual spatial dimension while keeping the others fixed.
-
-%%%%%%%%%%%%%%%%%%
-%		B
-%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
+%		C
+%%%%%%%%%%%%%%%%%%%
 \section{Some major theorems}
 We now consider the problem of determining a function $u = u(x,t)$ in $\overline{Q}_T$ so that
 \begin{equation}
@@ -346,13 +377,13 @@ Suppose that the following conditions hold.
 	\begin{equation}
 	\label{exist_cond3}
 		\begin{cases}
-			\nu\xi^2 \leq \frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu \xi^2, \quad \nu > 0 \\
+			\nu\xi^2 \leq \sum_{i,j=1}^d\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu \xi^2 \\
 			\sum_{i=1}^d \left(|a_i| + |\frac{\partial a_i}{\partial u}|\right)(1+|p|) + \sum_{i,j=1}^d |\frac{\partial a_i}{\partial x_j}| + |a| \leq \mu (1 + |p|)^2. 		
 		\end{cases}
 	\end{equation}
 	where $\nu$ and $\mu$ are positive numbers.
 	
-	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$, the functions $a_i$, $a$, $\frac{\partial a_i}{\partial p_j}$, $\frac{\partial a_i}{\partial u}$, and $\frac{\partial a_i}{\partial x_i}$ are continuous functions satisfying a H\H{o}lder condition in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively.
+	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$, the functions $a_i$, $a$, $\frac{\partial a_i}{\partial p_j}$, $\frac{\partial a_i}{\partial u}$, and $\frac{\partial a_i}{\partial x_i}$ are continuous functions satisfying a Hölder condition in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively.
 	
 	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$ the function $a(x,t,u,p)$ has the partial derivatives $\frac{\partial a}{\partial p_j}$ and $\frac{\partial a}{\partial u}$ and the functions $a_i$ and $a$ satisfy
 	\begin{equation}
@@ -375,14 +406,14 @@ Suppose that the following conditions hold.
 Under these conditions there exists a unique solution of problem (\ref{lady_parabolic_eq}) with boundary condition (\ref{lady_bc}) from the class $H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$. Moreover, this solution has derivatives $u_{xt}$ from $L^2(\overline{Q}_T)$.
 \end{theorem}
  
-\subsection{This existence result applied to our problem}
+\subsection{This existence result applied to the GPME}
 The general porous medium equation we are concerned with can be written
 \begin{equation*}
 u_t - \nabla \cdot (\nabla \Phi(u) ) - f(x,t) = 0,
 \end{equation*}
 which is of the form (\ref{lady_parabolic_eq}) with
 \begin{equation}
-a_i(x,t,u,\nabla u) = \Phi'(u) u_{x_i}, \quad a(x,t,u,\nabla) = -f(x,t).
+a_i(x,t,u,\nabla u) = \Phi'(u) u_{x_i}, \quad a(x,t,u,\nabla u) = -f(x,t).
 \end{equation}
 
 
@@ -400,8 +431,67 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 	
 	In the general porous medium equation
 	\begin{equation*}
-		A(x,t,u,p) = -f(x,t) - 
+		A(x,t,u,p) = -f(x,t) - \sum_{i=1}^d \Phi''(u)p_i,
 	\end{equation*}
+	which means $A(x,t,u,0) = -f(x,t)$ (Also see that we need $\Phi \in C^2(\mathbb{R})$). Thus, according to (\ref{exist_cond1}) we need constants $b_1$ and $b_2$ so that
+	\begin{equation*}
+		f(x,t)u \leq b_1 u^2 + b_2.
+	\end{equation*}
+	We are able to choose $b_1$ and $b_2$ if, for example, $f(x,t)$ is bounded in $\overline{Q}_T$.
+	
+	\item We need $a_i(x,t,u,p)$ and $a(x,t,u,p)$ to continuous. This translates to requiring that $\Phi'(u)$ and $f(x,t)$ are continuous. In addition $a_i(x,t,u,p)$ needs to be differentiable with respect to $x$, $t$, $u$ and $p$, which in our case means that $\Phi''(u)$ needs to be continuous.
+	
+	Considering the first inequality in (\ref{exist_cond3}) we have
+	\begin{equation*}
+		\sum_{i,j=1}^d \frac{\partial a_i(x,t,u,p)}{\partial p_j} \xi_i \xi_j = \sum_{i=1}^d \Phi'(u)\xi_i^2 =\Phi'(u)\xi^2.
+	\end{equation*}
+	Assuming that $\Phi'(u)$ is strictly positive and continuous for $|u|\leq M$ we can set
+	\begin{equation}
+	0 < \nu = \text{inf}_{|u| \leq M}\Phi'(u) < \text{sup}_{|u| \leq M}\Phi'(u) \leq \mu.
+	\end{equation}
+	
+	After establishing that
+	\begin{equation*}
+		\begin{cases}
+			a_i(x,t,u,p) &= \Phi'(u)p_i \\
+			\frac{\partial a_i(x,t,u,p)}{\partial u} &= \Phi''(u)p_i \\
+			\frac{\partial a_i(x,t,u,p)}{\partial x_j} &= 0,
+		\end{cases}	
+	\end{equation*}
+	we put it into the left hand side of the second inequality of (\ref{exist_cond3}) as
+	\begin{align*}
+	&\sum_{i=1}^d\left( |a_i| + \left| \frac{\partial a_i}{\partial u}\right| \right)(1+|p|) + \sum_{i,j}^d\left| \frac{\partial a_i}{\partial x_j} \right| + |a| \\
+	&= \sum_{i=1}^d\left( |\Phi'(u)| + |\Phi''(u)| \right)|p_i|(1+|p|) + |f(x,t)| \\
+	&= (|\Phi'(u)| + |\Phi''(u)|)(1+|p|)\sum_{i=1}^d|p_i| + |f(x,t)|.
+	\end{align*}
+	By the equivalence of $l_p$-norms in finite dimensions $\sum_i |p_i| \leq C|p|$. Furthermore, we assume $\Phi''(u)$ to be continuous for $|u|\leq M$, then
+	\begin{equation*}
+	(|\Phi'(u)| + |\Phi''(u)|)(1+|p|)\sum_{i=1}^d|p_i| + |f(x,t)| \leq K(|p| + |p|^2) + |f(x,t)|,
+	\end{equation*}
+	where $K = C\cdot \text{sup}_{|u|\leq M}(|\Phi'(u)| + |\Phi''(u)|)$. Now we are almost done. All that remains is noticing that
+	\begin{align*}
+	K(|p| + |p|^2) + |f(x,t)| &\leq K(|p| + |p|^2) + ||f||_{\infty}(1+|p|) \\
+	&\leq \text{max}\{ K, ||f||_\infty \} (1+|p|)^2.
+	\end{align*}
+	So we can set $\mu = \text{max}\{K, ||f||_\infty, \text{sup}_{|u|\leq M}\Phi'(u) \}$, and both inequalities in (\ref{exist_cond3}) are satisfied.
+	
+	\item To reiterate, we need the functions
+	\begin{equation*}
+		\begin{cases}
+			a_i(x,t,u,p) &= \Phi'(u)p_i \\
+			a(x,t,u,p) &= -f(x,t) \\
+			\frac{\partial a_i(x,t,u,p)}{\partial p_j} &= \delta_{ij}\Phi'(u) \\
+			\frac{\partial a_i(x,t,u,p)}{\partial u} &= \Phi''(u)p_i \\
+			\frac{\partial a_i(x,t,u,p)}{\partial x_j} &= 0
+		\end{cases}
+	\end{equation*}
+	to be Hölder continuous in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively. If we choose $\beta = 1$ (i.e. Lipschitz continuous for all variables except $t$) the only additional assumption we need to make on $\Phi$ is that $\Phi^{(3)}(u)$ is bounded for $|u| \leq M$. The additional assumptions we need to make on $f$ is that it needs to be Lipschitz continuous with respect to $x$ and that
+	\begin{equation*}
+	|f(x,t) - f(x,s)| \leq C|t-s|^\frac{1}{2}
+	\end{equation*}
+	for some constant $C$.
+	
+	
 \end{enumerate}
 \end{appendices}
 
