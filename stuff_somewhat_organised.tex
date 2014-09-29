@@ -24,6 +24,7 @@
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}{Proposition}[section]
+\newtheorem{cor}{Corollary}[section]
 
 \theoremstyle{definition}
 \newtheorem{mydef}{Definition}[section]
@@ -399,12 +400,48 @@ Suppose that the following conditions hold.
 	\label{exist_cond5}
 	\psi_t - \frac{d}{dx_i}a_i(x,t,\psi,\psi_x) + a(x,t,\psi,\psi_x) = 0.
 	\end{equation}
+	on $\partial \Omega \times \{t=0\}$.
 	
-	\item $S \in H^{2+\beta}$.
+	\item $\partial \Omega \in C^{2+\beta}$\footnote{I can't seem to find a definition of this sort of boundary in \citep{ladyzhenskaya}. However, \citep{evans} has something vaguely familiar, but here integer values of the exponent is assumed.}.
 \end{enumerate}
 
 Under these conditions there exists a unique solution of problem (\ref{lady_parabolic_eq}) with boundary condition (\ref{lady_bc}) from the class $H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$. Moreover, this solution has derivatives $u_{xt}$ from $L^2(\overline{Q}_T)$.
 \end{theorem}
+
+\setcounter{rem}{0}
+\begin{rem}
+\label{rem:lady_notation}
+By the function space $H^{l, l/2}$, Ladyzhenskaya et. al means the Banach space of functions $u$ that are continuous in $\bar{Q}_T$. So are all partial derivatives of the form $\partial_t^r D^\alpha u$, with $2r+|\alpha| <l$. The norm, they define
+\begin{equation*}
+	|u|_{Q_T}^{(l)} = \langle u \rangle^{(l)}_{Q_T} + \sum_{j=0}^{[l]}\langle u \rangle^{(j)}_{Q_T},
+\end{equation*}
+with
+\begin{align*}
+\langle u \rangle^{(j)}_{Q_T} &= \sum_{2r+|\alpha|=j} ||\partial_t^r D^\alpha u||_{C(\bar{Q}_T)} \\
+\langle u \rangle^{(l)}_{Q_T} &= \langle u \rangle^{(l)}_{x,Q_T} + \langle u \rangle^{(l/2)}_{t,Q_T} \\
+\langle u \rangle^{(l)}_{x,Q_T} &= \sum_{2r+|\alpha|=[l]} |\partial_t^r D^{\alpha}u|_{C^{0,l-[l]}(\bar{Q}_T)} \\
+ \langle u \rangle^{(l/2)}_{t,Q_T} &= \sum_{0 < l - 2r -\alpha < 2} |\partial_t^r D^\alpha u|_{C^{0,(l-2r-s)/2}(\bar{Q}_T)}
+\end{align*}
+with the Hölder semi-norm with respect to $x$ and $t$ respectively in the last two definitions\footnote{Yikes.}.
+\end{rem}
+
+\begin{rem}
+The  $\varphi$ in (\ref{exist_cond4}) is required to satisfy
+\begin{equation*}
+\left( \int_0^T \left(\int_\Omega |\varphi(x,t)|^q dx\right)^\frac{r}{q} dt \right)^\frac{1}{r} < \infty,
+\end{equation*}
+i.e. $\varphi \in L^r(0,T: L^q(\Omega))$, where $q$ and $r$ satisfy
+\begin{equation*}
+\frac{1}{r} + \frac{d}{2q} = 1 - x_1
+\end{equation*}
+and
+\begin{equation*}
+	\begin{cases}
+		q\in \left[\frac{d}{2(1-x_1)},\infty\right], &r\in \left[\frac{1}{1-x_1},\infty \right], 0<x_1<1, \quad \text{ for } d \geq 2 \\
+		q \in [1, \infty], &r \in \left[\frac{1}{1-x_1},\frac{2}{1-2x_1}\right], 0<x_1<\frac{1}{2}, \quad \text{ for } n=1
+	\end{cases}
+\end{equation*}
+\end{rem}
  
 \subsection{This existence result applied to the GPME}
 The general porous medium equation we are concerned with can be written
@@ -489,10 +526,38 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 	\begin{equation*}
 	|f(x,t) - f(x,s)| \leq C|t-s|^\frac{1}{2}
 	\end{equation*}
-	for some constant $C$.
+	for some constant $C$. Note that for bounded domains, Lipschitz continuity implies Hölder continuity with lower exponent. So we could make the kind of a fortiori assumption that $f$ is Lipschitz continuous with respect to time. Or even that $f_t(x,t)$ is bounded.
 	
+	\item For this condition we see that it seems even more natural to impose that $f$ is Lipschitz continuous in $t$, and that the domain is bounded. I.e. that $T<\infty$ and $\Omega$ is bounded. Then all the previous assumptions we've made on $\Phi$ and $f$ will ensure that this condition holds.
 	
+	\item We of course have
+	\begin{equation*}
+		\begin{cases}
+		\Psi(x,t) &= 0, \quad (x,t) \in \partial \Omega \times [0,T] \\
+		\Psi(x,0) &= u_0(x), \quad x\in \Omega 
+		\end{cases}
+	\end{equation*}
+	and so this condition isn't too hard to handle\footnote{I think...}. First off, we should require that $u_0$ vanish at the boundary, and that it is sufficiently smooth. To be more precise, $u_0$ should be in $C^2_c(\Omega)$. The condition (\ref{exist_cond5}) holds trivially, because  $\Psi\big|_{\partial \Omega \times \{t=0\}} = 0$.
+	
+	\item In this condition we can do nothing more than assume sufficient smoothness of the boundary.
 \end{enumerate}
+
+It seems only appropriate that we summarise this somehow. A nice little corollary tailored for our purposes is just what we need now.
+
+\begin{cor}
+Assume the following conditions are satisfied:
+	\begin{enumerate}[a)]
+		\item 	$\Phi: \mathbb{R} \to \mathbb{R}$ is in $C^2(\mathbb{R})$, strictly increasing, and $\Phi$ and its subsequent derivatives are all Lipschitz.
+		
+		\item $f = f(x,t)$ is $C^1(Q_T)$, bounded and Lipschitz in both its variables.
+		
+		\item $u_0$ is $C^2(\Omega)$ and $u_0$ and its derivatives vanish near the boundary $\partial \Omega$.
+		
+		\item $\partial \Omega$ is $C^{2+\beta}$-smooth.
+	
+	\end{enumerate}
+Then (\ref{HDP}) has a unique solution $u\in C^{2,1}(\bar{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $u_{xt}$ in $L^2(Q_T)$.
+\end{cor}
 \end{appendices}
 
 
