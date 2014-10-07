@@ -558,9 +558,58 @@ Assume the following conditions are satisfied:
 	\end{enumerate}
 Then (\ref{HDP}) has a unique solution $u\in C^{2,1}(\bar{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $u_{xt}$ in $L^2(Q_T)$.
 \end{cor}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		COMPACTNESS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Compactness argument}
+Here I will simply state the Rellich-Kondrachov Compactness theorem as it is presented in \citep{evans}, mostly for my own ease of reference. For more details, please cf. Chapter 5 ibid.
+
+\begin{mydef}
+Let $X$ and $Y$ be Banach spaces with $X \subset Y$. We say that $X$ is \textbf{compactly embedded} in $Y$, written
+\begin{equation*}
+X \subset \subset Y,
+\end{equation*}
+provided 
+\begin{enumerate}[i)]
+	\item $||u||_Y \leq ||u||_X$ for every $u \in X$, for some constant $C$, and
+
+	\item each bounded sequence in $X$ is precompact in $Y$.
+\end{enumerate}
+\end{mydef}
+
+With this definition in mind we have the following theorem:
+\begin{theorem}[Rellich-Kondrachov Compactness Theorem]
+Assume $U$ is an open, bounded subset of $\mathbb{R}^n$ and $\partial U$ is $C^1$.
+Suppose $1\leq p < n$. Then
+\begin{equation}
+\label{Rellich}
+W^{1,p}(U) \subset \subset L^q(U)
+\end{equation}
+for each $1\leq q < p^*$, where $p^* = \frac{np}{n-p}$ is the Sobolev conjugate of $p$.
+\end{theorem}
+\setcounter{rem}{0}
+\begin{rem}
+If $p=2$, the we have
+\begin{equation*}
+H^1(U) \subset \subset L^q(U)
+\end{equation*}
+for each $1\leq q < p^*$.
+\end{rem}
+\begin{rem}
+Since $p^* > p$ the result is valid for $q=p$. This actually holds for all $1\leq p \leq \infty$, even when $p > n$.
+\end{rem}
+\begin{rem}
+We also have 
+\begin{equation*}
+W^{1,p}_0(U) \subset \subset L^p(U)
+\end{equation*}
+even when the assumption that $\partial U$ is $C^1$ is lifted.
+\end{rem}
+
+
+
 \end{appendices}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				BIBLIOGRAPHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
