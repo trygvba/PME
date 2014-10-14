@@ -25,6 +25,7 @@
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}{Proposition}[section]
 \newtheorem{cor}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
 
 \theoremstyle{definition}
 \newtheorem{mydef}{Definition}[section]
@@ -86,10 +87,11 @@ With $u_0 \in L^1(\Omega)$ and $f\in L^1(Q_T)$, all the integrals in (\ref{weak}
 We define  $\Psi$ as the primitive of $\Phi$ with $\Psi(0) = 0$, i.e.
 \begin{equation*}
 	\Psi(s) = \int_0^s \Phi(u) ds.
-\end{equation*}
+\end{equation*},
+and we define the function space $L_\Psi(\Omega) = \{ u\in L^1(\Omega): \Psi(u)\in L^1(\Omega)\}$.
 With this in mind we can define energy solutions in the following way:
 \begin{mydef}[Energy solution]
-We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and $u_0 \in L^1(\Omega)$ and $\Psi(u_0) \in L^1(\Omega)$, and the energy inequality
+We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and $u_0 \in L_\Psi(\Omega)$, and the energy inequality
 \begin{equation}
 \label{energy_ineq}
 \iint_{Q_T} |\nabla \Phi(u)|^2 dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}f\Phi(u)dxdt
@@ -134,9 +136,10 @@ by Cauchy-Schwarz'. With the inequality $\sqrt{ab} \leq \frac{1}{4c}a + cb$ for 
 \iint_{Q_T} f\Phi(u)dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\iint_{Q_T}\Phi(u)^2dxdt.
 \end{equation*}
 Lastly, because of the homogeneous Dirichlet conditions, we use the Poincaré inequality and set $c$ so that
-\begin{equation*}
+\begin{equation}
+\label{using_Poincare}
 \iint_{Q_T} f\Phi(u)dxdt \leq C\iint_{Q_T}f^2dxdt + \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt,
-\end{equation*}
+\end{equation}
 and the final inequality becomes
 \begin{equation}
 \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx \leq \int_\Omega \Psi(u_0)dx + C\iint_{Q_T}f^2dxdt.
@@ -256,9 +259,101 @@ This should hold for any test function $\eta$, and so the weak derivative of $u_
 \begin{obs}
 Provided $\iint_{Q_T} f\Phi(u)dxdt$ in (\ref{energy_ineq}) makes sense, $\Phi(u) \in L^2(0,T: H_0^1(\Omega))$ for weak energy solutions. If we can put on a condition on $u$ or any of the data to ensure that $u \in L^2(Q_T)$, we would have a condition under which weak energy solutions are unique. Hopefully, no such condition is required, but will perhaps follow from some other estimate.
 \end{obs}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			EXISTENCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Existence}
+Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}, but now lifting the assumption that $\Phi$ is strictly increasing, and rather having that it is only nondecreasing. Another useful addition to proof will be that we will also incorporate the $L^1$-contractivity result.
+
+The proof will use an approximate problem which admits a unique solution from theorem \ref{thm:classical_existence}, and then employing the Rellich compactness argument to get a limit which hopefully will be a weak energy solution.
+
+In the following we will assume $u_0 \in L_\Psi(\Omega)$ and $f\in L^p(\Omega)$ with $p = \frac{2d}{d+2}$ if $d \geq 3$, or for some $p>1$ if $d=1,2$\footnote{This choice of value for $p$, I can only say is a mystery for me at this moment, but it seems to be related to the Sobolev conjugate. Let's just stay curious and excited for now, shall we?}.
+
+The main theorem reads:
+\begin{theorem}
+\label{thm:weak_existence}
+Assume $u_0 \in L_\Psi(\Omega)$ and $f \in L^p (\Omega)$. Then the homogeneous, general porous medium equation (\ref{HDP}) has a weak solution defined in an infinite time interval, $T=\infty$. We have $u \in L^\infty(0,T:L_\Psi(\Omega))$ and $\Phi(u) \in L^2(0,T:H_0^1(\Omega))$, and the energy inequality (\ref{energy_ineq}) holds.
+\end{theorem}
+
+We will not prove this in one big chunk, but rather split it off into smaller lemmas, and as already stated, some attention will also be paid to the $L^1$-contractivity.
+\subsection*{Preliminaries}
+To set ourselves up in a position where we can make use of theorem \ref{thm:classical_existence}, or rather corollary \ref{cor:GPME_existence}, we need to approximate $\Phi$, $u_0$, and $f$.
+
+We approximate $\Phi$ by the smooth approximations
+\begin{align*}
+\Phi_n(s) &= \left( \Phi(s) + \frac{s}{n} \right)*\eta_{\frac{1}{n}} \\
+	&= \int_{\mathbb{R}}\left(\Phi(y) + \frac{y}{n}\right)\eta_{\frac{1}{n}}(s-y)dy \\
+	&= \int_{\mathbb{R}}\left(\Phi(s-y) + \frac{s-y}{n}\right)\eta_{\frac{1}{n}}(y)dy
+\end{align*}
+where $\eta$ is the standard mollifier. We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,u_0\}$.
+
+Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq f$ for all $n$.
+
+Our first lemma then reads
+\begin{lemma}
+Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$, and $\partial_t f$ are bounded, $\partial \Omega \in C^{2+\alpha}$, and $\Phi$ is locally lipschitz continuous.
+\end{lemma}
+
+\begin{proof}
+
+\begin{description}
+	\item[Setting up an approximate problem:] We fix $T<\infty$ and consider the problem
+		\begin{equation*}
+			\begin{cases}
+			\partial_t u_n &= \Delta\Phi_n(u_n) + f_n, \quad \text{ in } Q_T \\
+			u_n(x,0) &= u_{0,n}(x),	\quad \text{ on } \overline{\Omega} \\
+			u_n(x,t) &= 0, \quad \text{ on }  \partial \Omega \times (0,T).
+			\end{cases}
+		\end{equation*}			
+	By virtue of theorem \ref{thm:classical_existence}, this approximate problem has a unique solution $u_n \in C^{2,1}(\overline{Q}_T)$.
+	
+	\item[Control of the spatial derivative:] Now we define $w_n = \Phi_n(u_n)$, multiply the GPME by $w_n$ and integrate over $Q_T$, which results in
+	\begin{equation*}
+	\iint_{Q_T}w_n\partial_t u_n dxdt = \iint_{Q_T}w_n\Delta w_n dxdt + \iint_{Q_T}f_n w_n dxdt.
+	\end{equation*}
+	Now we do exactly as we did the section on weak energy solutions and do integration by parts on the first term on the right hand side. We also notice that $w_n \partial_t u_n = \partial_t \Psi_n(u_n)$. Thus,
+	\begin{equation*}
+	\int_\Omega \Psi(u_n(T))dx + \iint_{Q_T}|\nabla w_n|^2dxdt = \int_\Omega \Psi_n(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt.
+	\end{equation*}
+	Considering the second term on the right hand side we have
+	\begin{equation*}
+	\iint_{Q_T}f_n w_n dxdt \leq C\iint_{Q_T}f_n^2 dxdt + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2dxdt,
+	\end{equation*}
+	after exactly the same argument as we did with (\ref{using_Poincare}). After putting it back
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_n(T))dx + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt \leq \int_\Omega \Psi(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
+	\end{equation*}
+	and so we're getting close to a uniform bound on $\nabla w_n$ in $L^2(Q_T)$. We notice that
+	\begin{equation*}
+	\iint_{Q_T}f_n^2dxdt \leq \iint_{Q_T} f^2 dxdt,
+	\end{equation*}
+	by our assumption on the approximation. In addition
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_{0,n})dx = \int_\Omega \left[ \int_0^{u_{0,n}(x)} \int_\mathbb{R} \left(\Phi(y)+\frac{y}{n}\right)\eta_{\frac{1}{n}}(s-y)dy ds \right] dx,
+	\end{equation*}
+	and $\eta_{\frac{1}{n}}(s-\cdot)$ has support in $[s-\frac{1}{n}, s + \frac{1}{n}]$. Therefore, by the monotonicity of $\Phi$, 
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega \left[ \int_0^{u_{0,n}(x)}\Phi \left(s+\frac{1}{n} \right)ds + \int_0^{u_{0,n}}\frac{s+\frac{1}{n}}{n}ds \right] dx,
+	\end{equation*}
+	which after a variable transformation yields
+	\begin{align*}
+	\int_\Omega \Psi_n(u_{0,n})dx &\leq \int_\Omega \left[ \int_{\frac{1}{n} }^{u_{0,n}(x) + \frac{1}{n} } \Phi(s)ds + \frac{u_{0,n}(x)^2}{2n} + \frac{u_{0,n}(x)}{n^2} \right] dx \\
+	&\leq \int_\Omega \left[ \Psi\left(u_{0,n} +\frac{1}{n}\right) - \Psi\left(\frac{1}{n}\right) + \frac{1}{2n}\left(u_{0,n} + \frac{1}{n}\right)^2 \right] dx.
+	\end{align*}
+	Using now that $|u_{0,n}| \leq u_0$ and that $\Omega$ is a bounded set, we get a bound on this integral independent of $n$. And so $\iint_{Q_T} |\nabla w_n|^2 dxdt$ has a bound independent of $n$.
+\end{description}
+
+\end{proof}
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				APPENDICES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \begin{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		A
@@ -545,6 +640,7 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 It seems only appropriate that we summarise this somehow. A nice little corollary tailored for our purposes is just what we need now.
 
 \begin{cor}
+\label{cor:GPME_existence}
 Assume the following conditions are satisfied:
 	\begin{enumerate}[a)]
 		\item 	$\Phi: \mathbb{R} \to \mathbb{R}$ is in $C^2(\mathbb{R})$, strictly increasing, and $\Phi$ and its subsequent derivatives are all Lipschitz.
@@ -558,6 +654,9 @@ Assume the following conditions are satisfied:
 	\end{enumerate}
 Then (\ref{HDP}) has a unique solution $u\in C^{2,1}(\bar{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $u_{xt}$ in $L^2(Q_T)$.
 \end{cor}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %		COMPACTNESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -580,6 +679,7 @@ provided
 
 With this definition in mind we have the following theorem:
 \begin{theorem}[Rellich-Kondrachov Compactness Theorem]
+\label{thm:Rellich}
 Assume $U$ is an open, bounded subset of $\mathbb{R}^n$ and $\partial U$ is $C^1$.
 Suppose $1\leq p < n$. Then
 \begin{equation}
