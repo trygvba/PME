@@ -1,0 +1,64 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{mathptmx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{amsthm}
+\usepackage{remreset}
+\usepackage[utf8]{inputenc}
+\usepackage[numbers]{natbib}
+\usepackage{lmodern}
+\usepackage{setspace}
+
+
+\begin{document}
+\onehalfspacing
+
+\title{Written assignment 2 in SPRÅK3501}
+\author{Trygve Bærland}
+\maketitle
+
+
+\section*{Before We Begin}
+The following text will try to analyse the IMRaD structure of the paper "Entropy solution theory for fractional degenrate convecion-diffusion equation" by Simone Cifani and Espen Jakobsen, \citep{Cifani}. 
+
+\section*{Introduction}
+The paper starts off by introducing a new kind of partial differential equation (PDE), containing both a convective- and, more relevant and interesting, an anomalous diffusion term. Although a new type of problem, the paper does a fair job of presenting the natural progression from which this new PDE emerges. For instance the convective term, and in the grander scheme of things, hyperbolic conservation laws as well as diffusion equations, fractional or otherwise, are mentioned and a sufficient amount of references are provided. In addition, some applications are mentioned.
+
+The paper proceeds with a longer discussion of what will follow. Namedropping some heavyweight theorems like Kruzkov's entropy condition and uniqueness of solutions satisfying it. For a reader to some extent familiar with this theory, the strategy of the paper seems at least reasonable.
+
+The introduction section ends with a shorter section-for-section summary of what you're about to read.
+
+\section*{Method}
+The material and methods section consists of sections 2, 3 and the first of section 4 in the paper. In section 2 the  definition of weak entropy solutions and some basic estimates and results are provided. In section 3 the more complicated (and beautiful) proof of $L^1$-contraction\footnote{In the most basic sense, means that solutions doesn't blow up as time goes on.} and, as a consequence, uniqueness of solutions are presented. This work is reminiscent of Kruzkov's work, and appreciators of his work will have an easier time following along in this section.
+
+The first part of section 4 introduces the numerical method, the centerpiece of the paper, and follows up with some derivations of its properties. Properties of the nice sort, so that  conditions on convergence can be placed\footnote{A numerical method is usually specified by some grid size. Convergence means that when this grid size goes to zero (from discrete to continuous) we end up with something nice.}. 
+
+\section*{Results}
+This lays the foundation nicely for the back-end of section 4, where the main result is stated. When convergence is proved and some estimates of numerical solution provided, a compactness theorem is used to guarantee that some subsequence of the numerical converges. The $L^1$-contractivity then ensures that the numerical method converges and in fact converges to a weak entropy condition. This gives existence of a unique solution to the PDE introduced in the paper. Existence is of course paramount if further analysis on this type of PDE should be at all interesting.
+
+\section*{and Discussion}
+Here comes the tricky part of alligning the paper with IMRaD structure. The paper seems quite content on letting the main result, beautifully named Theorem 4.7, speak for itself, and so no proper broadening of focus on that front is happening. However, the paper soldiers on in section 5 by discussing a different non-local operator (replacing the fractional diffusion term) and restating some of the minor results in this setting. Thus hinting at potential further work. 
+
+In section 6 a connection to another type of PDE, the Hamilton-Jacobi-Bellman equation, is established. I guess this can be viewed as making the main PDE's niche a bit broader, and is so a fitting contribution to a broadening of focus.
+
+The last part of the paper can hardly be said fill any other function than to give the reader some grasp one what a solution should look like. That's no small function to fill, but it doesn't really point in any direction for further research, so may not be a good fit for the discussion segment of the paper.
+
+
+\section*{Last thoughts}
+The above analysis shows a good fit with the IMRaD model. Worth noting is that the method section plays more a role of setting up basic results to be used for the main results, which is kind of in line with theory sections of research papers in more applied fields.
+
+In addition the discussion segment is much more interested in suggesting further work rather than restating the purpose of the paper and what was achieved. It seems to be done this way to let the proofs speak as much as possible for themselves, and not resort to something that may be perceived by the reader as last minute hand-waving. As far as my reading of mathematical papers is concerned, this is not an unusual strategy.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{project_bibliography.bib}
+\end{document}
