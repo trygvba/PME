@@ -300,13 +300,14 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 
 \begin{description}
 	\item[Setting up an approximate problem:] We fix $T<\infty$ and consider the problem
-		\begin{equation*}
+		\begin{equation}
+		\label{approximate_problem}
 			\begin{cases}
 			\partial_t u_n &= \Delta\Phi_n(u_n) + f_n, \quad \text{ in } Q_T \\
 			u_n(x,0) &= u_{0,n}(x),	\quad \text{ on } \overline{\Omega} \\
 			u_n(x,t) &= 0, \quad \text{ on }  \partial \Omega \times (0,T).
 			\end{cases}
-		\end{equation*}			
+		\end{equation}			
 	By virtue of theorem \ref{thm:classical_existence}, this approximate problem has a unique solution $u_n \in C^{2,1}(\overline{Q}_T)$.
 	
 	\item[Control of the spatial derivative:] Now we define $w_n = \Phi_n(u_n)$, multiply the GPME by $w_n$ and integrate over $Q_T$, which results in
@@ -343,7 +344,44 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	&\leq \int_\Omega \left[ \Psi\left(u_{0,n} +\frac{1}{n}\right) - \Psi\left(\frac{1}{n}\right) + \frac{1}{2n}\left(u_{0,n} + \frac{1}{n}\right)^2 \right] dx.
 	\end{align*}
 	Using now that $|u_{0,n}| \leq u_0$ and that $\Omega$ is a bounded set, we get a bound on this integral independent of $n$. And so $\iint_{Q_T} |\nabla w_n|^2 dxdt$ has a bound independent of $n$.
+	
+	\item[Control of the temporal derivative:] Now we let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 1$. If we multiply (\ref{approximate_problem}) by $\zeta \partial_tw_n$ and integrate over $Q_T$ we get
+	\begin{equation}
+	\label{temporal_bound_start}
+	\iint_{Q_T}\zeta \Phi'_n(u_n)|\partial_t u_n|^2 dxdt = \iint_{Q_T} \left\{ \zeta \partial_t w_n \Delta w_n + \zeta \partial_t w_n f_n \right\} dxdt.
+	\end{equation}
+	Let's start by considering the first term on the right hand side. By the product rule for the divergence
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t w_n \Delta w_n dxdt = \int_0^T \zeta \int_\Omega \left\{ \nabla \cdot (\partial_t w_n \nabla w_n) - (\partial_t \nabla w_n) \cdot \nabla w_n \right\} dx dt.
+	\end{equation*}
+	So after using the divergence theorem together with the homogeneous boundary data, as well as noticing that $(\partial_t \nabla w_n) \cdot \nabla w_n = \frac{1}{2}\partial_t |\nabla w_n|^2$, we see that
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t w_n \Delta w_n dxdt = -\iint_{Q_T}\frac{\zeta}{2}\partial_t |\nabla w_n|^2 dxdt.
+	\end{equation*}
+	Integrating by parts in the temporal dimension, we end up with
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t w_n \Delta w_n dxdt = \iint_{Q_T} \frac{\partial_t \zeta}{2} |\nabla w_n|^2 dxdt - \frac{1}{2}\int_\Omega \left\{ |\nabla w_n(T)|^2 - |\nabla w_n(0)|^2 \right\} dx.
+	\end{equation*}
+	A similar inetgration by parts in the temporal dimension of the last term on the right hand side in (\ref{temporal_bound_start}) yields
+	\begin{equation*}
+	\iint_{Q_T} \zeta f_n \partial_t w_n dxdt = -\iint_{Q_T} \partial_t (\zeta f_n) w_n dxdt + \int_\Omega \left\{ f_n(T)w_n(T) - f_n(0)w_n(0) \right \} dx.
+	\end{equation*}
+	For the last term in this integral we can do the same trick as we did previously for the energy estimate. We use Cauchy-Schwarz and the inequality $\sqrt{ab} \leq \frac{c^2}{4}a + \frac{1}{c^2}b$. Then, after using a Poincaré inequality we can choose $c$ so that the integrals of $|\nabla w_n|^2$ at the temporal endpoints are cancelled. In toto we end up with
+	\begin{align*}
+	\iint_{Q_T} \zeta \Phi'_n(u_n) |\partial_t u_n|^2 dxdt &\leq \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla w_n|^2 - \partial_t(\zeta f_n) w_n \right\} dxdt \\
+	&+ \frac{C}{2}\int_\Omega \left\{ f_n^2(T) - f_n^2(0) \right\} dx	\\
+	&= \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla w_n|^2 - \partial_t(\zeta f_n) w_n \right\} dxdt \\
+	&+ C \iint_{Q_T} f_n\partial_t f_n dxdt.
+	\end{align*}
+	Thus, by our assumption that $f$ and $\partial_t f$ are bounded, and our previous energy bound, the left hand side is bounded independent of $n$.
+	
+	In particular, we can choose $\zeta = 1$\footnote{Yikes, sorry about the kind of a fortiori argument, those are always a bit of a headache.}, and we get a bound on $\Phi'_n(u_n)|\partial_t u_n|^2$ in $L^1(Q_T)$. See now that $|\partial_t w_n	|^2 = \Phi'_n(u_n)^2|\partial_t u_n|^2$. And so, beacuse $\Phi'(u)$ is bounded for all $|u| \leq C$, we have that $\Phi'_n(u_n)$ is uniformly bounded, our latest integral bound gives us that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T)$.
+	
+	\item[Using a compactness argument:] We can conclude that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T)$, so by theorem \ref{thm:Rellich} it has convergent subsequence $\{w_{n_j}\}_{j \in \mathbb{N}}$ that converges to some $w$ in $L^2(Q_T)$.
+	
+	\item[Convergence of $u_n$:] Recall that we defined $w_n = \Phi_n(u_n)$
 \end{description}
+
 
 \end{proof}
 
