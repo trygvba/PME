@@ -379,7 +379,26 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	\item[Using a compactness argument:] We can conclude that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T)$, so by theorem \ref{thm:Rellich} it has convergent subsequence $\{w_{n_j}\}_{j \in \mathbb{N}}$ that converges to some $w$ in $L^2(Q_T)$.
 	
-	\item[Convergence of $u_n$:] Recall that we defined $w_n = \Phi_n(u_n)$.
+	\item[Convergence of $u_n$:] Recall that we defined $w_n = \Phi_n(u_n)$. Consider now
+	\begin{equation*}
+	\partial_t (u_{n} - u_{m}) = \Delta (w_{n} - w_{m}) + (f_{n}-f_{m}).
+	\end{equation*}
+	We will now do quite the same as we did when the $L^1$-contracivity for classical solutions: Let $p: \mathbb{R} \to [0,1]$ be a smooth approximation of the heaviside function, and multiply the above equation by $p(w_{n}-w_{m})$. Integrating over $\Omega$ and using integration by parts results in
+	\begin{align*}
+	\int_\Omega \partial_t(u_n - u_m)p(w_n-w_m)dx &= -\int_\Omega p'(w_n-w_m)|\nabla(w_n-w_m)|^2dx + \int_\Omega (f_n-f_m)p(w_n-w_m)dx \\
+	&\leq \int_\Omega (f_n-f_m)_+ dx.
+	\end{align*}
+	This last step us justified in that for all $n$ we have $w_n \in H^1(\Omega)$ for  every $t \in [0,T]$. Letting $p$ tend towards the heaviside function and integrating over the time interval $[0,t]$ we end up with
+	\begin{equation*}
+	\int_\Omega (u_n - u_m)_+(t) dx \leq \int_\Omega (u_{0,n} - u_{0,m})dx + \int_0^t\int_\Omega (f_n - f_m)_+ dxds,
+	\end{equation*}
+	and as a consequence
+	\begin{equation*}
+	||(u_n - u_m)(t)||_{L^1(\Omega)} \leq ||u_{0,n} - u_{0,m}||_{L^1(\Omega)} + ||f_n-f_m||_{L^1(Q_t)}.
+	\end{equation*}
+	Integrating over time yet again and using that $Q_T$ is bounded we deduce that $\{u_n\}$ is a Cauchy sequence in $L^1(Q_T)$, and hence converges to some $u$ in $L^1$.
+	
+	\item[Showing that $w=\Phi(u)$:]
 	
 	
 \end{description}
