@@ -377,7 +377,10 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	In particular, we can choose $\zeta = 1$\footnote{Yikes, sorry about the kind of a fortiori argument, those are always a bit of a headache.}, and we get a bound on $\Phi'_n(u_n)|\partial_t u_n|^2$ in $L^1(Q_T)$. See now that $|\partial_t w_n	|^2 = \Phi'_n(u_n)^2|\partial_t u_n|^2$. And so, beacuse $\Phi'(u)$ is bounded for all $|u| \leq C$, we have that $\Phi'_n(u_n)$ is uniformly bounded, our latest integral bound gives us that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T)$.
 	
-	\item[Using a compactness argument:] We can conclude that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T)$, so by theorem \ref{thm:Rellich} it has convergent subsequence $\{w_{n_j}\}_{j \in \mathbb{N}}$ that converges to some $w$ in $L^2(Q_T)$.
+	\item[Using a compactness argument:] We can conclude that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T)$, so by theorem \ref{thm:Rellich} it has convergent subsequence $\{w_{n_j}\}_{j \in \mathbb{N}}$ that converges to some $w$ in $L^2(Q_T)$. The energy estimate continues to hold in the limit as
+	\begin{equation}
+	\iint_{Q_T}|\nabla w|^2 dxdt \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}fw dxdt
+	\end{equation}
 	
 	\item[Convergence of $u_n$:] Recall that we defined $w_n = \Phi_n(u_n)$. Consider now
 	\begin{equation*}
@@ -398,9 +401,38 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\end{equation*}
 	Integrating over time yet again and using that $Q_T$ is bounded we deduce that $\{u_n\}$ is a Cauchy sequence in $L^1(Q_T)$, and hence converges to some $u$ in $L^1$.
 	
-	\item[Showing that $w=\Phi(u)$:]
+	\item[Showing that $w=\Phi(u)$:] By the triangle inequality we split $|\Phi(u)-w|$ into
+	\begin{equation*}
+	|\Phi(u) - w| \leq |\Phi(u) - \Phi(u_{n_j})| + |\Phi(u_{n_j}) - \Phi_{n_j}(u_{n_j})| + |w_{n_j}-w|. 
+	\end{equation*}
+	Then, integration over $Q_T$ gives
+	\begin{align*}
+	\iint_{Q_T}|\Phi(u)-w|dxdt &\leq \iint_{Q_T}|\Phi(u)-\Phi(u_{n_j})|dxdt \\
+	&+ \iint_{Q_T}|\Phi(u_{n_j})-\Phi_{n_j}(u_{n_j})|dxdt \\
+	&+ \iint_{Q_T}|w_{n_j} - w|dxdt.
+	\end{align*}
+	The first term can be made arbitrarily small by the $L^1$-convergence of $\{u_n\}$ together with $\Phi$ being locally Lipschitz. The last term is controlled by the $L^2$-convergence of $\{w_{n_j}\}$ and that $Q_T$ is bounded. So we need to consider the middle term. We start off with
+	\begin{align*}
+	|\Phi(u_{n_j}) - \Phi_{n_j}(u_{n_j})| &= \left| \Phi(u_{n_j}) - \int_{\mathbb{R}}\left\{ \Phi(u_{n_j}-y) + \frac{u_{n_j}-y}{n_j} \right\} \eta_{n_j}(y)dy  \right| \\
+	&= \left|\int_\mathbb{R}\left\{\Phi(u_{n_j})-\Phi(u_{n_j}-y)-\frac{u_{n_j}-y}{n_j} \right\} \eta_{n_j}(y)dy \right| \\
+	&\leq \int_\mathbb{R}\left\{ |\Phi(u_{n_j})-\Phi(u_{n_j}-y)|+\frac{|u_{n_j}-y|}{n_j}\right\} \eta_{n_j}(y)dy.
+	\end{align*}
+	Since $\Phi$ is locally Lipschitz we get that for any $\epsilon >0$
+	\begin{align*}
+	|\Phi(u_{n_j}) - \Phi_{n_j}(u_{n_j})| &\leq \int_\mathbb{R}\left\{ L_{\Phi}|y|+\frac{|u_{n_j}-y|}{n_j}\right\} \eta_{n_j}(y)dy \\
+	&< L_{\Phi}\epsilon + \frac{|u_{n_j}|}{n_j}+\epsilon
+	\end{align*}
+	for sufficiently large $n_j$. Here $L_\Phi$ is a Lipschitz constant for $\Phi$. Thus, we can make the bounds on all three terms arbitrarily small, and we are forced to conclude that 
+	\begin{equation}
+	\iint_{Q_T}|\Phi(u)-w|dxdt = 0,
+	\end{equation}	 
+	which means that $\Phi(u) = w$ a.e.
 	
-	
+	\item[$u$ is a weak solution:] We already know that $u \in L^1(Q_T)$, and $\Phi(u)=w \in L^1(0,T: W^{1,1}(\Omega))$\footnote{Actually, this may not be as easy to see as I've stated here. Need to use yet another estimate to show this.}. So what's left is to show that
+	\begin{equation*}
+	\iint_{Q_T}\left\{ \nabla\Phi(u) \cdot \nabla \eta - u\partial_t \eta - f\eta \right\}dxdt - \int_\Omega u_0\eta\big|_{t=0}dx = 0
+	\end{equation*}
+	for any $\eta \in C^1(\overline{Q}_T)$ that vanish on $\partial \Omega \times [0,T)$ and for $t=T$.
 \end{description}
 
 
