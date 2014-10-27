@@ -1,0 +1,308 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{mathptmx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{amsthm}
+\usepackage{remreset}
+\usepackage[utf8x]{inputenc}
+\usepackage[toc,page]{appendix}
+\usepackage[numbers]{natbib}
+
+\usepackage{lmodern}
+
+\begin{document}
+\title{Draft for project}
+\author{Trygve Bærland}
+\maketitle
+\abstract{For now, heavily reliant on \citep{vazquez2007porous}.}
+
+% My text categories:
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{lemma}{Lemma}[section]
+
+\theoremstyle{definition}
+\newtheorem{mydef}{Definition}[section]
+\newtheorem{example}{Example}[section]
+
+%\theoremstyle{plain}
+\newtheorem{obs}{Observation}
+\newtheorem{rem}{Remark}
+
+
+% Reset numbering for each section
+\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
+
+\begin{equation}
+\label{GPME}
+	\partial_t u = \Delta \Phi(u) + f,
+\end{equation}
+
+ where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. For now we assume that $\Phi$ is continuous and nondecreasing.
+
+
+\subsection{Problem statement}
+I will consider on the following Dirichlet problem:
+\begin{equation}
+\label{HDP}
+	\begin{cases}
+		\partial_t u = \Delta \Phi(u) + f, \quad \text{ in } Q_T \\
+		u(x,0) = u_0(x), \quad \text{ in } \Omega \\
+		u(x,t) = 0, \quad \text{ on } \partial\Omega \times [0,T].
+	\end{cases}
+\end{equation}
+Here $Q_T = \Omega \times (0,T]$, where $T$ may very well be infinite. Furthermore we denote by $\Gamma_T = \overline{Q}_T\backslash Q_T$ the parabolic boundary.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				CLASSICAL SOLUTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Classical solutions}
+In this section it is helpful to reformulate (\ref{HDP}) as 
+\begin{equation}
+	\begin{cases}
+		\partial_t u + Lu &= f, \quad \text{in } Q_T \\
+		u(x,0) &= u_0(x), \quad \text{in } \Omega \\
+		u &= 0, \quad \text{on } \partial \Omega \times [0,T]
+	\end{cases}
+\end{equation}
+where $L$ is a differential operator that can be written in the divergence form
+\begin{equation}
+Lu = -\sum_{i=1}^d \partial_{x_i}(a^i(x,t,u,\nabla u)) + a(x,t,u,\nabla u).
+\end{equation}
+
+The reason for this reformulation is that many of the results presented in this section supposes a particular condition on the coefficients $a^i(x,t,u,p)$. The condition is that there are constants $0 < \nu < \mu < \infty $ so that
+\begin{equation}
+\label{uniform_parabolicity}
+\nu |\xi|^2 \leq \sum_{i,j=1}^d \frac{\partial a^i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu |\xi|^2 
+\end{equation}
+for every $\xi \in \mathbb{R}^d$. If this condition is satisfied we say that the operator $\partial_t + L$ is \textbf{uniformly parabolic}.
+
+In our setting it's easy enough to check that
+\begin{equation*}
+a^i(x,t,u,p) = \Phi'(u)p_i,
+\end{equation*}
+and so (\ref{uniform_parabolicity}) translates to
+\begin{equation}
+\label{uniform_parabGPME}
+\nu \leq \Phi'(u) \leq \mu.
+\end{equation}
+We will in this section assume this to be true. I.e. that $\Phi'(u)$ is bounded and strictly positive.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			MAXIMUM PRINCIPLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Maximum principle}
+The first main estimate we'll deal with is a $L^\infty$ bound on a classical solution. To that end, the following strong maximum principle will be helpful (cf. \citep[p. 396]{evans}).
+
+\begin{theorem}[Strong maximum principle]
+\begin{enumerate}[i)]
+	Suppose $\Omega$ is connected, and $u\in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$, then:
+	\item If
+	\begin{equation*}
+		\partial_tu + Lu \leq 0, \quad \text{ in } Q_T, 
+	\end{equation*}
+	and $u$ attains its maximum over $\overline{Q}_T$ at point $(x_0,t_0)\in Q_T$, then
+	$u$ is constant on $Q_{t_0}$.
+	
+	\item Analagously, if
+	\begin{equation*}
+		\partial_tu + Lu \geq 0, \quad \text{ in } Q_T, 
+	\end{equation*}
+	and $u$ attains its minimum over $\overline{Q}_T$ at a points  $(x_0,t_0) \in Q_T$, then $u$ is constant on $Q_{t_0}$.
+\end{enumerate}
+\end{theorem}
+
+Using this theorem we can prove the comparison principle:
+\begin{lemma}[Comparison principle]
+\label{lemma:comparison}
+Let $u,v \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two solutions of (\ref{HDP}) with initial data $u_0$, $v_0$ and loading $f$, $\tilde{f}$ respectively. Further, assume that $v_0 \geq u_0$ in $\Omega$ and  $\tilde{f} \geq f$ in $Q_T$. Then either $u < v$ in $Q_T$ or $u=v$.
+\end{lemma}
+\begin{proof}
+We set $w=v-u$ and see that $w$ then solves
+\begin{align*}
+\partial_t w &= \Delta(\Phi(v) - \Phi(u)) + (\tilde{f}-f) \\
+			&= \Delta(\Phi(w+u) - \Phi(v-w)) + (\tilde{f}-f).  
+\end{align*}
+and $w(x,0) = v_0(x) - u_0(x)$ as well as satisfies the homogeneous Dirichlet boundary condition. We need to check that the problem satisfies (\ref{uniform_parabolicity}), and to that end we notice that
+\begin{equation*}
+\Delta(\Phi(w+u) - \Phi(v-w)) = \nabla \cdot \left(\Phi'(w+u)(\nabla w + \nabla u) - \Phi'(v-w)(\nabla v - \nabla w) \right).
+\end{equation*}
+Treating $u$ and $v$ as given parameters of the IVBP we get
+\begin{equation*}
+a^i = (\Phi'(w+u) + \Phi'(v-w))\partial_{x_i}w,
+\end{equation*}
+and since (\ref{uniform_parabGPME}) is satisfied the problem is uniformly parabolic.
+We have
+\begin{equation*}
+\partial_tw - \Delta(\Phi(w+u) - \Phi(v-w)) = \tilde{f}-f \geq 0 
+\end{equation*}
+and we can use the second part of the strong maximum principle to deduce that
+\begin{equation*}
+w \geq \underset{\overline{Q_T}}{\mathrm{min}}w = \underset{\Gamma_T}{\mathrm{min}}w.
+\end{equation*}
+By the initial- and boundary data of $w$ we see that
+\begin{equation*}
+\underset{\Gamma_T}{\mathrm{min}}w = 0,
+\end{equation*}
+and so
+\begin{equation*}
+w \geq 0 \quad \Rightarrow  \quad v \geq u.
+\end{equation*}
+
+We conclude the proof by seeing that if $u=v$ at some points in $Q_T$ the strong maximum principle implies that $u=v$ everywhere. 
+\end{proof}
+
+\setcounter{rem}{0}
+\begin{rem}
+We could improve somewhat on this result by having $v \geq u$ on $\partial \Omega \times [0,T]$. All the steps in the proof works, in particular
+\begin{equation*}
+\underset{\Gamma_T}{\mathrm{min}}w \geq 0
+\end{equation*} 
+still holds.
+\end{rem}
+
+Let's now use this lemma to get an $L^\infty$-bound on classical solutions.
+\begin{lemma}
+If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and $u_0$ is bounded in $\Omega$ and $f$ bounded in $Q_T$, then
+	\begin{equation}
+		\label{infinity_bound}
+		||u||_{L^\infty(Q_T)} \leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)}.
+	\end{equation}
+\end{lemma}
+
+\begin{proof}
+We start by defnining $M_1 = \mathrm{max}\{0, \mathrm{sup}_\Omega(u_0) \}$, and $N_1 = \mathrm{max}\{0, \mathrm{sup}_{Q_T}(f) \}$. With $v(x,t) = M_1 + N_1t$, it solves
+\begin{equation*}
+\begin{cases}
+	\partial_t v &= \Delta\Phi(v) +N_1 \quad \text{in } Q_T\\
+	v(x,0) &= M_1 \quad \text{in } \Omega \\
+	v(x,t) &= M_1 + N_1t \quad \text{on } \partial \Omega \times [0,T].
+\end{cases}
+\end{equation*}
+Since $u_0 \leq M_1$ and $f\leq N_1$ we can use the comparison principle to conclude that
+\begin{equation*}
+u(x,t) \leq M_1 + N_1t
+\end{equation*}
+in $Q_T$.
+
+Similarly we define $M_2 = \mathrm{min}\{ 0, \mathrm{inf}_\Omega(u_0) \}$, and $N_2 = \mathrm{min}\{ 0, \mathrm{inf}_{Q_T}(f) \}$, to get the lower bound
+\begin{equation*}
+u(x,t) \geq M_2 + N_2t.
+\end{equation*}
+
+Because
+\begin{equation*}
+||u_0||_{L^\infty(\Omega)} = \mathrm{max}\{ \mathrm{sup}_\Omega(u_0), -\mathrm{inf}_\Omega (u_0)\} = \mathrm{max}\{|M_1|,|M_2|\},
+\end{equation*}
+and similarly for $f$, our two bounds implies that
+\begin{equation*}
+|u(x,t)| \leq ||u_0||_{L^\infty(\Omega)} + t||f||_{L^\infty(Q_T)},
+\end{equation*}
+which  is what we wanted to prove.
+
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				L^1-CONTRACTIVITY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{$L^1$-contractivity}
+In this section we let $u,\hat{u} \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two smooth solutions of the homogeneous Dirichlet problem (\ref{HDP}) with initial data $u_0$, $\hat{u}_0$ and loading $f$, $\hat{f}$ respectively. To reach our goal of deriving stability of solutions in $L^1$ we start off with the following lemma, from which the main result will be an almost immediate consequence.
+
+\begin{lemma}
+For $\tau, t \in [0,T]$ the inequality 
+\begin{equation}
+\label{l1_contr_part1}
+\int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
+\end{equation}
+is satisfied.
+\end{lemma}
+
+\begin{proof}
+Let $p: \mathbb{R} \to \mathbb{R}$ be a $C^1$ function satisfying $p(s) = 0$ for $s \leq 0$, $p'(s) \geq 0$ for all $s\in \mathbb{R}$, and $0 \leq p(s) \leq 1$ for $s > 0$. Define now $w = \Phi(u) - \Phi(\hat{u})$, and multiply $p(w)$ with the difference of (\ref{GPME}) for $u$ and $\hat{u}$ to get
+\begin{equation*}
+\partial_t(u-\hat{u})p(w) = p(w)\Delta w + p(w)f.
+\end{equation*}
+Integrating over $\Omega$, and using integration by parts on the first part on the right hand side yields
+\begin{align*}
+\int_{\Omega}\partial_t(u-\hat{u})p(w)dx &= -\int_{\Omega}p'(w)|\nabla w|^2dx + \int_{\Omega}p(w)(f-\hat{f}) dx \\
+	&\leq \int_{\Omega}p(w)(f-\hat{f}) dx \\
+	&\leq \int_{\Omega}(f-\hat{f})_+ dx,
+\end{align*}
+where the last step follows from the fact that $0 \leq p(w) \leq 1$. Here $(\cdot)_+ = \mathrm{max}\{\cdot, 0\}$.
+Now, let $p$ converge to the Heaviside function $H(w)$. Then, it is worth noticing that $H(w) = H(u-\hat{u})$, because of the strict monotonicity of $\Phi$. Also see that $\partial_t(u-\hat{u})_+ = \partial_t(u-\hat{u})H(u-\hat{u})$. Thus
+\begin{equation*}
+\partial_t \int_{\Omega}(u-\hat{u})_+dx \leq \int_{\Omega}(f-\hat{f})_+ dx,
+\end{equation*}
+and integrating in time from $\tau$ to $t$ yields
+\begin{equation*}
+\int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
+\end{equation*}
+\end{proof}
+
+
+\begin{cor}[$L^1$-contractivity]
+For two smooth solutions, $u$ and $\hat{u}$ of the homoegenous Dirichlet problem (\ref{HDP}) with different initial data and loading, the $L^1$-estimate
+\begin{equation}
+\label{l1_contractivity}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq ||u_0 - \hat{u}_0||_{L^1(\Omega)} + ||f-\hat{f}||_{L^1(Q_t)}
+\end{equation}
+holds for every $t\in [0,T]$.
+\end{cor}
+
+\begin{proof}
+Setting $\tau = 0$ we have from the previous lemma that
+\begin{equation*}
+\int_\Omega  (u(t)-\hat{u}(t))_+dx \leq \int_\Omega (u_0 - \hat{u}_0)_+dx + \int_0^t \int_\Omega (f-\hat{f})_+ dxdt,
+\end{equation*}
+and by interchanging $u$ and $\hat{u}$ we also have 
+\begin{equation*}
+\int_\Omega  (\hat{u}(t)-u(t))_+dx \leq \int_\Omega (\hat{u}_0 - u_0)_+dx + \int_0^t \int_\Omega (\hat{f}-f)_+ dxdt.
+\end{equation*}
+
+Since $|a| = (a)_+ + (-a)_+$, the sum of these inequalities yields the desired result.
+\end{proof}
+
+\setcounter{obs}{0}
+\begin{obs}
+
+\end{obs}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				WEAK SOLUTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Weak solutions}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				BIBLIOGRAPHY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{project_bibliography.bib}
+\end{document}
