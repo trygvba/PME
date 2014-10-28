@@ -279,7 +279,13 @@ From this corollary, we get out immediately that (\ref{HDP}) has at most one sol
 \end{obs}
 
 \subsection{Control of the spatial derivative}
-This bound follows nicely the $L^1$-contractivity in that its derivation hinges on a clever choice of function to multiply (\ref{GPME}) with. The bound on the spatial derivative is summarised in the following lemma.
+This bound follows nicely the $L^1$-contractivity in that its derivation hinges on a clever choice of function to multiply (\ref{GPME}) with. Before proceeding, we define  $\Psi$ as the primitive of $\Phi$ with $\Psi(0) = 0$, i.e.
+\begin{equation}
+\label{phi_primitive}
+	\Psi(s) = \int_0^s \Phi(u) ds,
+\end{equation}
+
+The bound on the spatial derivative is then summarised in the following lemma.
 
 \begin{lemma}
 For a solution $u\in C^{2,1}(Q_T) \cap C(\overline{Q}_T)$ of (\ref{HDP})
@@ -333,6 +339,48 @@ and the final inequality becomes
 \end{equation}
 \end{obs}
 
+\subsection{Control of the temporal derivative}
+A similar, but perhaps a bit more involved argument can be used to make an estimate the temporal derivative.
+
+Let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 1$. If we multiply (\ref{GPME}) by $\zeta \partial_t\Phi(u)$ and integrate over $Q_T$ we get
+	\begin{equation}
+	\label{temporal_bound_start}
+	\iint_{Q_T}\zeta \Phi'(u)|\partial_t u|^2 dxdt = \iint_{Q_T} \left\{ \zeta \partial_t \Phi(u) \Delta \Phi(u)  + \zeta \partial_t \Phi(u) f \right\} dxdt.
+	\end{equation}
+	Let's start by considering the first term on the right hand side. By the product rule for the divergence
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = \int_0^T \zeta \int_\Omega \left\{ \nabla \cdot (\partial_t \Phi(u) \nabla \Phi(u)) - (\partial_t \nabla \Phi(u)) \cdot \nabla \Phi(u) \right\} dx dt.
+	\end{equation*}
+	So after using the divergence theorem together with the homogeneous boundary data, as well as noticing that $(\partial_t \nabla \Phi(u)) \cdot \nabla \Phi(u) = \frac{1}{2}\partial_t |\nabla \Phi(u)|^2$, we see that
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T}\frac{\zeta}{2}\partial_t |\nabla \Phi(u)|^2 dxdt.
+	\end{equation*}
+	Integrating by parts in the temporal dimension, we end up with
+	\begin{equation*}
+	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = \iint_{Q_T} \frac{\partial_t \zeta}{2} |\nabla \Phi(u)|^2 dxdt - \frac{1}{2}\int_\Omega \left\{ |\nabla \Phi(u(T))|^2 - |\nabla \Phi(u_0)|^2 \right\} dx.
+	\end{equation*}
+	A similar inetgration by parts in the temporal dimension of the last term on the right hand side in (\ref{temporal_bound_start}) yields
+	\begin{equation*}
+	\iint_{Q_T} \zeta f \partial_t \Phi(u) dxdt = -\iint_{Q_T} \partial_t (\zeta f) \Phi(u) dxdt + \int_\Omega \left\{ f(T)\Phi(u(T)) - f(0)\Phi(u_0) \right\} dx.
+	\end{equation*}
+	For the last term in this integral we can do the same trick as we did previously for the energy estimate. We use Cauchy-Schwarz and the inequality $\sqrt{ab} \leq \frac{c^2}{4}a + \frac{1}{c^2}b$. Then, after using a Poincaré inequality we can choose $c$ so that the integrals of $|\nabla \Phi(u)|^2$ at the temporal endpoints are cancelled. In toto we end up with
+	\begin{align*}
+	\iint_{Q_T} \zeta \Phi'(u) |\partial_t u|^2 dxdt &\leq \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt \\
+	&+ \frac{C}{2}\int_\Omega \left\{ f^2(T) - f^2(0) \right\} dx	\\
+	&= \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt \\
+	&+ C \iint_{Q_T} f\partial_t f dxdt.
+	\end{align*}
+	
+	
+A particular choice for $\zeta$, that's of interest is $\zeta(t) = 1$. Then we end up with the estimate
+\begin{equation}
+\label{temporal_bound}
+\iint_{Q_T} \Phi'(u) |\partial_t u|^2 dxdt \leq \iint_{Q_T}\left\{ -\partial_t f \Phi(u)   +Cf\partial_tf \right\}dxdt, 
+\end{equation}
+and in addition if $\Phi'(u)$ is bounded over all relevant values of $u$, e.g. given my the $L^\infty$-bound, then what we have here is an $L^2$-estimate of $\partial_t \Phi(u)$.
+	
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				EXISTENCE:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -373,11 +421,6 @@ with
 \end{align*}
 with the Hölder semi-norm with respect to $x$ and $t$ respectively in the last two definitions.
 
-
-\begin{rem}
-
-\end{rem}
- 
 
 
 \subsubsection{The big, general existence theorem}
@@ -608,6 +651,7 @@ and now all that remains is rearranging the terms to get (\ref{weak}).
 \subsection{Uniqueness}
 
 \begin{theorem}[Uniqueness]
+\label{thm:uniqueness}
 	Assuming in addition that $u \in L^2(Q_T)$ and $\Phi(u) \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
 \end{theorem}
 
@@ -669,7 +713,25 @@ This should hold for any test function $\eta$, and so the weak derivative of $u_
 %			EXISTENCE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Existence}
-Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}, but now lifting the assumption that $\Phi$ is strictly increasing, and rather having that it is only nondecreasing. Another useful addition to proof will be that we will also incorporate the $L^1$-contractivity result.
+As the assumptions in theorem \ref{thm:uniqueness} may hint at, some additional assumptions on $u$ and $\Phi(u)$ needs to be put to ensure that the homogeneous Dirichlet problem is well posed in the weak setting. There are some alternatives, and of course, any further analysis will be informed what sort of additional condition we want a weak solution $u$ to fulfill. The one we will be using here is guided by the notion that in a physical system the energy should be controlled, and is therefore called a weak energy solution. 
+
+Recall our definition of $\Psi$ in (\ref{phi_primitive}) as the primitive of $\Phi$,
+and we define the function space $L_\Psi(\Omega) = \{ u\in L^1(\Omega): \Psi(u)\in L^1(\Omega)\}$.
+With this in mind we can define energy solutions in the following way:
+\begin{mydef}[Energy solution]
+We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and $u_0 \in L_\Psi(\Omega)$, and the energy inequality
+\begin{equation}
+\label{energy_ineq}
+\iint_{Q_T} |\nabla \Phi(u)|^2 dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}f\Phi(u)dxdt
+\end{equation}
+holds.
+\end{mydef}
+\setcounter{obs}{0}
+\begin{obs}
+If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as with the energy identity in (\ref{spatial_derivative_bound}) to get that $\Phi(u) \in L^2(0,T: H_0^1(\Omega))$.
+\end{obs}
+
+Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}, but now lifting the assumption that $\Phi$ is strictly increasing, and rather having that it is only nondecreasing. Another useful addition to proof will be that we will also incorporate a $L^1$-contractivity result.
 
 The proof will use an approximate problem which admits a unique solution from theorem \ref{thm:classical_existence}, and then employing the Rellich compactness argument (cf. appendix \ref{sec:compactness} to get a limit which hopefully will be a weak energy solution.
 
@@ -682,7 +744,7 @@ Assume $u_0 \in L_\Psi(\Omega)$ and $f \in L^p (\Omega)$. Then the homogeneous, 
 \end{theorem}
 
 We will not prove this in one big chunk, but rather split it off into smaller lemmas, and as already stated, some attention will also be paid to the $L^1$-contractivity.
-\subsection*{Preliminaries}
+\subsubsection{Preliminaries}
 To set ourselves up in a position where we can make use of theorem \ref{thm:classical_existence}, or rather corollary \ref{cor:GPME_existence}, we need to approximate $\Phi$, $u_0$, and $f$.
 
 We approximate $\Phi$ by the smooth approximations
@@ -695,6 +757,7 @@ where $\eta$ is the standard mollifier. We also let $u_{0,n}\in C^\infty_c(\Omeg
 
 Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq f$ for all $n$.
 
+\subsubsection{$u_0$, $f$ and $\partial_t f$ bounded}
 Our first lemma then reads
 \begin{lemma}
 Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$, and $\partial_t f$ are bounded, $\partial \Omega \in C^{2+\alpha}$, and $\Phi$ is locally lipschitz continuous.
@@ -721,7 +784,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	\item[Control of the spatial derivative:] Now we define $w_n = \Phi_n(u_n)$, and do exactly as when deriving (\ref{spatial_derivative_bound}) to get 
 	\begin{equation*}
-	\int_\Omega \Psi(u_n(T))dx + \iint_{Q_T}|\nabla w_n|^2dxdt = \int_\Omega \Psi_n(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt.
+	\int_\Omega \Psi_n(u_n(T))dx + \iint_{Q_T}|\nabla w_n|^2dxdt = \int_\Omega \Psi_n(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt.
 	\end{equation*}
 	Considering the second term on the right hand side we have
 	\begin{equation*}
@@ -729,7 +792,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\end{equation*}
 	after exactly the same argument as we did with (\ref{using_Poincare}). After putting it back
 	\begin{equation*}
-	\int_\Omega \Psi_n(u_n(T))dx + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt \leq \int_\Omega \Psi(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
+	\int_\Omega \Psi_n(u_n(T))dx + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt \leq \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
 	\end{equation*}
 	and so we're getting close to a uniform bound on $\nabla w_n$ in $L^2(Q_T)$. We notice that
 	\begin{equation*}
@@ -832,7 +895,13 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\begin{equation*}
 	\iint_{Q_T}\left\{ \nabla\Phi(u) \cdot \nabla \eta - u\partial_t \eta - f\eta \right\}dxdt - \int_\Omega u_0\eta\big|_{t=0}dx = 0
 	\end{equation*}
-	for any $\eta \in C^1(\overline{Q}_T)$ that vanish on $\partial \Omega \times [0,T)$ and for $t=T$.
+	for any $\eta \in C^1(\overline{Q}_T)$ that vanish on $\partial \Omega \times [0,T)$ and for $t=T$. Seeing as every $u_n$ is a weak solution to the approximate (\ref{approximate_problem}) we can subtract it from the integral above to get
+	\begin{align*}
+	&\iint_{Q_T}\left\{ \nabla\Phi(u) \cdot \nabla \eta - u\partial_t \eta - f\eta \right\}dxdt - \int_\Omega u_0\eta\big|_{t=0}dx \\
+	= &\iint_{Q_T}\left\{ \nabla(\Phi(u)-w_n) \cdot \nabla \eta - (u-u_n)\partial_t \eta - (f-f_n)\eta \right\}dxdt - \int_\Omega (u_0-u_{0,n})\eta\big|_{t=0}dx.
+	\end{align*}
+	
+	All the terms but the last are controlled by the convergences of $u_n$, $u_{0,n}$, and $f_n$.  	
 \end{description}
 
 
