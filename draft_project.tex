@@ -752,13 +752,22 @@ We will not prove this in one big chunk, but rather split it off into smaller le
 \subsubsection{Preliminaries}
 To set ourselves up in a position where we can make use of theorem \ref{thm:classical_existence}, or rather corollary \ref{cor:GPME_existence}, we need to approximate $\Phi$, $u_0$, and $f$.
 
-We approximate $\Phi$ by the smooth approximations
+We approximate $\Phi$ by the smooth approximations. To ensure suffient smoothness we define
+\begin{equation*}
+\Phi_n'(s) = \left( \Phi' + \frac{1}{n}\right)*\varphi_{\frac{1}{n}},
+\end{equation*}
+where $\varphi_{\frac{1}{n}}(s) = n\varphi\left( \frac{s}{n} \right)$ and $\varphi$ is the standard mollifier. Then, we can approximate $\Phi$ as
 \begin{align*}
-\Phi_n(s) &= \left( \Phi(s) + \frac{s}{n} \right)*\eta_{\frac{1}{n}} \\
-	&= \int_{\mathbb{R}}\left(\Phi(y) + \frac{y}{n}\right)\eta_{\frac{1}{n}}(s-y)dy \\
-	&= \int_{\mathbb{R}}\left(\Phi(s-y) + \frac{s-y}{n}\right)\eta_{\frac{1}{n}}(y)dy
+\Phi_n(u) &= \int_0^u \int_\mathbb{R}\left( \Phi'(s-y) + \frac{1}{n}\right)\varphi_{\frac{1}{n}}(y)dyds \\
+&= \int_\mathbb{R}\varphi_{\frac{1}{n}}(y) \int_0^u \left( \Phi'(s-y) + \frac{1}{n}\right)dsdy \\
+&= \int_\mathbb{R}\varphi_{\frac{1}{n}}(y) \left( \Phi(u-y) - \Phi(-y) + \frac{u}{n}\right)dy \\
+&= \Phi * \varphi_{\frac{1}{n}}(u) - \Phi * \varphi_{\frac{1}{n}}(0) + \frac{u}{n}.
 \end{align*}
-where $\eta$ is the standard mollifier. We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,u_0\}$.
+
+
+
+
+We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,u_0\}$.
 
 Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq f$ for all $n$.
 
@@ -1049,6 +1058,20 @@ W^{1,p}_0(U) \subset \subset L^p(U)
 \end{equation*}
 even when the assumption that $\partial U$ is $C^1$ is lifted.
 \end{rem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			PROPERTIES OF THE APPROXIMATIONS:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Properties of the approximate nonlinearities}
+Let's discuss some of the properties of the sequence of approximations to the nonlinearity $\Phi$. To reiterate we defined
+\begin{equation*}
+\Phi_n(s) = \int_\mathbb{R}\left( \Phi(u-y) + \frac{u-y}{n}\right) \eta_{\frac{1}{n}}(y)dy
+\end{equation*}
+
+
+
 
 \end{appendix}
 \end{document}
