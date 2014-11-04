@@ -763,6 +763,7 @@ where $\varphi_{\frac{1}{n}}(s) = n\varphi\left( \frac{s}{n} \right)$ and $\varp
 &= \int_\mathbb{R}\varphi_{\frac{1}{n}}(y) \left( \Phi(u-y) - \Phi(-y) + \frac{u}{n}\right)dy \\
 &= \Phi * \varphi_{\frac{1}{n}}(u) - \Phi * \varphi_{\frac{1}{n}}(0) + \frac{u}{n}.
 \end{align*}
+Further discussion of $\Phi$ and its sequence of approximations has been relegated to appendix \ref{app:Phi} for sake of continuity.
 
 
 
@@ -1065,12 +1066,160 @@ even when the assumption that $\partial U$ is $C^1$ is lifted.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Properties of the approximate nonlinearities}
+\label{app:Phi}
 Let's discuss some of the properties of the sequence of approximations to the nonlinearity $\Phi$. To reiterate we defined
 \begin{equation*}
-\Phi_n(s) = \int_\mathbb{R}\left( \Phi(u-y) + \frac{u-y}{n}\right) \eta_{\frac{1}{n}}(y)dy
+\Phi_n(u) = (\Phi * \varphi_{\frac{1}{n}})(u) - (\Phi * \varphi_{\frac{1}{n}})(0) + \frac{u}{n}.
 \end{equation*}
+It is obvious that $\Phi_n$ is infintely differentiable for each $n$, as well as $\Phi_n'(u) \geq \frac{1}{n}$. In addition the construction is so that $\Phi_n(0) = 0$.
+
+The first property we'll consider is summarised in the following proposition.
+\begin{proposition}
+If $\Phi$ is locally Lipschitz continuous, then $\Phi_n$ converges to $\Phi$ uniformly on compact sets.
+\end{proposition}
+\begin{proof}
+The proof is done by getting out a crude, but sufficient estimate on the pointwise difference of $\Phi$ with its approximation. For any $u \in \mathbb{R}$, we have
+\begin{align*}
+|\Phi_n(u) - \Phi(u)| &= \left| \frac{u}{n} + \int_\mathbb{R}\Phi(u-y)\varphi_{\frac{1}{n}}(y)dy - \int_\mathbb{R}\Phi(y)\varphi_{\frac{1}{n}}(-y)dy - \Phi(u)\right| \\
+& \leq \frac{|u|}{n} + \int_\mathbb{R}\left| \Phi(u-y) - \Phi(u) - \Phi(y)\right| \varphi_{\frac{1}{n}}(y) dy \\
+& \leq \frac{|u|}{n} + \underset{y\in[-\frac{1}{n},\frac{1}{n}]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| + \mathrm{max}\{|\Phi (1/n) |,|\Phi(-1/n)| \}.
+\end{align*}
+Let now $K \subset \mathbb{R}$ be any compact set, and let $L_K$ be a Lipschitz constant for $\Phi$ over $K$. We then have for any $u \in K$ that
+\begin{equation*}
+|\Phi_n(u) - \Phi(u)| \leq \frac{1}{n}\left( L_K + \mathrm{sup}_{s \in K}|s| \right) + \mathrm{max}\{|\Phi (1/n) |,|\Phi(-1/n)| \}.
+\end{equation*}
+Since $K$ is bounded and $\Phi$ is continuous with $\Phi(0) = 0$ we have a bound independent of $u$, and therefore the convergence is uniform in $K$.
+\end{proof}
 
 
+In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
+
+\begin{proposition}
+$\Phi^{-1}$ is strictly increasing, and continuous.
+\end{proposition}
+\begin{proof}
+Let's first prove that it's strictly increasing, which is easy. Take $y_1 < y_2$, and let $x_1$ and $x_2$ be so that $\Phi(x_i) = y_i$ for $i=1,2$. Then, because $\Phi$ is strictly increasing, we have $x_1 < x_2$. Which is the same as saying that
+\begin{equation*}
+y_1 < y_2 \quad \Rightarrow \quad \Phi^{-1}(y_1) < \Phi^{-1}(y_2),
+\end{equation*}
+i.e. $\Phi^{-1}$ is stricly increasing.
+
+Moving along, let $y \in \mathbb{R}$ and $x$ be so that $\Phi(x) = y$. Take any $\epsilon > 0$, and consider the interval $(x-\epsilon, x + \epsilon)$. We have that $(\Phi^{-1}(x-\epsilon), \Phi^{-1}(x+\epsilon))$ is non-empty because $\Phi^{-1}$ is strictly increasing, and $y$ is an element. Take now $\delta = \mathrm{min}\{ |y-\Phi^{-1}(x\pm\epsilon)|\} >0$, then for any $\tilde{y} \in (y-\delta, y + \delta)$ we have
+\begin{equation*}
+\tilde{y} > y-\delta \Rightarrow \Phi^{-1}(\tilde{y}) > \Phi^{-1}(y-\delta) \geq x-\epsilon
+\end{equation*}
+and
+\begin{equation*}
+\tilde{y} < y+\delta \Rightarrow \Phi^{-1}(\tilde{y}) < \Phi^{-1}(y+\delta) \leq x+\epsilon,
+\end{equation*}
+by using that $\Phi^{-1}$ is strictly increasing, as well as $\Phi(x-\epsilon) \leq y-\delta$ and $\Phi(x+\epsilon) \geq y + \delta$. This shows that $\Phi^{-1}$ is continuous.
+\end{proof}
+
+This result is also valid for $\Phi_n$ for every $n \in \mathbb{N}$, beacause they are all continuous and stricly increasing. We then have the following helpful result.
+
+\begin{proposition}
+$\Phi_n^{-1}$ converges pointwise to $\Phi^{-1}$.
+\end{proposition}
+
+\begin{proof}
+We need to consider $|\Phi_n^{-1}(y) - \Phi^{-1}(y)| = |x_n - x|$. Define $y_n = \Phi(x_n)$, then if we can show that $y_n \to y$ we can use the coninuity of $\Phi^{-1}$  to show that $x_n = \Phi^{-1}(y_n) \to \Phi^{-1}(y) = x$, and we would be done. It is now useful to see that
+\begin{align*}
+|y-y_n| &= |\Phi(x) - \Phi(x_n)| \\
+	&= |\Phi_n(x_n) - \Phi(x_n)|
+\end{align*}
+and hence we are in a nice position to use that $\Phi_n$ converges uniformly on compact sets, if we can show that $x_n$ is a bounded sequence. To that end we let $x_1<x$ be so that
+\begin{equation*}
+\Phi(x_1) = \Phi(x) -1
+\end{equation*}
+and similarly $x_2 > x$ by
+\begin{equation*}
+\Phi(x_2) = \Phi(x) +1.
+\end{equation*}
+Since $\Phi_n$ converges uniformly on $[x_1, x_2]$, there is an $N \in \mathbb{N}$ so that
+\begin{equation*}
+|\Phi_n(x) - \Phi(x)| < 1
+\end{equation*} 
+for every $x \in [x_1, x_2]$ and $n \geq N$. So take any $n \geq N$ and see that
+\begin{equation*}
+\Phi_n(x_2) \geq \Phi(x_2) - 1 = \Phi(x),
+\end{equation*}
+which by the strict monotonicity of $\Phi_n$ means that $x_n \leq x_2$. A similar argument yields $x_n \geq x_1$, and so we have that for every $n \geq N$ that $x_n \in [x_1, x_2]$. This means that $x_n$ is a bounded sequence, and hence we can use the unform convergence of $\Phi_n$ on compact sets to conclude that $y_n$ converges to $y$. Finally we have that
+\begin{equation*}
+x_n = \Phi_n^{-1} (y) = \Phi^{-1}(y_n) \overset{y_n\to y}{\to} \Phi^{-1}(y) = x
+\end{equation*}
+\end{proof}
+
+We can go even a step further with the last result of this section. It will require a bit more involved argument, but will operate on some familiar ideas from our latest proof.
+
+\begin{proposition}
+$\Phi_n^{-1}$ converges to $\Phi^{-1}$ uniformly on compact sets.
+\end{proposition}
+
+\begin{proof}
+Let $K \subset \mathbb{R}$ be a compact set, and fix $\epsilon > 0$. Our aim will be to establish that there is $N \in \mathbb{N}$ so that 
+\begin{equation*}
+|x-x_n| = |\Phi^{-1}(y) - \Phi_n^{-1}(y)| < \epsilon
+\end{equation*}
+for every $y \in K$ and $n \geq N$. 
+
+Define $\tilde{K} = \Phi^{-1}(K)$ which is compact since $\Phi^{-1}$ is continuous. We will want to consider
+\begin{equation*}
+\Phi(x+\epsilon) - \Phi(x) > 0
+\end{equation*}
+for $x \in \tilde{K}$, so let $L$ be a Lipschitz constant for $\Phi$ over $\tilde{K}+[0,\epsilon]$. Our first claim is that
+\begin{equation*}
+\mathrm{inf}_{x \in \tilde{K}} \Phi(x+\epsilon) - \Phi(x) > 0.
+\end{equation*}
+It is obvious that the infimum is nonnegative, so we need to show that it is not zero. Assume to the contrary that for every $n \in \mathbb{N}$ there is an $x_n$ so that
+\begin{equation*}
+0 < \Phi(x_n + \epsilon) - \Phi(x_n) < \frac{1}{n}
+\end{equation*}
+which yields a sequence $(x_n)_n$ in $\tilde{K}$. Since $\tilde{K}$ is compact we have a subsequence $(x_{n_j})_j$ that converges to some $ \tilde{x} \in \tilde{K}$. But then
+\begin{align*}
+|\Phi(\tilde{x} + \epsilon) - \Phi(\tilde{x})| & \leq |\Phi(\tilde{x}+\epsilon) - \Phi(x_{n_j} + \epsilon)| + |\Phi(x_{n_j}+\epsilon) - \Phi(x_{n_j})| \\
+&+ |\Phi(x_{n_j}) - \Phi(\tilde{x})| \\
+&\leq 2L|\tilde{x}-x_{n_j}| + \frac{1}{n_j},
+\end{align*}
+Which can be made arbitrarily small. Hence, $\Phi(\tilde{x}+\epsilon) - \Phi(\tilde{x}) = 0$, which is in stark contrast to $\Phi$ being strictly increasing. This proves our claim and we can with some confidence say that there is a $\delta_+>0$ so that $\Phi(x+\epsilon) - \Phi(x) \geq \delta_+$ for every $x \in \tilde{K}$.
+
+We can do quite a similar argument on
+\begin{equation*}
+\Phi(x) - \Phi(x-\epsilon) > 0,
+\end{equation*}
+to establish a $\delta_- > 0$ so that $\Phi(x) - \Phi(x-\epsilon) \geq \delta_-$ for every $x\in \tilde{K}$.
+
+Let now $\delta = \mathrm{min}\{\delta_+, \delta_- \}>0$, and there is by the uniform convergence of $\Phi_n$ an $N \in \mathbb{N}$ so that
+\begin{equation*}
+|\Phi_n(x) - \Phi(x)| < \delta,
+\end{equation*}
+for every $x \in \tilde{K}+[\epsilon, \epsilon]$ and $n \geq N$. Take now any $y \in K$ and let $x$ and $x_n$ be so that
+\begin{equation*}
+\Phi(x) = \Phi_n(x_n) = y.
+\end{equation*}
+See now that
+\begin{align*}
+\Phi_n(x+\epsilon) &> \Phi(x+\epsilon) -\delta \\
+&\geq    \Phi(x+\epsilon) -\delta_+ \\
+&\geq \Phi(x+\epsilon) - (\Phi(x+\epsilon) - \Phi(x)) \\
+&= \Phi(x).
+\end{align*}
+So we have $\Phi_n(x+\epsilon) < y$, which implies that $x_n < x+\epsilon$ since $\Phi_n$ is strictly increasing. Quite similarly we can establish that
+\begin{align*}
+\Phi_n(x-\epsilon) &< \Phi(x-\epsilon) + \delta \\
+&\leq \Phi(x-\epsilon) + \delta_- \\
+&\leq \Phi(x-\epsilon) + (\Phi(x) - \Phi(x-\epsilon)) \\
+&= \Phi(x),
+\end{align*}
+which implies that $x_n > x-\epsilon$. In toto we have that whenever $n\geq N$
+\begin{equation*}
+|\Phi^{-1}(y) - \Phi_n^{-1}(y)| = |x - x_n| < \epsilon
+\end{equation*}
+for every $y \in K$, which is exactly what we wanted to prove.
+
+
+
+
+\end{proof}
 
 
 \end{appendix}
