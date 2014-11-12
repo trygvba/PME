@@ -52,9 +52,16 @@ Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected doma
 
  where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. For now we assume that $\Phi$ is continuous and nondecreasing.
 
+\subsection{Basic sets and notation}
+Before delving into the actual the actual analysis of our problem, let's just get assure ourselves that we're on the same page when it comes to notation of various sets and function spaces.
 
+The begin, we let $\Omega \subset \mathbb{R}^d$ be an open, bounded and simply connected set, with boundary $\partial \Omega$. This will denote our spatial domain, and so we let write $Q_T = \Omega \times (0,T]$ to mean the space-time cylinder up to a time $T$, which can be both finite or infinite, and it will be stated clearly when we need to assume $T < \infty$.  The last set pertaining to the space-time domain we'll need is the parabolic boundary $\Gamma_T = (\partial \Omega \times [0,T]) \cup (\Omega\times \{t=0\})$.
+
+
+Most, if not all, of the notation concerning function spaces will follow the notation in \citep{evans} (see in particular Ch. 5). 
+ 
 \subsection{Problem statement}
-I will consider on the following Dirichlet problem:
+We will consider on the following Dirichlet problem:
 \begin{equation}
 \label{HDP}
 	\begin{cases}
@@ -80,8 +87,9 @@ where $L$ is a differential operator that can be written in the divergence form
 \begin{equation}
 Lu = -\sum_{i=1}^d \partial_{x_i}(a^i(x,t,u,\nabla u)) + a(x,t,u,\nabla u).
 \end{equation}
+We will need to assume that $a^i$ for every $i$ as well as $a$ are continuous functions with respect to all variables.
 
-The reason for this reformulation is that many of the results presented in this section supposes a particular condition on the coefficients $a^i(x,t,u,p)$. The condition is that there are constants $0 < \nu < \mu < \infty $ so that
+In addition we assume that there are constants $0 < \nu < \mu < \infty $ so that
 \begin{equation}
 \label{uniform_parabolicity}
 \nu |\xi|^2 \leq \sum_{i,j=1}^d \frac{\partial a^i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu |\xi|^2 
@@ -97,7 +105,7 @@ and so (\ref{uniform_parabolicity}) translates to
 \label{uniform_parabGPME}
 \nu \leq \Phi'(u) \leq \mu.
 \end{equation}
-We will in this section assume this to be true. I.e. that $\Phi'(u)$ is bounded and strictly positive.
+We will in this section assume this to be true. I.e. that $\Phi'(u)$ is bounded from above as well as away from zero.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %			MAXIMUM PRINCIPLE:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,55 +133,46 @@ The first main estimate we'll deal with is a $L^\infty$ bound on a classical sol
 Using this theorem we can prove the comparison principle:
 \begin{lemma}[Comparison principle]
 \label{lemma:comparison}
-Let $u,v \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two solutions of (\ref{HDP}) with initial data $u_0$, $v_0$ and loading $f$, $\tilde{f}$ respectively. Further, assume that $v_0 \geq u_0$ in $\Omega$ and  $\tilde{f} \geq f$ in $Q_T$. Then either $u < v$ in $Q_T$ or $u=v$.
+Let $\Phi \in C^2(\mathbb{R})$ and satisfy (\ref{uniform_parabGPME}), and let $u,v \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two solutions of the General Porous Medium Equation (\ref{GPME}) in $Q_T$ with initial data $u_0$, $v_0$, loading $f$, $\tilde{f}$ respectively as well as prescribed Dirchlet data on the boundary. Further, assume that $v\big|_{\Gamma_T} \geq u\big|_{\Gamma_T}$, and  $\tilde{f} \geq f$ in $Q_T$. Then $u \leq v$ in $Q_T$.
 \end{lemma}
 \begin{proof}
-We set $w=v-u$ and see that $w$ then solves
+The strategy will be to set $w = v-u$ and derive a initial- and boundary value problem that  $w$ solves. First off, we see that
 \begin{align*}
 \partial_t w &= \Delta(\Phi(v) - \Phi(u)) + (\tilde{f}-f) \\
-			&= \Delta(\Phi(w+u) - \Phi(v-w)) + (\tilde{f}-f).  
+&= \Delta ( \Phi(w+u) - \Phi(v-w) ) + (\tilde{f}-f)
 \end{align*}
-and $w(x,0) = v_0(x) - u_0(x)$ as well as satisfies the homogeneous Dirichlet boundary condition. We need to check that the problem satisfies (\ref{uniform_parabolicity}), and to that end we notice that
+So, when treating $u$ and $v$ as parameters, we can formulate the problem
+\begin{equation}
+\begin{cases}
+\partial_t w &= \Delta ( \Phi(w+u) - \Phi(v-w) ) + (\tilde{f}-f), \quad \text{ in } Q_T \\
+w(x,0) &= v_0(x) - u_0(x), \quad \text{ in } \Omega \\
+w(x,t) &= v(x,t) - u(x,t), \quad \text{ on } \partial \Omega \times [0,T].
+\end{cases}
+\end{equation}
+Now we want to use the strong maximum principle, so we should find out what $a^i$ and $a$ are. We have that
+\begin{align*}
+\Delta ( \Phi(w+u) - \Phi(v-w) )&= \sum_{i=1}^d \partial_{x_i}\left(\Phi'(w+u)(\partial_{x_i}w + \partial_{x_i}u) - \Phi'(v-w)(\partial_{x_i}v-\partial_{x_i}w) \right),
+\end{align*} 
+and seeing as $u$ and $v$ should be considered parameters to this problem we can establish that
 \begin{equation*}
-\Delta(\Phi(w+u) - \Phi(v-w)) = \nabla \cdot \left(\Phi'(w+u)(\nabla w + \nabla u) - \Phi'(v-w)(\nabla v - \nabla w) \right).
+\begin{cases}
+a^i(x,t,w,p) &= (\Phi'(w+u) + \Phi'(v-w))p_i \\
+a(x,t,w,p) &= \sum_{i=1}^d \partial_{x_i}\left( \Phi'(u+w)\partial_{x_i}u - \Phi'(v-w)\partial_{x_i}v\right).
+\end{cases}
 \end{equation*}
-Treating $u$ and $v$ as given parameters of the IVBP we get
-\begin{equation*}
-a^i = (\Phi'(w+u) + \Phi'(v-w))\partial_{x_i}w,
-\end{equation*}
-and since (\ref{uniform_parabGPME}) is satisfied the problem is uniformly parabolic.
-We have
-\begin{equation*}
-\partial_tw - \Delta(\Phi(w+u) - \Phi(v-w)) = \tilde{f}-f \geq 0 
-\end{equation*}
-and we can use the second part of the strong maximum principle to deduce that
-\begin{equation*}
-w \geq \underset{\overline{Q_T}}{\mathrm{min}}w = \underset{\Gamma_T}{\mathrm{min}}w.
-\end{equation*}
-By the initial- and boundary data of $w$ we see that
-\begin{equation*}
-\underset{\Gamma_T}{\mathrm{min}}w = 0,
-\end{equation*}
-and so
-\begin{equation*}
-w \geq 0 \quad \Rightarrow  \quad v \geq u.
-\end{equation*}
+The $a^i$'s are continuous from the assumptions on $\Phi$, and in addition it satisfies (\ref{uniform_parabGPME}) inherited from $\Phi$. The $a$ is continuous since both $u$ and $v$ are in $C^{2,1}(Q_T)$ and $\Phi \in C^2(\mathbb{R})$.
 
-We conclude the proof by seeing that if $u=v$ at some points in $Q_T$ the strong maximum principle implies that $u=v$ everywhere. 
+We can thus use the maximum principle together with $\tilde{f}-f \geq 0$ to deduce that
+\begin{equation*}
+w \geq \mathrm{min}_{\overline{Q}_T}w = \mathrm{min}_{\Gamma_T}w.
+\end{equation*}
+By assumption $\mathrm{min}_{\Gamma_T}w \geq 0$, so $v \geq u$. We conclude the proof that seeing that if $u=v$ at some internal point $(x_0,t_0) \in Q_T$, then $u=v$ in $Q_{t_0}$.
 \end{proof}
 
-\setcounter{rem}{0}
-\begin{rem}
-We could improve somewhat on this result by having $v \geq u$ on $\partial \Omega \times [0,T]$. All the steps in the proof works, in particular
-\begin{equation*}
-\underset{\Gamma_T}{\mathrm{min}}w \geq 0
-\end{equation*} 
-still holds.
-\end{rem}
 
 Let's now use this lemma to get an $L^\infty$-bound on classical solutions.
 \begin{lemma}
-If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and $u_0$ is bounded in $\Omega$ and $f$ bounded in $Q_T$, then
+Assume $\Phi \in C^2(\mathbb{R})$ and satisfy (\ref{uniform_parabGPME}). If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and $u_0$ is bounded in $\Omega$ and $f$ bounded in $Q_T$, then
 	\begin{equation}
 		\label{infinity_bound}
 		||u||_{L^\infty(Q_T)} \leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)}.
@@ -181,7 +180,7 @@ If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and 
 \end{lemma}
 
 \begin{proof}
-We start by defnining $M_1 = \mathrm{max}\{0, \mathrm{sup}_\Omega(u_0) \}$, and $N_1 = \mathrm{max}\{0, \mathrm{sup}_{Q_T}(f) \}$. With $v(x,t) = M_1 + N_1t$, it solves
+We start by defnining $M_1 = ||u_0^+||_{L^\infty(\Omega)} $, and $N_1 = ||f^+||_{L^\infty(Q_T)}$, where $(\cdot)^+ = \mathrm{max} \{ 0,\cdot \}$. With $v(x,t) = M_1 + N_1t$, it solves
 \begin{equation*}
 \begin{cases}
 	\partial_t v &= \Delta\Phi(v) +N_1 \quad \text{in } Q_T\\
@@ -195,14 +194,14 @@ u(x,t) \leq M_1 + N_1t
 \end{equation*}
 in $Q_T$.
 
-Similarly we define $M_2 = \mathrm{min}\{ 0, \mathrm{inf}_\Omega(u_0) \}$, and $N_2 = \mathrm{min}\{ 0, \mathrm{inf}_{Q_T}(f) \}$, to get the lower bound
+Similarly we define $M_2 = -||u_0^-||_{L^\infty(\Omega)}$, and $N_2 = -||f^-||_{L^\infty(Q_T)}$. To avoid any possible confusion, here $(\cdot)^- = \mathrm{min}\{0, \cdot \}$. We use the same reasoning to get the lower bound
 \begin{equation*}
 u(x,t) \geq M_2 + N_2t.
 \end{equation*}
 
 Because
 \begin{equation*}
-||u_0||_{L^\infty(\Omega)} = \mathrm{max}\{ \mathrm{sup}_\Omega(u_0), -\mathrm{inf}_\Omega (u_0)\} = \mathrm{max}\{|M_1|,|M_2|\},
+||u_0||_{L^\infty(\Omega)} = \mathrm{max}\{ ||u_0^+||_{L^\infty(\Omega)}, ||u_0^-||_{L^\infty(\Omega)} \} = \mathrm{max}\{|M_1|,|M_2|\},
 \end{equation*}
 and similarly for $f$, our two bounds implies that
 \begin{equation*}
@@ -618,7 +617,7 @@ We see that when these assumptions are fulfilled, the homogeneous Dirichlet prob
 \section{Weak solutions}
 In the previous sections we saw what assumptions needs to be made for the homogeneous Dirichlet problem to be well posed. Allthough a very nice result, the assumptions on the data are far too strict. Especially degenerate problems, where $\Phi$ is only increasing and not stricly so, are not valid for this existence result. In addition the assumptions on smoothness are often violated in applications. This heuristic will now lead us into a discussion of weak solutions, a more general sense of solution. 
 
-In this section we will aim to prove well-posedness of weak solutions, and what sort of assumptions we'll need to put on the data to ensure it, well-posedness that is. Again, this follows \citep[Ch. 5]{vazquez2007porous} quite closely. However, the proofs are worked out in greater detail than presented there, and we will not assume that $\Phi$ is strictly increasing, but rather try to handle the degenerate case.
+In this section we will aim to prove well-posedness of weak solutions, and what sort of assumptions we'll need to put on the data to ensure it, well-posedness that is. Again, this follows \citep[Ch. 5]{vazquez2007porous} quite closely. However, the proofs are worked out in greater detail than presented there. We will, unless stated otherwise, assume that $\Phi$ is an increasing function, and not only stricly increasing.
 
 Let's just jump off with the definition of weak solutions that we will be using in this text.
 \begin{mydef}[Weak solutions]
@@ -736,9 +735,9 @@ holds.
 If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as with the energy identity in (\ref{spatial_derivative_bound}) to get that $\Phi(u) \in L^2(0,T: H_0^1(\Omega))$.
 \end{obs}
 
-Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}, but now lifting the assumption that $\Phi$ is strictly increasing, and rather having that it is only nondecreasing. Another useful addition to proof will be that we will also incorporate a $L^1$-contractivity result.
+Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}. We will first prove existence of weak energy solutions under the assumption that $\Phi$ is strictly increasing, and then extend the result to the case of $\Phi$ being nondecreasing. Another useful addition to the proof will be that we will also incorporate a $L^1$-contractivity result.
 
-The proof will use an approximate problem which admits a unique solution from theorem \ref{thm:classical_existence}, and then employing the Rellich compactness argument (cf. appendix \ref{sec:compactness} to get a limit which hopefully will be a weak energy solution.
+The proof will use an approximate problem which admits a unique solution from theorem \ref{thm:classical_existence}, and then employ the Rellich compactness argument (cf. appendix \ref{sec:compactness}) to get a limit which hopefully will be a weak energy solution.
 
 In the following we will assume $u_0 \in L_\Psi(\Omega)$ and $f\in L^p(\Omega)$ with $p = \frac{2d}{d+2}$ if $d \geq 3$, or for some $p>1$ if $d=1,2$\footnote{This choice of value for $p$, I can only say is a mystery for me at this moment, but it seems to be related to the Sobolev conjugate. Let's just stay curious and excited for now, shall we?}.
 
@@ -768,9 +767,9 @@ Further discussion of $\Phi$ and its sequence of approximations has been relegat
 
 
 
-We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,u_0\}$.
+We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,|u_0|\}$.
 
-Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq f$ for all $n$.
+Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq |f|$ for all $n$.
 
 \subsubsection{$u_0$, $f$ and $\partial_t f$ bounded}
 Our first lemma then reads
@@ -806,27 +805,48 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\iint_{Q_T}f_n w_n dxdt \leq C\iint_{Q_T}f_n^2 dxdt + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2dxdt,
 	\end{equation*}
 	after exactly the same argument as we did with (\ref{using_Poincare}). After putting it back
-	\begin{equation*}
+	\begin{equation}
+	\label{exist_proof_spatial}
 	\int_\Omega \Psi_n(u_n(T))dx + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt \leq \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
-	\end{equation*}
+	\end{equation}
 	and so we're getting close to a uniform bound on $\nabla w_n$ in $L^2(Q_T)$. We notice that
 	\begin{equation*}
 	\iint_{Q_T}f_n^2dxdt \leq \iint_{Q_T} f^2 dxdt,
 	\end{equation*}
-	by our assumption on the approximation. In addition
+	by our assumption on the approximation.
+	
+	For the $\Psi$-term on the right hand side we start by recalling that we define
 	\begin{equation*}
-	\int_\Omega \Psi_n(u_{0,n})dx = \int_\Omega \left[ \int_0^{u_{0,n}(x)} \int_\mathbb{R} \left(\Phi(y)+\frac{y}{n}\right)\eta_{\frac{1}{n}}(s-y)dy ds \right] dx,
+	\Psi_n(u) = \int_0^{u}\Phi_n(s)ds,
 	\end{equation*}
-	and $\eta_{\frac{1}{n}}(s-\cdot)$ has support in $[s-\frac{1}{n}, s + \frac{1}{n}]$. Therefore, by the monotonicity of $\Phi$, 
+	from which it is to see that $\Psi_n(u) \leq 0$ for every $u \in \mathbb{R}$. It is also very much worthwhile to see that because $\Phi_n$ is monotone for every $n$ we have the estimate
 	\begin{equation*}
-	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega \left[ \int_0^{u_{0,n}(x)}\Phi \left(s+\frac{1}{n} \right)ds + \int_0^{u_{0,n}}\frac{s+\frac{1}{n}}{n}ds \right] dx,
+	|\Psi_n(u)| \leq |\Phi_n(u)u|.
 	\end{equation*}
-	which after a variable transformation yields
+	This leads to
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega |\Phi_n(u_{0,n})u_{0,n}|dx	
+	\end{equation*}
+	Using now that $|u_{0,n}| \leq u_0$ and that $\Phi_n$ is monotone we can remove some of the dependence on $n$ as
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega |\Phi_n(u_{0})u_{0}|dx.
+	\end{equation*}
+	Now we do as in appendix \ref{app:Phi} to get a bound in $\Phi_n$ in terms of $\Phi$ and $u_0$. A crude estimate will be sufficient, and we have
 	\begin{align*}
-	\int_\Omega \Psi_n(u_{0,n})dx &\leq \int_\Omega \left[ \int_{\frac{1}{n} }^{u_{0,n}(x) + \frac{1}{n} } \Phi(s)ds + \frac{u_{0,n}(x)^2}{2n} + \frac{u_{0,n}(x)}{n^2} \right] dx \\
-	&\leq \int_\Omega \left[ \Psi\left(u_{0,n} +\frac{1}{n}\right) - \Psi\left(\frac{1}{n}\right) + \frac{1}{2n}\left(u_{0,n} + \frac{1}{n}\right)^2 \right] dx.
+	|\Phi_n(u) - \Phi(u)| &= \left|\frac{u}{n} + \int_\mathbb{R}\left( \Phi(u-y) - \Phi(u) - \Phi(y)\right)\varphi_{\frac{1}{n}}(y)dy \right| \\
+	&\leq \frac{|u|}{n} + \underset{y\in [-1/n, 1/n]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| + \mathrm{max}\{|\Phi(-1/n)|, |\Phi(1/n)|\} \\
+	&\leq |u| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\},
 	\end{align*}
-	Using now that $|u_{0,n}| \leq u_0$ and that $\Omega$ is a bounded set, we get a bound on this integral independent of $n$. And so $\iint_{Q_T} |\nabla w_n|^2 dxdt$ has a bound independent of $n$.
+	where we have used that $\mathrm{supp}(\varphi_{\frac{1}{n}})\subset [-1/n, 1/n]$ as well as that $\Phi$ is monotone. This, when considering $u_0$, we have
+	\begin{align*}
+	|\Phi_n(u_0)| &\leq |\Phi(u_0)| + |u_0| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u_0-y) - \Phi(u_0)| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
+	&= K.
+	\end{align*}
+	All terms are bounded since $u_0$ is bounded, and so we get the crude, but sufficient estimate
+	\begin{equation*}
+	\int_\Omega \Psi_n(u_{0,n})dx \leq K ||u_0||_{L^1(\Omega)},
+	\end{equation*}
+	which is finite from $u_0 \in L^1(\Omega)$. Most importantly, this shows that the left hand side of (\ref{exist_proof_spatial}) is bounded independently of $n$, which immediately implies that $\nabla w_n$ is a bounded sequence in $L^2(Q_T)$.
 	
 	\item[Control of the temporal derivative:] The derivation of (\ref{temporal_bound}) holds up in this case and we have
 	\begin{equation*}
