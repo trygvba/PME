@@ -799,7 +799,63 @@ W^{1,p}_0(U) \subset \subset L^p(U)
 even when the assumption that $\partial U$ is $C^1$ is lifted.
 \end{rem}
 
-
+\section{CLIPBOARD}
+Since all $u_{n_j}$ are classical solutions, they're also weak solutions. Therefore, when putting $u_{n_j}$ and $u_{n_k}$ into (\ref{weak}) and taking their difference, 
+	\begin{align*}
+	-\iint_{Q_T}(u_{n_j} - u_{n_k})\partial_t \eta dxdt &= -\iint_{Q_T}\nabla(w_{n_j} - w_{n_k})\cdot \nabla \eta dxdt \\
+	&+ \int_\Omega (u_{0,n_j} - u_{0,n_k})\eta\big|_{t=0}dx \\
+	&+ \iint_{Q_T}(f_{n_j} - f_{n_k})\eta dxdt 
+	\end{align*}	 
+	pops out. Restricting ourselves to only $\eta \in C^\infty(Q_T)$ that vanish on $\partial \Omega \times [0,T]$ and for $t=T$, and doing integration by parts on the term involving $w$, yields
+	\begin{align*}
+	\bigg|\iint_{Q_T}(u_{n_j} - u_{n_k})\partial_t \eta dxdt \bigg| &\leq \bigg|\iint_{Q_T} (w_{n_j} - w_{n_k})\Delta\eta dxdt \bigg| \\
+	&+ \bigg| \int_\Omega (u_{0,n_j} - u_{0,n_k})\eta\big|_{t=0} dx \bigg| \\
+	 &+  \bigg|\iint_{Q_T}(f_{n_j} - f_{n_k})\eta dxdt\bigg|.
+	\end{align*}
+	 All terms can be made arbitrarily small by the convergences of $w_{n_j}$, $u_{0,n}$ and $f_n$ respectively. And so $\partial_t u_{n_j}$ in the weak sense is a Cauchy sequence in $L^1_{loc}(Q_T)$, and since $Q_T$ is bounded, also in $L^1(Q_T)$. By the completeness of $L^1(Q_T)$, it must also converge. The primitive of this limit is then determined up to a constant independent of $t$. However, the limit is completely determined when taking into account the initial data.
+	 
+	 To see this we call $v$ the weak time derivative of the limit of $u_{n_j}$, and $g$ its primitive. That is, for every $\eta \in C^\infty_c (Q_T)$ we have
+	 \begin{equation*}
+	 \iint_{Q_T} g\partial_t\eta dxdt = -\iint_{Q_T}v\eta dxdt.
+	 \end{equation*}
+	 In addition we impose the condition that
+	 \begin{equation*}
+	 \lim_{\epsilon \to 0} \iint_{Q_T}g \eta_\epsilon dxdt = \frac{1}{2}\int_\Omega u_0dx,
+	 \end{equation*}
+	 where $\eta_\epsilon$ is here the standard mollifier with respect to only the temporal dimension. Note that the factor $\frac{1}{2}$ comes from the mollifier being symmetric about the origin and we only integrate over positive values of $t$. With these two conditions $g$ can be uniquely determined. So $u_{n_j}$ converges in $L^1(Q_T)$ and we call the limit $u$.	 
+	 
+\subsection{part II}
+ 
+	\item[Showing that $w=\Phi(u)$:] It is sensible to break this part into two similar steps. First, fix $k \in \mathbb{N}$ and consider the sequence $\Phi_n(u_k)$, which converges pointwise to $\Phi(u_k)$. Let now $\psi$ be a function in $L^1(Q_T)$ with compact support. We want to show that
+	\begin{equation*}
+	\iint_{Q_T} \Phi_n(u_k) \psi dxdt \to \iint_{Q_T}\Phi(u_k)\psi dxdt.
+	\end{equation*}
+	This is accomplished using the Dominated Convergence Theorem (DCT). So we note that since $|u_k| \leq C$, 
+	\begin{align*}
+    |\Phi_n(u_k)| &\leq \int_\mathbb{R} \left| \Phi(u_k-y) + \frac{u_k-y}{n}\right|\eta_{\frac{1}{n}}(y)dy \\
+    &\leq \underset{|s|\leq C+1/n}{sup}\left| \Phi(s) + \frac{s}{n}\right| < \infty,
+	\end{align*}
+	due to the support of $\eta_{\frac{1}{n}}$ being contained in $\left[ -\frac{1}{n}, \frac{1}{n}\right]$. Thus we set $M = \mathrm{sup}_{|s|\leq C+1}\left|\Phi(s) + s\right|$. Then $|\Phi_n(u_k)\psi| \leq M|\psi| \in L^1(Q_T)$, and we can use the DCT to establish that the proposed limit holds.
+	
+	An almost identical argument is valid for showing that
+	\begin{equation*}
+	\iint_{Q_T}\Phi(u_n)\psi dxdt \to \iint_{Q_T}\Phi(u)\psi dxdt,
+	\end{equation*}		
+	only now using $M = \mathrm{sup}_{|s|\leq C}|\Phi(s)|$. Thus, we can construct a diagonal argument for the sequence $\Phi_n(u_n)$ to get that
+	\begin{equation}
+	\iint_{Q_T} w\psi dxdt = \lim_{n_j \to \infty} \iint_{Q_T}\Phi_{n_j}(u_{n_j})\psi dxdt = \iint_{Q_T} \Phi(u) \psi dxdt.
+	\end{equation}
+	Seeing as $\psi$ was arbitrary we get that $\Phi(u) = w$ almost everywhere.
+	
+	Lastly, they're weak derivatives also agree, since
+	\begin{equation*}
+	\iint_{Q_T}\nabla(\Phi(u) - w) \cdot \psi dxdt = -\iint_{Q_T}(\Phi(u)-w)\nabla \cdot \psi dxdt = 0 
+	\end{equation*}
+	for every test function $\psi$.
+	 And so the energy inequality (\ref{energy_ineq}) continues to hold as
+	\begin{equation}
+	\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \int_{Q_T} f\Phi(u)dxdt.
+	\end{equation}
 
 \end{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

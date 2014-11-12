@@ -774,6 +774,7 @@ Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$
 \subsubsection{$u_0$, $f$ and $\partial_t f$ bounded}
 Our first lemma then reads
 \begin{lemma}
+\label{lem:existence_part1}
 Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$, and $\partial_t f$ are bounded, $\partial \Omega \in C^{2+\alpha}$, and $\Phi$ is locally lipschitz continuous.
 \end{lemma}
 
@@ -862,60 +863,23 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\end{equation}
 	Notice that since $w \in L^2(Q_T)$, we can from this inequality conclude that $w \in H^1(Q_T)$.
 	
-	\item[Convergence of $u_{n_j}$:] Since all $u_{n_j}$ are classical solutions, they're also weak solutions. Therefore, when putting $u_{n_j}$ and $u_{n_k}$ into (\ref{weak}) and taking their difference, 
-	\begin{align*}
-	-\iint_{Q_T}(u_{n_j} - u_{n_k})\partial_t \eta dxdt &= -\iint_{Q_T}\nabla(w_{n_j} - w_{n_k})\cdot \nabla \eta dxdt \\
-	&+ \int_\Omega (u_{0,n_j} - u_{0,n_k})\eta\big|_{t=0}dx \\
-	&+ \iint_{Q_T}(f_{n_j} - f_{n_k})\eta dxdt 
-	\end{align*}	 
-	pops out. Restricting ourselves to only $\eta \in C^\infty(Q_T)$ that vanish on $\partial \Omega \times [0,T]$ and for $t=T$, and doing integration by parts on the term involving $w$, yields
-	\begin{align*}
-	\bigg|\iint_{Q_T}(u_{n_j} - u_{n_k})\partial_t \eta dxdt \bigg| &\leq \bigg|\iint_{Q_T} (w_{n_j} - w_{n_k})\Delta\eta dxdt \bigg| \\
-	&+ \bigg| \int_\Omega (u_{0,n_j} - u_{0,n_k})\eta\big|_{t=0} dx \bigg| \\
-	 &+  \bigg|\iint_{Q_T}(f_{n_j} - f_{n_k})\eta dxdt\bigg|.
-	\end{align*}
-	 All terms can be made arbitrarily small by the convergences of $w_{n_j}$, $u_{0,n}$ and $f_n$ respectively. And so $\partial_t u_{n_j}$ in the weak sense is a Cauchy sequence in $L^1_{loc}(Q_T)$, and since $Q_T$ is bounded, also in $L^1(Q_T)$. By the completeness of $L^1(Q_T)$, it must also converge. The primitive of this limit is then determined up to a constant independent of $t$. However, the limit is completely determined when taking into account the initial data.
-	 
-	 To see this we call $v$ the weak time derivative of the limit of $u_{n_j}$, and $g$ its primitive. That is, for every $\eta \in C^\infty_c (Q_T)$ we have
-	 \begin{equation*}
-	 \iint_{Q_T} g\partial_t\eta dxdt = -\iint_{Q_T}v\eta dxdt.
-	 \end{equation*}
-	 In addition we impose the condition that
-	 \begin{equation*}
-	 \lim_{\epsilon \to 0} \iint_{Q_T}g \eta_\epsilon dxdt = \frac{1}{2}\int_\Omega u_0dx,
-	 \end{equation*}
-	 where $\eta_\epsilon$ is here the standard mollifier with respect to only the temporal dimension. Note that the factor $\frac{1}{2}$ comes from the mollifier being symmetric about the origin and we only integrate over positive values of $t$. With these two conditions $g$ can be uniquely determined. So $u_{n_j}$ converges in $L^1(Q_T)$ and we call the limit $u$.	 
-	 
-	\item[Showing that $w=\Phi(u)$:] It is sensible to break this part into two similar steps. First, fix $k \in \mathbb{N}$ and consider the sequence $\Phi_n(u_k)$, which converges pointwise to $\Phi(u_k)$. Let now $\psi$ be a function in $L^1(Q_T)$ with compact support. We want to show that
+	\item[Convergence of $u_{n_j}$:] Both $\Phi$ and its approximations $\Phi_n$ all admit a continuous inverse, and so
 	\begin{equation*}
-	\iint_{Q_T} \Phi_n(u_k) \psi dxdt \to \iint_{Q_T}\Phi(u_k)\psi dxdt.
+	u_{n_j} = \Phi_{n_j}^{-1}(w_{n_j}).
 	\end{equation*}
-	This is accomplished using the Dominated Convergence Theorem (DCT). So we note that since $|u_k| \leq C$, 
+	We now simply have by the triangle inequality
 	\begin{align*}
-    |\Phi_n(u_k)| &\leq \int_\mathbb{R} \left| \Phi(u_k-y) + \frac{u_k-y}{n}\right|\eta_{\frac{1}{n}}(y)dy \\
-    &\leq \underset{|s|\leq C+1/n}{sup}\left| \Phi(s) + \frac{s}{n}\right| < \infty,
+	|u_{n_j} - \Phi^{-1}(w)| &= |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w)| \\
+		&\leq |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w_{n_j})| + |\Phi^{-1}(w_{n_j}) - \Phi^{-1}(w)|.
 	\end{align*}
-	due to the support of $\eta_{\frac{1}{n}}$ being contained in $\left[ -\frac{1}{n}, \frac{1}{n}\right]$. Thus we set $M = \mathrm{sup}_{|s|\leq C+1}\left|\Phi(s) + s\right|$. Then $|\Phi_n(u_k)\psi| \leq M|\psi| \in L^1(Q_T)$, and we can use the DCT to establish that the proposed limit holds.
+	 We have that $w_{n_j}$ is a bounded sequence, seeing as $u_{n_j}$ is bounded. Hence we can use proposition \ref{prop:inverse_uniform} to make the first term in the above inequality arbitrarily small. The second term is controlled by the observation that since $w_{n_j}$ converges to $w$ in $L^2(Q_T)$, the convergence is also pointwise, and the continuity of $\Phi^{-1}$. That means that
+	 \begin{equation*}
+	 u_{n_j} \to u = \Phi^{-1}(w)
+	 \end{equation*}
+	 pointwise. We immediately see that $\Phi(u) = w$.
+	 
+	 More importantly, since we have the uniform bound $u_{n_j} \leq M$ in $Q_T$ we can use the Dominated Convergence Theorem to state that $u_{n_j} \to u$ in $L^1(Q_T)$.
 	
-	An almost identical argument is valid for showing that
-	\begin{equation*}
-	\iint_{Q_T}\Phi(u_n)\psi dxdt \to \iint_{Q_T}\Phi(u)\psi dxdt,
-	\end{equation*}		
-	only now using $M = \mathrm{sup}_{|s|\leq C}|\Phi(s)|$. Thus, we can construct a diagonal argument for the sequence $\Phi_n(u_n)$ to get that
-	\begin{equation}
-	\iint_{Q_T} w\psi dxdt = \lim_{n_j \to \infty} \iint_{Q_T}\Phi_{n_j}(u_{n_j})\psi dxdt = \iint_{Q_T} \Phi(u) \psi dxdt.
-	\end{equation}
-	Seeing as $\psi$ was arbitrary we get that $\Phi(u) = w$ almost everywhere.
-	
-	Lastly, they're weak derivatives also agree, since
-	\begin{equation*}
-	\iint_{Q_T}\nabla(\Phi(u) - w) \cdot \psi dxdt = -\iint_{Q_T}(\Phi(u)-w)\nabla \cdot \psi dxdt = 0 
-	\end{equation*}
-	for every test function $\psi$.
-	 And so the energy inequality (\ref{energy_ineq}) continues to hold as
-	\begin{equation}
-	\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \int_{Q_T} f\Phi(u)dxdt.
-	\end{equation}
 	 
 	\item[$u$ is a weak energy solution:] We already know that $u \in L^1(Q_T)$, and $\Phi(u)=w \in L^1(0,T: W^{1,1}(\Omega))$\footnote{Actually, this may not be as easy to see as I've stated here. Need to use yet another estimate to show this.}. So what's left is to show that
 	\begin{equation}
@@ -967,6 +931,42 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 
 
 \end{proof}
+
+
+\subsubsection{$\Phi$ no longer locally Lipschitz}
+We proceed by generalising the result of \ref{thm:weak_existence} to the case when $\Phi$ is no longer locally Lipschitz.
+
+\begin{lemma}
+Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$ and $\partial_t f$ are bounded.
+\end{lemma}
+
+\begin{proof}
+We begin this proof in the exact same manner as with the proof of lemma \ref{lem:existence_part1}, by setting up an approximate problem using $\Phi_n$, $u_{0,n}$ and $f_n$ as smooth approximations which yields a sequence of classical solutions $u_n$. We again define $w_n = \Phi_n(u_n)$.
+
+Looking back at the proof for lemma \ref{lem:existence_part1} the only part where we actually needed $\Phi$ to be locally Lipschitz was in controlling the temporal derivative of $\Phi_n(u_n)$ in $L^2(Q_T)$. This means we can in this case no longer say that $w_n$ is a bounded sequence in $H^1(Q_T)$.
+
+The strategy for showing that $u_n$ converges to a weak solution will be similar to that of lemma \ref{lem:existence_part1}, only now we will use the Rellich-Kondrachov Compactness Theorem on another sequence than $w_n$. I.e. we need a bounded sequence in $H^1(Q_T)$. To that end we define for $u \in \mathbb{R}$
+\begin{equation}
+Z_n(u) = \int_0^u \mathrm{min}\{1, \Phi_n'(s)\} ds,
+\end{equation}
+which is easily seen to be globally Lipschitz. In addition $Z_n'(u) \leq 1$ and $Z_n'(u) \leq \Phi_n(u)$.
+
+We then go on to define
+\begin{equation}
+z_n(x,t) = Z_n(u_n(x,t)).
+\end{equation}
+
+See now that
+\begin{align*}
+\nabla z_n &= Z_n'(u_n)\nabla u_n \\
+	&\leq \Phi_n'(u_n)\nabla u_n \\
+	&= \nabla \Phi_n(u_n) \\
+	&= \nabla w_n,
+\end{align*}
+which means that $|\nabla z_n|^2 \leq |\nabla w_n|^2$ in all of $Q_T$.
+\end{proof}
+
+
 
 
 
@@ -1172,6 +1172,7 @@ x_n = \Phi_n^{-1} (y) = \Phi^{-1}(y_n) \overset{y_n\to y}{\to} \Phi^{-1}(y) = x
 We can go even a step further with the last result of this section. It will require a bit more involved argument, but will operate on some familiar ideas from our latest proof.
 
 \begin{proposition}
+\label{prop:inverse_uniform}
 $\Phi_n^{-1}$ converges to $\Phi^{-1}$ uniformly on compact sets.
 \end{proposition}
 
@@ -1235,10 +1236,17 @@ which implies that $x_n > x-\epsilon$. In toto we have that whenever $n\geq N$
 |\Phi^{-1}(y) - \Phi_n^{-1}(y)| = |x - x_n| < \epsilon
 \end{equation*}
 for every $y \in K$, which is exactly what we wanted to prove.
+\end{proof}
 
+Looking back at this proof, the only things we needed were that $\Phi$ is strictly increasing and continuous, and is locally Lipschitz, and that $\Phi_n$ converges to $\Phi$ uniformly on compact sets. So we can generalise our result in the following lemma.
 
+\begin{lemma}
+\label{lem:Inverse_uniform_general}
+Let $f: \mathbb{R} \to \mathbb{R}$ be a strictly monotone, continuous function, and let $\{f_n\}$ be a family of strictly monotone, continuous functions that converge to $f$ uniformly on compact sets. Then $f_n^{-1}$ converges to $f^{-1}$ uniformly on compact sets.
+\end{lemma}
 
-
+\begin{proof}
+The proof is identical to that of proposition \ref{prop:inverse_uniform} with only minor alterations in notation.
 \end{proof}
 
 
