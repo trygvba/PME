@@ -851,6 +851,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	\item[Control of the temporal derivative:] The derivation of (\ref{temporal_bound}) holds up in this case and we have
 	\begin{equation*}
+	\label{exist_proof_temporal}
 	\iint_{Q_T} \Phi'_n(u_n)|\partial_t u_n|^2 dxdt \leq \iint_{Q_T} \left\{ -\partial_t f_n \Phi_n(u_n) + Cf_n\partial_tf_n \right\} dxdt.
 	\end{equation*}
 	Just to reiterate, $C$ is here the constant given by Poincaré inequality, and is as such only dependent on $\Omega$. 
@@ -963,7 +964,21 @@ See now that
 	&= \nabla \Phi_n(u_n) \\
 	&= \nabla w_n,
 \end{align*}
-which means that $|\nabla z_n|^2 \leq |\nabla w_n|^2$ in all of $Q_T$.
+which means that $|\nabla z_n|^2 \leq |\nabla w_n|^2$ in all of $Q_T$. As a trivial consequence of this
+\begin{equation*}
+\iint_{Q_T}|\nabla z_n|^2dxdt \leq \iint_{Q_T}|\nabla w_n|^2dxdt.
+\end{equation*}
+
+Seeing as estimate (\ref{exist_proof_spatial}), we can argue exactly as we did in the previous proof to say that $\nabla z_n$ is uniformly bounded in $L^2(Q_T)$.
+Similarly we have the two inequalities
+\begin{equation*}
+|\partial_t z_n | \leq |\partial_t u_n|, \quad \text{ and} \quad |\partial_t z_n| \leq |\Phi_n'(u_n) \partial_t u_n|,
+\end{equation*}
+and as a consequence
+\begin{equation*}
+\iint_{Q_T}|\partial_t z_n|^2 dxdt \leq \iint_{Q_T} |\Phi_n'(u_n)|\cdot |\partial_t u_n|^2dxdt.
+\end{equation*}
+The estimate (\ref{exist_proof_temporal}) holds in this case as well, and by the assumptions on $f$ and its approximations we also have a uniform bound of $\partial_t z_n$ in $L^2(Q_T)$. Hence $z_n$ is a bounded sequence in $H^1(Q_T)$, and we can utilize the Rellich-Kondrachov Compactness Theorem (theorem \ref{Rellich}) again to conclude that there is a subsequence $\{z_{n_j}\}$ converging to some $z$ in $L^2(Q_T)$.
 \end{proof}
 
 
@@ -1110,7 +1125,6 @@ Let now $K \subset \mathbb{R}$ be any compact set, and let $L_K$ be a Lipschitz 
 \end{equation*}
 Since $K$ is bounded and $\Phi$ is continuous with $\Phi(0) = 0$ we have a bound independent of $u$, and therefore the convergence is uniform in $K$.
 \end{proof}
-
 
 In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
 
