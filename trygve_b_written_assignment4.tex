@@ -1,0 +1,122 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{mathptmx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
+%\usepackage{amsmath}
+\usepackage{fullpage}
+\usepackage{enumerate}
+\usepackage{amsthm}
+\usepackage{remreset}
+\usepackage[utf8]{inputenc}
+
+\usepackage{lmodern}
+
+\begin{document}
+
+\title{Written assignment 4 in SPRÅK3501}
+\author{Trygve Bærland}
+\maketitle
+\section*{Introduction:}
+In my project I will consider a generalisation of the Porous Medium Equation, and specifically try to construct a numerical method that converges to a, in some sense, unique solution.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			FIRST ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{First item:}
+\subsection{Summary:}
+\cite{Cifani} presents a numerical method for solving a convection-diffusion equation with fractional, nonlinear diffusion. The article starts off by setting up a problem formulation, then introduce an entropy condition that ensures uniqueness of solutions that are bounded and integrable. After presenting a numerical method and proving that it converges to the entropy solution, the authors show that the numerical solutions also converge to a function of bounded variation, and hence they prove existence of solutions with bounded variation.
+
+\subsection{Critique:}
+The article is quite impressive in that it introduces a new class of partial differential equations, and establishes existence, uniqueness and stability of solutions. However, it seems to me that the numerical method presented only works on simple problems, in the sense that if the domain cannot easily be made into a nice grid the implementation will be almost impossible.
+
+\subsection{Reflections:}
+Although this article tackles a class of partial differential equations that easily are much harder to analyse than what I'm setting out to tackle, the overall strategy to get a new sense of existence is very similar to what I aim to do in my work, and hence is a quite useful article. Also, the numerical method used here is quite different from the one I will be using.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			SECOND ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\section{Second item:}
+\subsection{Summary:}
+In \cite{Schochet} scalar hyperbolic conservation laws are considered. While not using novel numerical method on this class of partial differential equations the author is able to further the field by deriving a rate of convergence for the spectral- and pseudospectral methods.
+
+\subsection{Critique:}
+The article assumes quite a bit of knowledge on the reader. E.g. extensive knowledge of Fourier analysis and certain convergence results in this field is assumed. This makes it a tough read. Luckily, in between paragraphs heavy on mathematical notation, the author is mostly very considerate and provides good discussions.
+
+\subsection{Reflections:}
+Again, the family of equations considered are different from the ones I will be considering, but in contrast to \cite{Cifani}, the methods of analysis doesn't carry over as well as I'd hoped. The numerical method is quite similar to the one I will be using, and that is the main reason for this article's relevance to my work, however there are some key differences that I'm not yet sure of whether are significant or not.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			THIRD ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Third item}
+\subsection{Summary:}
+The monograph \cite{vazquez2007porous} handles, as its name suggests, the mathematical theory pertaining to the Porous Medium Equation and some of its most notable variants and generalisations. Of particular interest are the first five chapters. The first chapter is a short introduction to the field, presenting a quite broad overview and mentioning some of the more peculiar hallmarks of solutions of the porous medium equation. The second chapter is mostly spent deriving the partial differential equation from physical principles and assumptions. It's first with the third chapter that the more mathematical juicy stuff enters, and a whole bunch of important estimates and other results are presented in quick succesion. The fourth chapter is a sort of resting chapter, mainly concerned with specific examples of solutions, giving the reader at least a feel what to expect in subsequent analysis about e.g. boundedness or smoothness of solutions.
+
+All these four chapters are more or less relevant for a close reading of the fifth chapter concerning weak solutions and the existence and uniqueness of such. 
+
+\subsection{Critique:}
+The chapter progression is well thought out and pedagogical, and in the third chapter in particular the presentation is excellent. In this chapter most proofs and derivations are carefully plotted out, and most, if not all, concerns the reader might have were addressed.
+
+However, all this changes in the fifth chapter, which is by far the most relevant to my work. In the proofs in this chapter many results from preceeding chapters are used implicitly, which demands a lot of the reader's recollection. It also makes this chapter almost impossible to read by itself, and suggests the book more be used for thorough readings rather than as a handy reference work. The sudden vanishing of careful exposition also raises questions about who the intended reader should be. The first chapters suggest someone at my level, with some graduate courses in analysis and partial differential equations, but then the reader is assumed to be not only acquainted, but familiar with Sobolev equalities and embeddings, as well as other mainstay techniques of more advanced PDE theory.
+
+\subsection{Reflections:}
+Although a lot of eyebrows might, more or less justifiably, be raised at the transition in exposition, it is without a question a useful opportunity to get first hand experience with some important techniques in PDE theory. It is because of this opportunity that much of project is spent in laying many of the book's proofs out in more detail. In doing so \cite{vazquez2007porous} has become a sort of centerpiece for my project.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			FOURTH ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fourth item}
+\subsection{Summary:}
+The book "Partial Differential Equations" (\cite{evans}) stands as a monument in PDE theory (with that title, you can't aim for anything less). The most pertinent chapters to my work is chapter 5, concerning Sobolev spaces and -equalities, and chapter 7 about second  order parabolic equation, of which the general porous medium equation is an example.
+
+The first part of chapter 5 is mostly a list of definitions of important function spaces and other analytic tools that will become useful. Then the reader is exposed to some results with a flavour of functional analysis. E.g. that any function satisfying certain conditions about its summability can be approximated by infinitely smooth and bounded functions. A most useful, and not at all trivial result.
+
+After this we are prepared to tackle Sobolev inequalities, stating vaguely that if a function is in some space we can also deduce some other spaces it's in. The last really important result of this chapter is then the Sobolev embedding theorem, that goes even further in saying that a bounded sequence in some function space has a convergent subsequence in another. This results is of utmost importance in an existence proof in \cite{vazquez2007porous}.
+
+The second chapter of relevance for my project is, as previously stated, chapter 7. It is not as important and far reaching as chapter 5, and the only part of any concern to us is the discussion on maximum principles, which were only briefly presented in \cite{vazquez2007porous}. This is a hallmark of parabolic equations and says something to the extent of solutions attain there extrema at the boundary, and not the interior.
+
+\subsection{Critique:}
+The parts of the book considered here held a high technical standard, but all proofs were carefully laid out, so albeit a challenging read it is definitely rewarding. In addition the interstitial discussions were for the most part good at motivating what was to follow and how to use what we've already been through. 
+
+Another thing worth mentioning is that both chapters could be read as stand alone chapters, and almost all terminology used in the chapter was introduced there. This hints at that the book can be used for easy reference. A definite positive.
+
+On the other hand, the notation is a bit of hassle, and it's reasonable to assume that many readers will need some time getting used to it. Especially when it comes to differential operator.
+
+\subsection{Reflections:}
+The chapter on Sobolev spaces has, apart from being useful to my project at the moment, been a real treat to have knowledge about. The results presented there have far reaching consequences and I've already made some use of it in other courses I'm taking this semester. Point being that the semester project may prove to be an even more rewarding learning experience than first anticipated, not as niche.
+
+For the most part I had a very pleasant experience with this book, and I understand why I see it in so many professor offices. 
+
+Notational friction not withstanding the pages are easy on the eye, which had a positive effect on my patience when reading. I haven't even thought to consider the visual aspect of a text in the  foregoing items, which should only support its excellence in this case.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			FIFTH ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Fifth item}
+\subsection{Summary:}
+The book "Linear and Quasilinear Equations of Parabolic Type" (\cite{ladyzhenskaya}) gives an extensive presentation of the theory on parabolic PDEs, but my work has lead me to only consider chapter 5. on "Quasi-linear equations with principal part in divergence form". And even more in particular a theorem on the existence of classical solutions. However, this theorem is so involved that a more thorough reading of this chapter is required.
+
+The chapter starts with introducing the general equation in question and also the concept of weak solutions. Even though some estimates on weak solutions are presented, the following sections assumes continuously differentiable solutions, relegating us to the realm of classical solutions.
+
+All subsequent estimates and small results, including some bounds on the spatial derivative  and smoothness of solutions, lead up to main part relevant for my project: Theorem 6.1. This theorem says that under quite strict and numerous assumptions, the considered equation has a smooth solution. This is not to say that it's not an impressive result, which it is.
+
+\subsection{Critique:}
+As opposed to the presentation in \cite{evans}, the parts of \cite{ladyzhenskaya} here considered were not self contained, and required reading at least the introduction of the book where most of the notation was established. In addition, said notation did not follow western conventions making it all very confusing. This isn't to say that the western way is the right way, only that it was difficult for a non-initiated.
+
+The chapter also relied on results established in previous parts of the books, but luckily sufficient references were given, making it less of a challenge to navigate the book. 
+
+As both the main- and chapter title suggests, the contents were highly technical, and expect a similar high level of mathematical maturity. A level I must admit to not having at the moment.
+
+\subsection{Reflection:}
+A frustrating read, to say the least, but fortunately my main objective was acquiring Theorem 6.1 and massaging into the equation I'm considering. This sort of superficial reading is undoubtedly reflected in the above summary.
+
+Even for the superficial reading and that much of the stuff went over my head, I feel I can  make a comment on the overall structure of the book, which to me felt far too involved. There is a loose rule in mathematical writing that you need to periodically remind the reader of certain main results that you still plan on using, or haven't outplayed their part (cf. for example \cite{halmos1970write}). This is violated in both \cite{ladyzhenskaya} and \cite{vazquez2007porous}, and has the biproduct of making the overall structure of the book more complex and involved than it needed to be.
+
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{project_bibliography.bib}
+\end{document}
