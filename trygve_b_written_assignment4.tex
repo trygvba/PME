@@ -116,6 +116,30 @@ A frustrating read, to say the least, but fortunately my main objective was acqu
 Even for the superficial reading and that much of the stuff went over my head, I feel I can  make a comment on the overall structure of the book, which to me felt far too involved. There is a loose rule in mathematical writing that you need to periodically remind the reader of certain main results that you still plan on using, or haven't outplayed their part (cf. for example \cite{halmos1970write}). This is violated in both \cite{ladyzhenskaya} and \cite{vazquez2007porous}, and has the biproduct of making the overall structure of the book more complex and involved than it needed to be.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			SIXTH ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sixth item:}
+\subsection{Summary:}
+"Nonlinear integro-differential Equation" (\cite{davidsen2013nonlinear}) is the master thesis of Stein-Olav Davidsen. Here he proposes a numerical method for solving the same type of problem as was analysed in \cite{Cifani}, but he uses the more advanced Spectral method aand shows convergence of this method to the weak solution.
+
+The thesis starts off with a short introduction of the equation before delving into a sufficient description of the numerical method. It is a spectral method with a Fourier basis, i.e. doing a sort of wave decomposition approach. For stability he uses the popular spectral vaninishing viscosity by introducing diffusion only on the highest frequencies, so that the method is less prone to undesirable oscillations.
+
+The entire third part of the thesis is devoted to showing convergence of the numerical method, and starts by introducing a compactness theorem (similar to the Sobolev embedding theorem presented in \cite{evans}) which will we be used. But before making use of the compactness argument a lot of estimates must be established, and so a lot of space in the third part is devoted to this.
+
+The remainder of the thesis addresses several difficulties with implementing the method and gives some examples of numerical solutions.
+
+\subsection{Critique:}
+Especially the third part, concerning the convergence result, is nicely set up with introducing the main theorem in the offset, which motivates everything to come. A smart move, in my opinion.
+
+It was also a good idea to spend a lot of time on implementation concerns, increasing the chances of reproducability. As does the numerical examples, which also corresponds nicely with those provided in \cite{Cifani}.
+
+\subsection{Reflections:}
+All in all I'm impressed with the thesis. Maybe a bit short on some of the proofs, but it's already very heavy on mathematical notation, so any more detailed proofs would only make too strenuous to read. Seeing as Stein-Olav had the same supervisor as I'm currently working for/under/with I recognize alot of the structural suggestions I've received in this thesis, and it seems to work well in this case.
+
+I'm not too fond of the Fourier basis, since it's not flexible when it comes to domain. It pretty much has to be a rectangular domain when using Fourier basis. So a possible advancement would be a change of basis to Chebyshev or Legendre, which are more flexible, but not as easy to stabilise as Fourier using spectral vanishing viscosity.
+
+Even though my own project this semester has drifted a bit away from numerical considerations, I'm certain I will put more emphasis on it in this spring's master's writing, so a possible thesis could be to consider other bases.
 \newpage
 \bibliographystyle{plain}
 \bibliography{project_bibliography.bib}
