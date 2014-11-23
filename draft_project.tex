@@ -1101,6 +1101,7 @@ even when the assumption that $\partial U$ is $C^1$ is lifted.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Properties of the approximate nonlinearities}
+\subsection{Properties of $\Phi$ and its approximations}
 \label{app:Phi}
 Let's discuss some of the properties of the sequence of approximations to the nonlinearity $\Phi$. To reiterate we defined
 \begin{equation*}
@@ -1110,20 +1111,30 @@ It is obvious that $\Phi_n$ is infintely differentiable for each $n$, as well as
 
 The first property we'll consider is summarised in the following proposition.
 \begin{proposition}
-If $\Phi$ is locally Lipschitz continuous, then $\Phi_n$ converges to $\Phi$ uniformly on compact sets.
+If $\Phi$ is continuous, $\Phi_n$ converges to $\Phi$ uniformly on compact sets.
 \end{proposition}
 \begin{proof}
-The proof is done by getting out a crude, but sufficient estimate on the pointwise difference of $\Phi$ with its approximation. For any $u \in \mathbb{R}$, we have
-\begin{align*}
-|\Phi_n(u) - \Phi(u)| &= \left| \frac{u}{n} + \int_\mathbb{R}\Phi(u-y)\varphi_{\frac{1}{n}}(y)dy - \int_\mathbb{R}\Phi(y)\varphi_{\frac{1}{n}}(-y)dy - \Phi(u)\right| \\
-& \leq \frac{|u|}{n} + \int_\mathbb{R}\left| \Phi(u-y) - \Phi(u) - \Phi(y)\right| \varphi_{\frac{1}{n}}(y) dy \\
-& \leq \frac{|u|}{n} + \underset{y\in[-\frac{1}{n},\frac{1}{n}]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| + \mathrm{max}\{|\Phi (1/n) |,|\Phi(-1/n)| \}.
-\end{align*}
-Let now $K \subset \mathbb{R}$ be any compact set, and let $L_K$ be a Lipschitz constant for $\Phi$ over $K$. We then have for any $u \in K$ that
+This follows almost immediately from part iii) of theorem 7 of appendix C in \citep{evans}, which states that if $\Phi$ is continuous, then $\Phi * \varphi_{\frac{1}{n}}$ converges uniformly to $\Phi$ on compact sets. So let $K\subset \mathbb{R}$ be a compact set, and fix $\epsilon < 0$. Then there is an $N_1 \in \mathbb{N}$ so that
 \begin{equation*}
-|\Phi_n(u) - \Phi(u)| \leq \frac{1}{n}\left( L_K + \mathrm{sup}_{s \in K}|s| \right) + \mathrm{max}\{|\Phi (1/n) |,|\Phi(-1/n)| \}.
+\underset{x\in K}{\mathrm{sup}}|\Phi * \varphi_{\frac{1}{n}}(x) - \Phi(x)| < \frac{\epsilon}{3},
+\end{equation*} 
+whenever $n \geq N_1$. Similarly we have an $N_2 \in \mathbb{N}$, so that 
+\begin{equation*}
+|\Phi * \varphi_{\frac{1}{n}}(0) - \Phi(0)| < \frac{\epsilon}{3},
 \end{equation*}
-Since $K$ is bounded and $\Phi$ is continuous with $\Phi(0) = 0$ we have a bound independent of $u$, and therefore the convergence is uniform in $K$.
+for every $n \geq N_2$. Lastly, since $K$ is compact, there is an $N_3 \in \mathbb{N}$ so that
+\begin{equation*}
+\underset{x\in K}{\mathrm{sup}}\frac{|x|}{n} < \frac{\epsilon}{3},
+\end{equation*}
+whenever $n \geq N_3$.
+
+Now we set $N = \mathrm{max}\{N_1,N_2,N_3\}$, and see that
+\begin{align*}
+\underset{x\in K}{\mathrm{sup}}|\Phi_n(x) - \Phi(x)| &\leq  \underset{x\in K}{\mathrm{sup}}|\Phi * \varphi_{\frac{1}{n}}(x) - \Phi(x)| + |\Phi * \varphi_{\frac{1}{n}}(0) - \Phi(0)| + \underset{x\in K}{\mathrm{sup}}\frac{|x|}{n} \\
+&< \frac{\epsilon}{3} + \frac{\epsilon}{3} + \frac{\epsilon}{3} \\
+&= \epsilon,
+\end{align*}
+for every $n \geq N$, which proves the proposition.
 \end{proof}
 
 In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
@@ -1263,6 +1274,111 @@ Let $f: \mathbb{R} \to \mathbb{R}$ be a strictly monotone, continuous function, 
 The proof is identical to that of proposition \ref{prop:inverse_uniform} with only minor alterations in notation.
 \end{proof}
 
+\subsection{Properties of $Z$ and its approximations}
+In this section we assume $\Phi$ to be absolutely continuous, i.e.
+\begin{equation*}
+\Phi(u) = \int_0^u \Phi'(s)ds,
+\end{equation*}
+and $\Phi' \in L^1_{loc}(\mathbb{R})$. We also assume $\Phi$ to be strictly increasing and  $\Phi(\pm \infty) = \pm \infty$.
+
+We define 
+\begin{equation}
+Z(u) = \int_0^u \mathrm{min}\{1, \Phi'(s)\} ds,
+\end{equation}
+and similarly
+\begin{equation}
+Z_n(u) = \int_0^u\mathrm{min}\{1, \Phi_n'(s)\}ds.
+\end{equation}
+
+As in the previous section we'll establish that $Z_n$ converges to $Z$ uniformly on compact sets, and continue on with the inverses and a similar convergence results for them. We'll start off with the following proposition:
+
+\begin{proposition}
+$Z_n$ converges pointwise to $Z$.
+\end{proposition}
+\begin{proof}
+A useful identity to have in mind at this point is
+\begin{equation*}
+\mathrm{min}\{a,b\} = \frac{a+b}{2} - \frac{|a-b|}{2},
+\end{equation*}
+which makes
+\begin{align*}
+|\mathrm{min}\{1,a\} - \mathrm{min}\{1,b\}| &= \left| \frac{1+a}{2} -\frac{1+b}{2} + \frac{|1-b|}{2} - \frac{|1-a|}{2}\right| \\
+&\leq \frac{1}{2}|a-b| + \frac{1}{2}\big| |1-b| - |1-a| \big| \\
+&\leq \frac{1}{2}|a-b| + \frac{1}{2}|a-b| \\
+&= |a-b|.
+\end{align*}
+
+For any $u \in \mathbb{R}$ we then have
+\begin{align*}
+|Z_n(u) - Z(u)| &\leq \int_0^{|u|} |\mathrm{min}\{1,\Phi'_n(s)\} - \mathrm{min}\{1,\Phi'(s)\}|ds \\
+&\leq \int_0^{|u|} |\Phi'_n(s)-\Phi'(s)|ds,
+\end{align*}
+by using the above derived inequality. Following the definition of $Phi_n$, its derivative is
+\begin{equation*}
+\Phi'_n(s) = \Phi' * \varphi_{\frac{1}{n}}(s) + \frac{1}{n},
+\end{equation*}
+and so
+\begin{equation*}
+|Z_n(u) - Z(u)| \leq \int_0^{|u|}|\Phi'*\varphi_{\frac{1}{n}}(s) - \Phi'(s)|ds + \frac{|u|}{n}.
+\end{equation*}
+We have of course complete control of the latter of these terms by making $n$ sufficiently large. For the first term we use part iv) of theorem 7 of appendix C in \citep{evans}, to state that $\Phi'*\varphi_{\frac{1}{n}}$ converges to $\Phi$ in $L^1_{loc}(\mathbb{R})$. With this we deduce that $Z_n$ converges pointwise to $Z$.
+\end{proof}
+
+Next we will prove that $Z_n$ converges to $Z$ uniformly on compact sets, but for this we need the Arzela-Ascoli theorem, presented below for ease of reference, (cf. e.g. \citep[p 718]{evans}). This theorem hinges on the concept of equicontinuity, for which a definition is presented directly below.
+\begin{mydef}
+A sequence $(f_n)$ of continuous, real-valued functions defined on an interval $[a,b]$ is said to be \textbf{equicontinuous} if for every $\epsilon >0$ there is a $\delta >0 $, depending only on $\epsilon$, so that for $x,y \in [a,b]$
+\begin{equation*}
+|x-y| < \delta \Rightarrow |f_n(x) - f_n(y)| < \epsilon
+\end{equation*}
+for every $n \in \mathbb{N}$.
+\end{mydef}
+We are now prepared for the Arzela-Ascoli theorem.
+\begin{theorem}[Arzela-Ascoli]
+\label{thm:Ascoli}
+A bounded, equicontinuous sequence, $(f_n)$, of continuous, real-valued functions has a subsequence which converges uniformly.
+\end{theorem}
+
+Using this powerful theorem we can prove the following:
+\begin{proposition}
+\label{prop:Z_uniform_convergence}
+$Z_n$ converges to $Z$ uniformly on compact sets.
+\end{proposition}
+\begin{proof}
+The proof will be done by contradiction. Take $K \subset \mathbb{R}$ to be a compact set, and consider a closed interval of the form $[-M,M]$, with $M$ so large as to contain $K$. Obviously, $Z_n$ is a bounded sequence, with
+\begin{equation*}
+|Z_n(x)| \leq M.
+\end{equation*}
+In addition, the sequence is equicontinuous, since all $Z_n$'s are globally Lipschitz continuous with the same Lipschitz constant $1$.
+
+We can from this conclude that $(Z_n)$ has a subsequence that converges uniformly on $[-M,M]$, and that the limit is $Z$, using theorem \ref{thm:Ascoli} and that $Z_n$ converges pointwise to $Z$. We can, with and identitical argument say that any subsequence of $(Z_n)$ also contains a subsequence converging uniformly to $Z$.
+
+Suppose now that $(Z_n)$ does not converge to $Z$ uniformly on $[-M,M]$. Then there is an $\epsilon > 0$ so that for every $k \in \mathbb{N}$ there is an $n \geq k$ so that
+\begin{equation*}
+\underset{x\in[-M,M]}{\mathrm{sup}}|Z_n(x) - Z(x)| \geq \epsilon.
+\end{equation*}
+From this we can construct a subsequence $(Z_{n_k})$ so that
+\begin{equation*}
+\underset{x\in[-M,M]}{\mathrm{sup}}|Z_{n_k}(x) - Z(x)| \geq \epsilon,
+\end{equation*}
+for every $k$, but this is in clear contradiction with the fact that $(Z_{n_k})$ must have a subsequence converging uniformly to $Z$. Hence we can conclude that $(Z_n)$ converges uniformly to $Z$ on $[-M,M]$, and as a consequence also on $K$.
+\end{proof}
+
+We'll continue on with the last result of this section.
+\begin{proposition}
+\label{prop:Zinv_uniform_convergence}
+With $\Phi$ strictly increasing, $Z$ is strictly increasing, and thus permits and inverse. Furthermore $Z_n^{-1}$ converges to $Z^{-1}$ uniformly on compact sets.
+\end{proposition}
+\begin{proof}
+ We note that $Z_n' \geq \frac{1}{n}$, and is thus stricly increasing, permitting a continuous inverse $Z_n^{-1}$. 
+
+That $Z$ is also strictly increasing follows from that $\Phi$ is strictly increasing. Indeed, suppose $t<u$ and see that
+\begin{equation*}
+Z(u) - Z(t) = \int_t^u \mathrm{min}\{1,\Phi'(s)\}ds \geq 0.
+\end{equation*}
+The only way this can be $0$ is if $\Phi' = 0$ a.e. everywhere on $(t,u)$, but if that were the case then $\Phi(u) = \Phi(t)$, in contradiction with $\Phi$ being strictly increasing. So $Z$ is strictly increasing, and has continuous and strictly increasing inverse $Z^{-1}$.
+
+We have from proposition \ref{prop:Z_uniform_convergence} that $Z_n$ converges uniformly to $Z$ on compact sets, and so we can simply use lemma \ref{lem:Inverse_uniform_general} to conclude that $Z_n^{-1}$ converges uniformly to $Z^{-1}$ on compact sets.
+\end{proof}
 
 \end{appendix}
 \end{document}

@@ -140,6 +140,40 @@ All in all I'm impressed with the thesis. Maybe a bit short on some of the proof
 I'm not too fond of the Fourier basis, since it's not flexible when it comes to domain. It pretty much has to be a rectangular domain when using Fourier basis. So a possible advancement would be a change of basis to Chebyshev or Legendre, which are more flexible, but not as easy to stabilise as Fourier using spectral vanishing viscosity.
 
 Even though my own project this semester has drifted a bit away from numerical considerations, I'm certain I will put more emphasis on it in this spring's master's writing, so a possible thesis could be to consider other bases.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%			SEVENTH ARTICLE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Seventh item}
+\subsection{Summary:}
+As the title of \cite{benilan1981continuous}, "The Continuous Dependence on $\varphi$ of Solutions of $u_t - \Delta\varphi(u) = 0$, suggests, this paper establishes a stability result on the nonlinearity for that type of equation, which is just the homogeneous general porous medium equation. The paper starts in good Imrad fashion to present the state of the field and what advances has been made similar to theirs, as well as discussing why the strides made in this paper are valuable.
+
+The main results of the paper is introduced already in the introduction, and with presents all challenges which needs to be overcome what's to follow. In particular a somewhat arbitrary-looking identity  concerning the inverse of the nonlinearity needs to be shown, and extra concerns needs to be addressed when the dimension of the problem exceeds 2. In this case the function space where a solution may reside needs to be restricted.
+
+This leads to introducing the concept of maximal monotone graph, since the inverse of the nonlinearity $\varphi$ may be a set-function, and not just a regular function. In this setting existence of a unique weak solution is proved. 
+
+The remainder of the paper is spent on proving minor results building up to the main theorem, and concludes with some related proposition to be used for future reference.
+
+\subsection{Critique:}
+Although a sound strategy to introduce the main result early in the paper, sufficient care was not given when motivating every part result. Making it rather confusing at times, but blame can also be placed on me for not having sufficient mathematical maturity.
+
+Indeed, the mathematical knowledge expected of the reader in this paper will indubitably cast any critique I may impart in a bad light, but in any case there are structural issues here that I feel competent enough to address. The previously mentioned confusion arises from such structural acrobatics as putting a proof of a minor result in the middle of a larger proof, and have almost no interstitial discussions. Especially the latter of these editorial decisions makes the paper extremely difficult to read. With no discernible "narrative"\footnote{Running thread, or whatever the english translation of the norwegian idiom "rød tråd" is.} the writer seems to expect a whole lot on the reader's concentration, focus, and ability to maintain both.
+
+\subsection{Reflections:}
+My project needs a stability result on the nonlinearity to be able to extend the existence result from $\varphi$ strictly increasing to only nondecreasing. However, the case studied in this paper is the Cauchy problem (on the entirity of $\mathbb{R}^n$) rather than on a bounded domain, which is the problem I'm studying. Due to the mathematical sophistication I have a hard time saying whether I will be able to use these results, or something similar, to what I'm dealing with.
+
+
+ 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				BIBLIOGRAPHY:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \bibliographystyle{plain}
 \bibliography{project_bibliography.bib}
