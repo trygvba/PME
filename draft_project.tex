@@ -979,6 +979,16 @@ and as a consequence
 \iint_{Q_T}|\partial_t z_n|^2 dxdt \leq \iint_{Q_T} |\Phi_n'(u_n)|\cdot |\partial_t u_n|^2dxdt.
 \end{equation*}
 The estimate (\ref{exist_proof_temporal}) holds in this case as well, and by the assumptions on $f$ and its approximations we also have a uniform bound of $\partial_t z_n$ in $L^2(Q_T)$. Hence $z_n$ is a bounded sequence in $H^1(Q_T)$, and we can utilize the Rellich-Kondrachov Compactness Theorem (theorem \ref{Rellich}) again to conclude that there is a subsequence $\{z_{n_j}\}$ converging to some $z$ in $L^2(Q_T)$.
+
+Now we obviously have $u_{n_j} = Z_{n_j}^{-1}(z_{n_j})$, and so
+\begin{align*}
+|u_{n_j} - Z^{-1}(z)| &= |Z_{n_j}^{-1}(z_{n_j}) - Z^{-1}(z)| \\
+&\leq |Z_{n_j}^{-1}(z_{n_j}) - Z^{-1}(z_{n_j})| + |Z^{-1}(z_{n_j})- Z^{-1}(z)|.
+\end{align*}
+The sequence $(z_{n_j})$ converges pointwise to $z$ as well as being uniformly bounded 
+since $|z_{n_j}| \leq |u_{n_j}| \leq M$. And so the first term on the right hand side in the above inequality is controlled by $Z_n^{-1}$ converging uniformly to $Z^{-1}$ on compact sets, as shown in proposition \ref{prop:Zinv_uniform_convergence}. The second term tends to zero since $z_{n_j}$ converges pointwise to $z$ and $Z^{-1}$ is continuous.
+
+We define $u=Z^{-1}(z)$ as the pointwise limit of $u_{n_j}$, and note as in the previous proof that $u_{n_j}$ also converges to $u$ in $L^1(Q_T)$.
 \end{proof}
 
 
@@ -1313,7 +1323,7 @@ For any $u \in \mathbb{R}$ we then have
 |Z_n(u) - Z(u)| &\leq \int_0^{|u|} |\mathrm{min}\{1,\Phi'_n(s)\} - \mathrm{min}\{1,\Phi'(s)\}|ds \\
 &\leq \int_0^{|u|} |\Phi'_n(s)-\Phi'(s)|ds,
 \end{align*}
-by using the above derived inequality. Following the definition of $Phi_n$, its derivative is
+by using the above derived inequality. Following the definition of $\Phi_n$, its derivative is
 \begin{equation*}
 \Phi'_n(s) = \Phi' * \varphi_{\frac{1}{n}}(s) + \frac{1}{n},
 \end{equation*}
@@ -1366,7 +1376,7 @@ for every $k$, but this is in clear contradiction with the fact that $(Z_{n_k})$
 We'll continue on with the last result of this section.
 \begin{proposition}
 \label{prop:Zinv_uniform_convergence}
-With $\Phi$ strictly increasing, $Z$ is strictly increasing, and thus permits and inverse. Furthermore $Z_n^{-1}$ converges to $Z^{-1}$ uniformly on compact sets.
+With $\Phi$ strictly increasing and continuos, $Z$ is strictly increasing and continuous, and thus permits a strictly increasing and continuous inverse. Furthermore $Z_n^{-1}$ converges to $Z^{-1}$ uniformly on compact sets.
 \end{proposition}
 \begin{proof}
  We note that $Z_n' \geq \frac{1}{n}$, and is thus stricly increasing, permitting a continuous inverse $Z_n^{-1}$. 
@@ -1375,7 +1385,7 @@ That $Z$ is also strictly increasing follows from that $\Phi$ is strictly increa
 \begin{equation*}
 Z(u) - Z(t) = \int_t^u \mathrm{min}\{1,\Phi'(s)\}ds \geq 0.
 \end{equation*}
-The only way this can be $0$ is if $\Phi' = 0$ a.e. everywhere on $(t,u)$, but if that were the case then $\Phi(u) = \Phi(t)$, in contradiction with $\Phi$ being strictly increasing. So $Z$ is strictly increasing, and has continuous and strictly increasing inverse $Z^{-1}$.
+The only way this can be $0$ is if $\Phi' = 0$ a.e. everywhere on $(t,u)$, but if that were the case then $\Phi(u) = \Phi(t)$, in contradiction with $\Phi$ being strictly increasing. So $Z$ is strictly increasing, and has a continuous and strictly increasing inverse $Z^{-1}$.
 
 We have from proposition \ref{prop:Z_uniform_convergence} that $Z_n$ converges uniformly to $Z$ on compact sets, and so we can simply use lemma \ref{lem:Inverse_uniform_general} to conclude that $Z_n^{-1}$ converges uniformly to $Z^{-1}$ on compact sets.
 \end{proof}
