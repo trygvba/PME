@@ -219,6 +219,7 @@ which  is what we wanted to prove.
 In this section we let $u,\hat{u} \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two smooth solutions of the homogeneous Dirichlet problem (\ref{HDP}) with initial data $u_0$, $\hat{u}_0$ and loading $f$, $\hat{f}$ respectively. To reach our goal of deriving stability of solutions in $L^1$ we start off with the following lemma, from which the main result will be an almost immediate consequence.
 
 \begin{lemma}
+\label{lem:l1_stability_classical}
 For $\tau, t \in [0,T]$ the inequality 
 \begin{equation}
 \label{l1_contr_part1}
@@ -251,6 +252,7 @@ and integrating in time from $\tau$ to $t$ yields
 
 
 \begin{cor}[$L^1$-contractivity]
+\label{cor:l1-contractivity_classical}
 For two smooth solutions, $u$ and $\hat{u}$ of the homoegenous Dirichlet problem (\ref{HDP}) with different initial data and loading, the $L^1$-estimate
 \begin{equation}
 \label{l1_contractivity}
@@ -895,39 +897,8 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	All the terms are controlled by the convergences of $w_n$, $u_n$, $u_{0,n}$, as long as the limit is taken along the subsequence for which we know $w_n$ converges. Thus, (\ref{claim_weak_solution}) holds, and $u$ is a weak energy solution.
 	
-	We have from before that $u\in L^1(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique.
-	
-	
-	\item[Considering the $L^1$-contractivity:] Let now $\hat{u}$ be the weak energy solution to some auxiliary problem with intial value $\hat{u}_0$ and loading $\hat{f}$. We also let $\hat{u}_n$ be a sequence of approximations similarly constructed as those for $u$. We go by way of first showing that
-	\begin{equation}
-	\label{weak_solutions_l1_start}
-	\int_\Omega(u(t)-\hat{u}(t))_+dx \leq \int_\Omega (u_0 + \hat{u}_0)_+dx + \int_0^t \int_\Omega (f- \hat{f})_+ dxdt. 
-	\end{equation}
-	With that in mind it's worth noting that for $\int_\Omega (\cdot)_+dx$ the triangle inequality is valid, so
-	\begin{align*}
-	\int_\Omega (u(t) - \hat{u}(t))_+dx &\leq \int_\Omega(u(t) - u_n(t))_+dx + \int_\Omega (u_n(t) - \hat{u}_n(t))_+dx \\
-	&+ \int_\Omega(\hat{u}_n - \hat{u})_+dx.
-	\end{align*}
-	The first and last term we can make arbitrarily small, and for the middle term we use the $L^1$-contractivity for smooth solutions. Then, for every $\epsilon > 0$
-	\begin{equation*}
-	\int_\Omega (u(t) - \hat{u}(t))_+dx < \epsilon + \int_\Omega(u_{0,n} + \hat{u}_{0,n})_+ dx + \int_0^t \int_\Omega (f_n - \hat{f}_n)_+dxdt,
-	\end{equation*}
-	for sufficiently large $n$. When using the triangle inequality again
-	\begin{align*}
-	\int_\Omega (u(t) - \hat{u}(t))_+dx &< \epsilon + \int_\Omega(u_{0,n} - u_0)_+dx + \int_\Omega(u_0 - \hat{u}_0)_+dx \\
-	&+ \int_\Omega (\hat{u}_0 - \hat{u}_{0,n})_+dx + \int_0^t \int_\Omega(f_n - f)_+dxdt\\
-	&+ \int_0^t(f-\hat{f})_+dxdt + \int_0^t\int_\Omega (\hat{f}-\hat{f}_n)_+ dxdt.
-	\end{align*}	
-	All the term involving $n$ in the integrand can now be made arbitrarily small, so for sufficiently large $n$
-	\begin{equation*}
-	\int_\Omega (u(t) - \hat{u}(t))_+dx < 2\epsilon +\int_\Omega(u_0 - \hat{u}_0)_+dx + \int_0^t \int_\Omega (f-\hat{f})dxdt.
-	\end{equation*}					
-	Since this should hold for every $\epsilon >0 $, we must have that (\ref{weak_solutions_l1_start}) is satisfied.
-	
-	From (\ref{weak_solutions_l1_start}), we do as for (\ref{l1_contractivity}), and get
-	\begin{equation*}
-	||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq ||u_0 - \hat{u}_0||_{L^1(\Omega)} + ||f-\hat{f}||_{L^1(Q_t)}
-	\end{equation*}
+	We have from before that $u\in L^1(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique. In addition it is worth noticing that any accumulation point of the sequence of classical solutions is a weak energy energy solution, and so the uniqueness precludes any other accumulation point than $u$. I.e. the whole sequence $(u_n)$ converges to $u$.
+
 \end{description}
 
 
@@ -938,6 +909,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 We proceed by generalising the result of \ref{thm:weak_existence} to the case when $\Phi$ is no longer locally Lipschitz.
 
 \begin{lemma}
+\label{lem:weak_existence_part2}
 Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$ and $\partial_t f$ are bounded.
 \end{lemma}
 
@@ -989,8 +961,150 @@ The sequence $(z_{n_j})$ converges pointwise to $z$ as well as being uniformly b
 since $|z_{n_j}| \leq |u_{n_j}| \leq M$. And so the first term on the right hand side in the above inequality is controlled by $Z_n^{-1}$ converging uniformly to $Z^{-1}$ on compact sets, as shown in proposition \ref{prop:Zinv_uniform_convergence}. The second term tends to zero since $z_{n_j}$ converges pointwise to $z$ and $Z^{-1}$ is continuous.
 
 We define $u=Z^{-1}(z)$ as the pointwise limit of $u_{n_j}$, and note as in the previous proof that $u_{n_j}$ also converges to $u$ in $L^1(Q_T)$.
+
+Similarly we can show that $w_{n_j}$ converges to $w=\Phi(u)$ and that $w \in L^2(Q_T)$.
+In addition, from a previous argument $\nabla w_n$ is bounded in $L^2$ independent of $n$, and so we conclude that $w \in H^1(Q_T)$.
+
+From this point on, proving that $u$ is a weak energy solution is identical to the last part of the proof of lemma \ref{lem:existence_part1}.
 \end{proof}
 
+We will continue on with lifting more of the assumptions, in particular those on $f$ and $u_0$, but first an intermediate result is needed. The result is simply the $L^1$-stability presented in lemma \ref{lem:l1_stability_classical} only now for weak solutions.
+
+\begin{lemma}
+\label{lem:l1_stability_weak}
+Let $u$ and $\hat{u}$ be two weak energy solutions with nonlinearity $\Phi$. They have initial data $u_0$ and $\hat{u}_0$, as well as loading $f$ and $\hat{f}$ respectively. Then the inequality
+\begin{equation}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq ||u_0 - \hat{u}_0||_{L^1(\Omega)} + \int_0^t||f-\hat{f}||_{L^1(\Omega)}
+\end{equation}
+for almost every $t\in [0,T]$.
+\end{lemma}
+
+\begin{proof}
+Let $\Phi_n$ be the approximations of $\Phi$, $u_{0,n}$ and $\hat{u}_{0,n}$ be approximations of $u_0$ and $\hat{u}_{0,n}$ to the initial data, converging in $L^1$. Furthermore, let $f_n$ and $\hat{f}_n$ be approximations of $f$ and $\hat{f}$ converging in $L^2(Q_T)$, and so also in $L^1(Q_T)$ since $Q_T$ is bounded. All the above approximations are as already presented in the foregoing proofs. Hence we have a sequence of classical solutions $u_n$ and $\hat{u}_n$ that converge to $u$ and $\hat{u}$ in $L^1(Q_T)$.
+
+We now use the triangle inequality for
+\begin{equation*}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq ||u(t) - u_n(t)||_{L^1(\Omega)} + ||u_n(t) - \hat{u}_n(t)||_{L^1(\Omega)} + ||\hat{u}_n(t) - \hat{u}(t)||_{L^1(\Omega)}.
+\end{equation*}
+The first and last term on the right hand side are easily controlled by the convergence of $u_n$ and $\hat{u}_n$. As for the middle term we use corollary \ref{cor:l1-contractivity_classical}, and so for any $\epsilon > 0$,
+\begin{equation*}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq \epsilon + ||u_{0,n} - \hat{u}_{0,n}||_{L^1(\Omega)} + ||f_n - \hat{f}_n||_{L^1(Q_t)}
+\end{equation*}
+for sufficiently large $n$.
+Using the triangle inequality another time yields
+\begin{align*}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} &\leq \epsilon + ||u_{0,n} - u_0||_{L^1(\Omega)} + ||u_0 - \hat{u}_0||_{L^1(\Omega)} + ||\hat{u}_0 -\hat{u}_{0,n}||_{L^1(\Omega)} \\
+&+ ||f_n - f||_{L^1(Q_t)} + ||f - \hat{f}||_{L^1(Q_t)} + ||\hat{f}-\hat{f}_n||_{L^1(Q_t)}.
+\end{align*}
+Lastly, we have from the various convergences that for sufficiently large $n$  
+\begin{equation*}
+||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq 2\epsilon + ||u_0 - \hat{u}_0||_{L^1(\Omega)} + ||f - \hat{f}||_{L^1(Q_t)}, 
+\end{equation*}
+and since $\epsilon$ was arbitrary this concludes the proof.
+\end{proof}
+
+\subsubsection{Removing the assumptions on $f$ and $u_0$}
+Now we try to generalise to the case when $f$ and/or $u_0$ are not bounded, but still require $f \in L^2(Q_T)$ and $u_0 \in L_{\Psi}(\Omega)$.
+
+\begin{lemma}
+Theorem \ref{thm:weak_existence} holds when $\Phi$ is strictly increasing and absolutely continuous.
+\end{lemma}
+\begin{proof}
+
+
+
+\begin{description}
+\item[Finding a candidate for a solution:]
+Let $(u_{0,n})$ be sequence of bounded functions converging to $u_0$ in $L_{\Psi}(\Omega)$, and $(f_n)$ a sequence of bounded functions converging to $f$ in $L^2(Q_T)$, as well as $\partial_t f_n$ being bounded in $Q_T$ for each $n$. It will also be useful to assume $|u_{0,n}| \leq |u_0|$ and $|f_n| \leq |f|$ for all $n$.
+
+Using lemma \ref{lem:weak_existence_part2} we get a sequence of weak energy solutions, $(u_n)$. Notice now that we have discarded any approximations of $\Phi$. By lemma \ref{lem:l1_stability_weak}
+\begin{equation*}
+||u_n(t) - u_m(t)||_{L^1(\Omega)} \leq ||u_{0,n} - u_{0,m}||_{L^1(\Omega)} + ||f_n - f_m||_{L^1(Q_T)}
+\end{equation*}
+for almost every $t \in [0,T]$, and so $(u_n)$ is a Cauchy sequence in $L^\infty(0,T: L^1(\Omega))$, guaranteeing a limit $u \in L^\infty(0,T: L^1(\Omega))$. The convergence happens also in $L^1(Q_T)$, since
+\begin{equation*}
+||u - u_n||_{L^1(Q_T)} \leq T\underset{t \in [0,T]}{\mathrm{sup}}||u(t) - u_n(t)||_{L^1(\Omega)}.
+\end{equation*}
+
+\item[$\Phi(u)$ is in $L^2(Q_T)$:]
+We also have pointwise convergence almost everywhere along a subsequence, so $\Phi(u_n)$ converges to $\Phi(u)$ almost everywhere in $Q_T$. Seeing as all $u_n$ are weak energy solutions we have
+\begin{equation*}
+\iint_{Q_T}|\nabla \Phi(u_n)|^2dxdt + \int_\Omega \Psi(u_n(T)) dxdt \leq \int_\Omega \Psi(u_{0,n}) dx + \iint_{Q_T} f_n \Phi(u_n)dxdt,
+\end{equation*}
+and we do as always to get
+\begin{equation*}
+\iint_{Q_T}|\nabla \Phi(u_n)|^2dxdt + 2\int_\Omega \Psi(u_n(T)) dxdt \leq 2\int_\Omega \Psi(u_{0,n}) dx + C\iint_{Q_T} f_n^2 dxdt.
+\end{equation*}
+From our assumptions on the apprxoimations we thus have that $\Phi(u_n)$ is a bounded sequence in $L^2(0,T: H^1(\Omega))$. As such we can by Banach-Alaoglu deduce $\Phi(u_n)$ has a subsequence $\Phi(u_{n_k})$ that converges weakly to some  $v$ in $L^2(Q_T)$. Suppose now that $v \neq \Phi(u)$ on  a set of positive measure. Without loss of generality we can for some $\delta > 0$ define $E = \{ (x,t) \in Q_T: v \geq \Phi(u) + \delta\}$. Fix now $\epsilon$, then by Egorov's theorem (cf. e.g. \citep[p. 120]{weiss1999course}) there is a measurable set $B \subset E$ over which $\Phi(u_n)$ converges uniformly to $\Phi(u)$, with $B$ having positive measure. Therefore, 
+\begin{equation*}
+\big|\iint_{B}\Phi(u_n) - \Phi(u) dxdt \big| \leq \epsilon |B|  
+\end{equation*}
+for sufficiently large $n$. Since $\epsilon$ was arbitrary it follows that
+\begin{equation*}
+\iint_B \Phi(u_n) dxdt \to \iint_B \Phi(u) dxdt.
+\end{equation*}
+However, the characteristic function of $B$, $\chi_B$, is in $L^2(Q_T)$, and so by the weak convergence of $\Phi(u_{n_k})$ to $v$ we have
+\begin{align*}
+\iint_{B} \Phi(u_{n_k})dxdt & \to \iint_{B} v dxdt \\
+& \geq \iint_{B} \Phi(u)dxdt + \delta|B|,
+\end{align*}
+which is a contradiction, and we conclude that $v=\Phi(u)$ almost everywhere, and in particular $\Phi(u) \in L^2(Q_T)$. Notice also that this argument holds for every subsequence of $\Phi(u_n)$, which means that every subsequence of $\Phi(u_n)$ has a subsequence converging weakly to $\Phi(u)$, and so $\Phi(u_n)$ converges weakly to $\Phi(u)$.
+
+
+
+\item[$\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$:]
+Now we claim that $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$ in $L^2(Q_T)$. Firstly, since $\nabla \Phi(u_n)$ is a bounded sequence in $L^2(Q_T)$, we can by the Banach-Alaoglu theorem together with $L^2(Q_T)$ being a Hilbert space deduce that some subsequence of $\nabla \Phi(u_n)$ converges weakly to some $v$ in $L^2(Q_T)$.
+
+Let now $\psi \in C_0^\infty(Q_T)$ and fix $\epsilon > 0$. Since $Q_T$ is bounded we can use Egorov's theorem (cf. e.g. \citep[p. 120]{weiss1999course}), to deduce that there is a set $E \subset Q_T$ with $|Q_T \setminus E| < \epsilon^2$ so that $\Phi(u_n)$ converges uniformly to $\Phi(u)$ in $E$. Hence, we have
+\begin{equation}
+\label{phi_distribution_convergence}
+\iint_{Q_T}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt = \iint_{E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt + \iint_{Q_T \setminus E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt.
+\end{equation}
+The first integral is controlled by the uniform convergence of $\Phi(u_n)$ on $E$. For the latter integral, use of Cauchy-Schwartz yields
+\begin{align*}
+\iint_{Q_T \setminus E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt &\leq ||\Phi(u_n) - \Phi(u)||_{L^2(Q_T)}||\nabla \cdot \psi||_{L^2(Q_T\setminus E)} \\
+&\leq (||\Phi(u_n)||_{L^2(Q_T)} + ||\Phi(u)||_{L^2(Q_T)})||\nabla \cdot \psi ||_{L^\infty(Q_T)}|Q_T\setminus E|^\frac{1}{2},
+\end{align*}
+and here we use that $\Phi(u_n)$ is uniformly bounded in $L^2(Q_T)$ and that $\Phi(u) \in L^2(Q_T)$. So we can make both integrals on the right hand side  in \ref{phi_distribution_convergence} arbitrarily small, and conclude that
+\begin{equation*}
+\iint_{Q_T}\Phi(u_n)\nabla \cdot \psi dxdt \to \iint_{Q_T} \Phi(u) \nabla \cdot \psi dxdt.
+\end{equation*}
+
+Since this argument holds for all $\psi \in C_0^\infty (Q_T)$ we can conclude that $\nabla \Phi(u_n)$ converges to $\nabla \Phi(u)$ in the distributional sense. Also we have that weak convergence in $L^2(Q_T)$ implies distributional convergence, so $v= \nabla \Phi(u)$. 
+
+This argument holds for every subsequence of $\nabla \Phi(u_n)$. I.e. every subsequence of $\nabla \Phi(u_n)$ has a subsequence that converges weakly to $\nabla \Phi(u)$ which implies that $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$ in $L^2(Q_T)$.
+
+
+
+\item[$u$ is a weak solution:]
+We have established that $u \in L^1(Q_T)$, and $\Phi(u) \in L^2(0,T: H^1(\Omega)) \subset L^1(0,T: W^{1,1}(\Omega))$, and so all that remains is to consider the convergence of
+\begin{equation}
+\iint_{Q_T} \{ \nabla\Phi(u_n) \cdot \nabla \eta - u_n \partial_t \eta \} dxdt = \int_\Omega u_{0,n}\eta\big|_{t=0}dx + \iint_{Q_T} f_n \eta dxdt,
+\end{equation}
+which holds for each $n$ and every $\eta \in C^1(\overline{Q}_T)$. But this is easily seen to hold in the limit by the weak convergence of $\nabla \Phi(u_n)$ in $L^2(Q_T)$, the convergence of $u_n$ and $u_{0,n}$ in $L^1(Q_T)$ and $L^1(\Omega)$, and the convergence of $f_n$ in $L^2(Q_T)$.
+
+\item[Establishing the energy inequality:]
+By the continuity of $\Psi$, we have that $\Psi(u_n(T))$ converges almost everywhere to $\Psi(u(T))$, and so by Fatou's Lemma (cf. \citep[p. 126]{weiss1999course}) 
+\begin{equation*}
+\int_\Omega \Psi(u(T))dx \leq \underset{n \to \infty}{\mathrm{liminf}}\int_\Omega \Psi(u_n(T))dx. 
+\end{equation*}
+
+In addition, the mapping $I[u] = ||\nabla u||_{L^2(Q_T)}$ is convex, and therefore weakly lower semicontinuous \citep[p. 468]{evans}, which means that
+\begin{equation*}
+\iint_{Q_T} |\nabla \Phi(u) |^2 dxdt \leq  \underset{n \to \infty}{\mathrm{liminf}} \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt.
+\end{equation*}
+
+Putting, these two things together we can establish that
+\begin{align*}
+\iint_{Q_T} |\nabla \Phi(u) |^2 dxdt + \int_\Omega \Psi(u(T))dx &\leq \underset{n \to \infty}{\mathrm{liminf}} \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt + \underset{n \to \infty}{\mathrm{liminf}}\int_\Omega \Psi(u_n(T))dx \\
+&\leq \underset{n \to \infty}{\mathrm{liminf}} \left[ \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt + \int_\Omega \Psi(u_n(T))dx \right] \\
+&\leq \underset{n \to \infty}{\mathrm{liminf}}\left[ \int_\Omega \Psi(u_{0,n}) + \iint_{Q_T}f_n \Phi(u_n)dxdt \right] \\
+&= \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt,
+\end{align*}
+where we have used that the $u_n$ satisfies the energy inequality. This completes the proof.
+
+\end{description}
+\end{proof}
 
 
 
