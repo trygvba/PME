@@ -27,13 +27,18 @@
 \newtheorem{cor}{Corollary}[section]
 \newtheorem{lemma}{Lemma}[section]
 
+%Assumptions:
+\newtheorem{assumption}{Assumption}
+
 \theoremstyle{definition}
 \newtheorem{mydef}{Definition}[section]
-\newtheorem{example}{Example}[section]
+\newtheorem{example}{Example}%[section]
 
 %\theoremstyle{plain}
 \newtheorem{obs}{Observation}
 \newtheorem{rem}{Remark}
+
+
 
 
 % Reset numbering for each section
@@ -50,33 +55,110 @@ Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected doma
 	\partial_t u = \Delta \Phi(u) + f,
 \end{equation}
 
- where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\phi: \mathbb{R} \to \mathbb{R}$. For now we assume that $\Phi$ is continuous and nondecreasing.
+ where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\Phi: \mathbb{R} \to \mathbb{R}$.
+ 
+The PDE (\ref{GPME}) encompasses some noteworthy special cases:
+\begin{example}[PME]
+When $\Phi(u) = u^m$ for $m>1$, (\ref{GPME}) is the Porous Medium Equation (PME), whose name is derived from its main application: Describing gas concentration flow in porous media, like rock. To allow for solutions with changing signs, one has $\Phi(u) = |u|^{m-1}u$. Notice that this choice of $\Phi$ is strictly increasing and locally Lipschitz continuous.
+\end{example}
+
+\begin{example}[FDE]
+With the same choice of $\Phi(u) = |u|^{m-1}u$, only now with $0<m<1$ yields the so-called Fast Diffusion Equation (FDE). $\Phi$ is still strictly increasing, but no longer locally Lipschitz continuous.
+\end{example}
+
+\begin{example}[Stefan problem]
+The Stefan problem can be posed with $\Phi(u) = (u-1)_+$, which is used to describe temperature distribution in a system with a phase transitions. E.g. melting an ice cube in a glass of water. Here $\Phi$ is no longer strictly increasing, which constitutes a degenerate problem.
+\end{example}
 
 \subsection{Basic sets and notation}
-Before delving into the actual the actual analysis of our problem, let's just get assure ourselves that we're on the same page when it comes to notation of various sets and function spaces.
+Before delving into the actual analysis of our problem, let's just assure ourselves that we're on the same page when it comes to notation of various sets and function spaces.
 
 The begin, we let $\Omega \subset \mathbb{R}^d$ be an open, bounded and simply connected set, with boundary $\partial \Omega$. This will denote our spatial domain, and so we let write $Q_T = \Omega \times (0,T]$ to mean the space-time cylinder up to a time $T$, which can be both finite or infinite, and it will be stated clearly when we need to assume $T < \infty$.  The last set pertaining to the space-time domain we'll need is the parabolic boundary $\Gamma_T = (\partial \Omega \times [0,T]) \cup (\Omega\times \{t=0\})$.
 
 
-Most, if not all, of the notation concerning function spaces will follow the notation in \citep{evans} (see in particular Ch. 5). 
+Most, if not all, of the notation concerning function spaces will follow the notation in \citep{evans} (see in particular Ch. 5). In the following let $U$ be an open subset of $\mathbb{R}^d$, then we will denote by $C(U)$ the space of bounded and continuous functions with norm
+\begin{equation*}
+||u||_{C(U)} = \underset{x \in U}{\mathrm{sup}}|u(x)|.
+\end{equation*}
+Further, with $0< \gamma \leq 1$ we define the Hölder seminorm as
+\begin{equation*}
+|u|_{C^{0,\gamma}(U)} = \underset{x,y \in U, x\neq y}{\mathrm{sup}}\frac{|u(x)-u(y)|}{|x-y|^\gamma}
+\end{equation*}
+which enables the Hölder space $C^{0,\gamma}(U)$, with norm
+\begin{equation*}
+||u||_{C^{0,\gamma}(U)} = ||u||_{C(U)} + |u|_{C^{0,\gamma}(U)}.
+\end{equation*}
+
+With $C^k(U)$ being the $k$ times continuously differentiable functions in $U$, we define the Hölder space $C^{k,\gamma}(U)$ to be all $u \in C^{k}(U)$ si that the norm
+\begin{equation*}
+||u||_{C^{k,\gamma}(U)} = \sum_{|\alpha| \leq k} ||D^\alpha u||_{C^(U)} + \sum_{|\alpha| = k} |D^\alpha u |_{C^{0,\gamma}},
+\end{equation*}
+where we have adopted the multiindex notation of \citep{evans}. In addition we say that the boundary $U$, $\partial U$, is $C^{k, \alpha}$ if for every point on $\partial U$ there is a neighbourhood over which $\partial U$ describes the graph of a $C^{k,\alpha}$ function in $d-1$ coordinates, \citep{gilbarg2001elliptic}.
+
+Seeing as we're considering a time-dependent problem, different assumptions on the smoothness of a functions in space and time will emerge, and as such function spaces that reflect this are necessary. The spaces $C^k_r(U)$ are the $k$-times continuously differentiable in space and $r$ times continuously differentiable in time. Meaning that if $u \in C^k_r(U)$, then $\partial_t^m D^\alpha u$ exists and is bounded and continuous in $U$ for all $m \leq r$ and all multiindices $\alpha$ so that $|\alpha| \leq k$.
+
+We will also need to consider the spaces of strongly summable functions. Let $X$ be a normed space and $1\leq p < \infty$, then $u \in L^p(0,T:X)$ if
+\begin{equation*}
+||u||_{L^p(0,T:X)} = \left( \int_0^T ||u(t)||_X^p dt \right)^\frac{1}{p}
+\end{equation*} 
+is finite. This of course has the natural extension to $p=\infty$ with norm
+\begin{equation*}
+||u||_{L^\infty(0,T:X)} = \mathrm{ess \; sup}_{0\leq t \leq T} ||u(t)||_X.
+\end{equation*}
+
+The last function space we'll pay particular attention to in this section is the Hölder space $H^{l, l/2}(Q_T)$ \citep{ladyzhenskaya}, which consists of all $u$ that are continuous as well as $\partial_t^rD^\alpha u$ are continuous for all $r$ and $\alpha$ so that $2r + |\alpha| <l$. The norm is given as
+\begin{equation*}
+	||u||_{H^{l,l/2}(Q_T)} = \langle u \rangle^{(l)}_{Q_T} + \sum_{j=0}^{[l]}\langle u \rangle^{(j)}_{Q_T},
+\end{equation*}
+with
+\begin{align*}
+\langle u \rangle^{(j)}_{Q_T} &= \sum_{2r+|\alpha|=j} ||\partial_t^r D^\alpha u||_{C(\bar{Q}_T)} \\
+\langle u \rangle^{(l)}_{Q_T} &= \langle u \rangle^{(l)}_{x,Q_T} + \langle u \rangle^{(l/2)}_{t,Q_T} \\
+\langle u \rangle^{(l)}_{x,Q_T} &= \sum_{2r+|\alpha|=[l]} |\partial_t^r D^{\alpha}u|_{C^{0,l-[l]}_x(\bar{Q}_T)} \\
+ \langle u \rangle^{(l/2)}_{t,Q_T} &= \sum_{0 < l - 2r -|\alpha| < 2} |\partial_t^r D^\alpha u|_{C^{0,(l-2r-s)/2}_t(\bar{Q}_T)},
+\end{align*}
+with the Hölder semi-norm with respect to $x$ and $t$ respectively in the last two definitions being 
+\begin{align*}
+|u|_{C_x^{0,\rho}(Q_T)} &= \underset{\overset{(x,t),(y,t)\in Q_T}{x\neq y}}{\mathrm{sup}} \frac{|u(x,t) - u(y,t)|}{|x-y|^\rho} \\
+|u|_{C_t^{0,\rho}(Q_T)} &= \underset{\overset{(x,t),(x,s)\in Q_T}{t\neq s}}{\mathrm{sup}}\frac{|u(x,t) - u(x,s)|}{|t-s|^\rho},
+\end{align*}
+for $0 < \rho \leq 1$.
+
+Luckily this norm will not be of the most importance in what is to follow, but some acquaintance with it is useful.
+
+ 
  
 \subsection{Problem statement}
 We will consider on the following Dirichlet problem:
 \begin{equation}
 \label{HDP}
 	\begin{cases}
-		\partial_t u = \Delta \Phi(u) + f, \quad \text{ in } Q_T \\
-		u(x,0) = u_0(x), \quad \text{ in } \Omega \\
-		u(x,t) = 0, \quad \text{ on } \partial\Omega \times [0,T].
+		\partial_t u &= \Delta \Phi(u) + f, \quad \text{ in } Q_T \\
+		u(x,0) &= u_0(x), \quad \text{ in } \Omega \\
+		u(x,t) &= 0, \quad \text{ on } \partial\Omega \times [0,T].
 	\end{cases}
 \end{equation}
 Here $Q_T = \Omega \times (0,T]$, where $T$ may very well be infinite. Furthermore we denote by $\Gamma_T = \overline{Q}_T\backslash Q_T$ the parabolic boundary.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		ASSUMPTIONS CAN POSSIBLY GO HERE???
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				CLASSICAL SOLUTIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Classical solutions}
+The strictest sense in which we can have a solution of (\ref{HDP}) is that there is a $u \in C^2_1(Q_T)\cap C(\overline{Q}_T)$ for which $u\big|_{t=0} = u_0$,  $u\big|_{\partial\Omega \times [0,T]} = 0$, and the equality
+\begin{equation*}
+\partial_t u = \Delta \Phi(u) + f
+\end{equation*}
+holds everywhere in $Q_T$. This means we must also impose that $\Phi \in C^2(\mathbb{R})$ and that $f$ is continuous. If $u \in C^2_1(Q_T)$, $\Phi$ and $f$ satisfy this we call $u$ a classical solution of (\ref{HDP}).
+
+
 In this section it is helpful to reformulate (\ref{HDP}) as 
 \begin{equation}
+\label{general_parabolic_problem}
 	\begin{cases}
 		\partial_t u + Lu &= f, \quad \text{in } Q_T \\
 		u(x,0) &= u_0(x), \quad \text{in } \Omega \\
@@ -85,9 +167,9 @@ In this section it is helpful to reformulate (\ref{HDP}) as
 \end{equation}
 where $L$ is a differential operator that can be written in the divergence form
 \begin{equation}
-Lu = -\sum_{i=1}^d \partial_{x_i}(a^i(x,t,u,\nabla u)) + a(x,t,u,\nabla u).
+Lu = -\sum_{i=1}^d \partial_{x_i}(a^i(x,t,u,\nabla u)) + a(x,t,u,\nabla u),
 \end{equation}
-We will need to assume that $a^i$ for every $i$ as well as $a$ are continuous functions with respect to all variables.
+where the functions $a^i$ and $a$ are given and continuous with respect to all variables.
 
 In addition we assume that there are constants $0 < \nu < \mu < \infty $ so that
 \begin{equation}
@@ -96,15 +178,17 @@ In addition we assume that there are constants $0 < \nu < \mu < \infty $ so that
 \end{equation}
 for every $\xi \in \mathbb{R}^d$. If this condition is satisfied we say that the operator $\partial_t + L$ is \textbf{uniformly parabolic}.
 
-In our setting it's easy enough to check that
+With the special case
 \begin{equation*}
 a^i(x,t,u,p) = \Phi'(u)p_i,
 \end{equation*}
+(\ref{general_parabolic_problem}) reduces to the homogeneous Dirichlet (\ref{HDP}),
 and so (\ref{uniform_parabolicity}) translates to
 \begin{equation}
 \label{uniform_parabGPME}
-\nu \leq \Phi'(u) \leq \mu.
+\nu \leq \Phi'(u) \leq \mu,
 \end{equation}
+for (\ref{HDP}) to be uniformly parabolic.
 We will in this section assume this to be true. I.e. that $\Phi'(u)$ is bounded from above as well as away from zero.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %			MAXIMUM PRINCIPLE:
@@ -114,7 +198,7 @@ The first main estimate we'll deal with is a $L^\infty$ bound on a classical sol
 
 \begin{theorem}[Strong maximum principle]
 \begin{enumerate}[i)]
-	Suppose $\Omega$ is connected, and $u\in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$, then:
+	Suppose $\Omega$ is connected, and $u\in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$, and $\partial_t + L$ is uniformly parabolic, then:
 	\item If
 	\begin{equation*}
 		\partial_tu + Lu \leq 0, \quad \text{ in } Q_T, 
@@ -171,13 +255,14 @@ By assumption $\mathrm{min}_{\Gamma_T}w \geq 0$, so $v \geq u$. We conclude the 
 
 
 Let's now use this lemma to get an $L^\infty$-bound on classical solutions.
-\begin{lemma}
+\begin{cor}
+\label{cor:Linf_bound_classical}
 Assume $\Phi \in C^2(\mathbb{R})$ and satisfy (\ref{uniform_parabGPME}). If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and $u_0$ is bounded in $\Omega$ and $f$ bounded in $Q_T$, then
 	\begin{equation}
 		\label{infinity_bound}
 		||u||_{L^\infty(Q_T)} \leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)}.
 	\end{equation}
-\end{lemma}
+\end{cor}
 
 \begin{proof}
 We start by defnining $M_1 = ||u_0^+||_{L^\infty(\Omega)} $, and $N_1 = ||f^+||_{L^\infty(Q_T)}$, where $(\cdot)^+ = \mathrm{max} \{ 0,\cdot \}$. With $v(x,t) = M_1 + N_1t$, it solves
@@ -220,7 +305,7 @@ In this section we let $u,\hat{u} \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two
 
 \begin{lemma}
 \label{lem:l1_stability_classical}
-For $\tau, t \in [0,T]$ the inequality 
+Let $u, \hat{u} \in C^2_1(Q_T)\cap C(\overline{Q}_T)$, be two classical solutions of the homogeneous Dirichlet problem (\ref{HDP}), with initial data $u_0$ and $\hat{u}_0$ as well as loading $f$ and $\hat{f}$, respectively. Assume further that $\Phi$ is strictly increasing, and $\Phi(0)=0$. Then, for $\tau, t \in [0,T]$, the inequality 
 \begin{equation}
 \label{l1_contr_part1}
 \int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
@@ -230,17 +315,38 @@ is satisfied.
 
 \begin{proof}
 Let $p: \mathbb{R} \to \mathbb{R}$ be a $C^1$ function satisfying $p(s) = 0$ for $s \leq 0$, $p'(s) \geq 0$ for all $s\in \mathbb{R}$, and $0 \leq p(s) \leq 1$ for $s > 0$. Define now $w = \Phi(u) - \Phi(\hat{u})$, and multiply $p(w)$ with the difference of (\ref{GPME}) for $u$ and $\hat{u}$ to get
-\begin{equation*}
+\begin{equation}
+\label{l1_stab_step1}
 \partial_t(u-\hat{u})p(w) = p(w)\Delta w + p(w)f.
-\end{equation*}
+\end{equation}
 Integrating over $\Omega$, and using integration by parts on the first part on the right hand side yields
+\begin{equation*}
+\int_\Omega p(w)\Delta w dx = -\int_\Omega p'(w)|\nabla w|^2dx + \int_{\partial \Omega}p(w)\nabla w \cdot \hat{n} dS,
+\end{equation*}
+where $\hat{n}$ is the unit normal vector pointing out of $\Omega$. The boundary integral term vanishes since $w\big|_{\partial \Omega} = 0$ and $p(0)=0$. Thus integration over $\Omega$ in (\ref{l1_stab_step1}) yields 
 \begin{align*}
 \int_{\Omega}\partial_t(u-\hat{u})p(w)dx &= -\int_{\Omega}p'(w)|\nabla w|^2dx + \int_{\Omega}p(w)(f-\hat{f}) dx \\
 	&\leq \int_{\Omega}p(w)(f-\hat{f}) dx \\
 	&\leq \int_{\Omega}(f-\hat{f})_+ dx,
 \end{align*}
 where the last step follows from the fact that $0 \leq p(w) \leq 1$. Here $(\cdot)_+ = \mathrm{max}\{\cdot, 0\}$.
-Now, let $p$ converge to the Heaviside function $H(w)$. Then, it is worth noticing that $H(w) = H(u-\hat{u})$, because of the strict monotonicity of $\Phi$. Also see that $\partial_t(u-\hat{u})_+ = \partial_t(u-\hat{u})H(u-\hat{u})$. Thus
+Now, let $p$ converge pointwise to the positive sign function $\mathrm{sign}_0^+$ defined
+\begin{equation*}
+\mathrm{sign}^+_0(s) = \begin{cases}
+1&, \quad \text{for } s>0 \\
+0&, \quad \text{for } s\leq 0.
+\end{cases}
+\end{equation*}
+In the convergence of $p$, the integrand $\partial_t(u-\hat{u})p(w)$ is dominated by $\partial_t (u - \hat{u}) \mathrm{sign}_0^+(w)$ which is integrable from the continuity requirements, and so the Dominated Convergence Theorem implies that
+\begin{equation*}
+\int_\Omega \partial_t(u-\hat{u})p(w) dx \to \int_\Omega \partial_t (u - \hat{u}) \mathrm{sign}_0^+(w)dx.
+\end{equation*}
+
+Notice now that $\mathrm{sign}_0^+(u-\hat{u}) = \mathrm{sign}_0^+(\Phi(u) - \Phi(\hat{u}))$ because of the assumption that $\Phi$ is strictly increasing. In addition we have $\partial_t (u-\hat{u})_+ = \mathrm{sign}_0^+ \partial_t (u - \hat{u})$, in the weak derivative sense. Thus
+\begin{equation*}
+\int_\Omega \partial_t(u-\hat{u})p(w) dx \to \int_\Omega \partial_t (u-\hat{u})_+ dx,
+\end{equation*}
+which implies that
 \begin{equation*}
 \partial_t \int_{\Omega}(u-\hat{u})_+dx \leq \int_{\Omega}(f-\hat{f})_+ dx,
 \end{equation*}
@@ -253,7 +359,7 @@ and integrating in time from $\tau$ to $t$ yields
 
 \begin{cor}[$L^1$-contractivity]
 \label{cor:l1-contractivity_classical}
-For two smooth solutions, $u$ and $\hat{u}$ of the homoegenous Dirichlet problem (\ref{HDP}) with different initial data and loading, the $L^1$-estimate
+Under the same assumption as lemma \ref{lem:l1_stability_classical}
 \begin{equation}
 \label{l1_contractivity}
 ||u(t) - \hat{u}(t)||_{L^1(\Omega)} \leq ||u_0 - \hat{u}_0||_{L^1(\Omega)} + ||f-\hat{f}||_{L^1(Q_t)}
@@ -273,11 +379,18 @@ and by interchanging $u$ and $\hat{u}$ we also have
 
 Since $|a| = (a)_+ + (-a)_+$, the sum of these inequalities yields the desired result.
 \end{proof}
+An obvious consequence of lemma \ref{cor:l1-contractivity_classical} is uniqueness of classical solutions.
+\begin{cor}
+If $\Phi$ is strictly and $f$ is continuous, then the homogeneous Dirichlet problem (\ref{HDP}) has at most on solution in $C^2_1(Q_T)\cap C(\overline{Q}_T)$.
+\end{cor}
 
-\setcounter{obs}{0}
-\begin{obs}
-From this corollary, we get out immediately that (\ref{HDP}) has at most one solution in $C^{2,1}(Q_T)\cap C(\overline{Q}_T)$.
-\end{obs}
+\begin{proof}
+Assume $u$ and $v$ are two classical solutions of (\ref{HDP}) with the same initial data $u_0$, then corollary \ref{cor:l1-contractivity_classical} implies that
+\begin{equation*}
+||u(t)-v(t)||_{L^1(\Omega)} \leq 0
+\end{equation*}
+for all $t \in [0,T]$, which means that $u=v$ almost everywhere. Since both solutions are continuous we conclude that $u=v$ everywhere in $\overline{Q}_T$.
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %			SPATIAL DER. BOUND
@@ -292,7 +405,8 @@ This bound follows nicely the $L^1$-contractivity in that its derivation hinges 
 The bound on the spatial derivative is then summarised in the following lemma.
 
 \begin{lemma}
-For a solution $u\in C^{2,1}(Q_T) \cap C(\overline{Q}_T)$ of (\ref{HDP})
+\label{lem:Energy_equality_classical}
+For a classical solution $u\in C^{2,1}(Q_T) \cap C(\overline{Q}_T)$ of (\ref{HDP})
 \begin{equation}
 \label{spatial_derivative_bound}
 \iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt.
@@ -323,32 +437,62 @@ and notice that this step would have been valid for homogeneous Neumann conditio
 \end{proof}
 \setcounter{obs}{0}
 
-\begin{obs}
-We can go even further and deal with the last term on the right hand side: Assuming $f,\Phi(u) \in L^2(Q_T)$, then
-\begin{equation*}
-\iint_{Q_T} f\Phi(u)dxdt \leq \left(\iint_{Q_T} f^2 dxdt\right)^\frac{1}{2}\left(\iint_{Q_T} \Phi(u)^2 dxdt\right)^\frac{1}{2},
-\end{equation*}
-by Cauchy-Schwarz'. With the inequality $\sqrt{ab} \leq \frac{1}{4c}a + cb$ for $c>0$
-\begin{equation*}
-\iint_{Q_T} f\Phi(u)dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\iint_{Q_T}\Phi(u)^2dxdt.
-\end{equation*}
-Lastly, because of the homogeneous Dirichlet conditions, we use the Poincaré inequality and set $c$ so that
+We can go even further and deal with the last term on the right hand side of (\ref{spatial_derivative_bound}):
+
+\begin{cor}
+\label{cor:spatial_bound_w_poincare}
+In addition to the assumptions under lemma \ref{lem:Energy_equality_classical}, assume $f,\Phi(u) \in L^2(Q_T)$, then
 \begin{equation}
-\label{using_Poincare}
-\iint_{Q_T} f\Phi(u)dxdt \leq C\iint_{Q_T}f^2dxdt + \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt,
+\label{spatial_derivative_bound_w_poincare}
+\frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx \leq \int_\Omega \Psi(u_0)dx + C\iint_{Q_T}f^2dxdt.
 \end{equation}
-and the final inequality becomes
+for some $C$ dependent only on $\Omega$ and the number of spatial dimensions $d$.
+\end{cor}
+
+\begin{proof}
+For the term involving $f$ in (\ref{spatial_derivative_bound}) we use the inequality $ab \leq \frac{a^2}{4c} + cb^2$ for any reals $a$ and $b$, and any positive $c$, to get
+\begin{equation*}
+\iint_{Q_T}f\Phi(u) dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\iint_{Q_T}\Phi(u)^2 dxdt.
+\end{equation*}
+
+On the latter of the right hand terms we can for each $t \in [0,T]$ use the Poincaré inequality
+\begin{equation*}
+\int_\Omega \Phi(u)^2 dx \leq \tilde{C}\int_\Omega |\nabla \Phi(u) |^2 dx,
+\end{equation*}
+where $\tilde{C}>0$ depends only on $\Omega$ and $d$. We then have
+\begin{equation*}
+\iint_{Q_T} f\Phi(u)dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\tilde{C}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt. 
+\end{equation*}
+
+We set now $c = \frac{1}{2\tilde{C}}$, and $C= \frac{\tilde{C}}{2}$, which results in
+\begin{equation*}
+\iint_{Q_T}f\Phi(u)dxdt \leq C\iint_{Q_T}f^2dxdt + \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt.
+\end{equation*}
+Putting this back into (\ref{spatial_derivative_bound}) we get
 \begin{equation}
 \frac{1}{2}\iint_{Q_T}|\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx \leq \int_\Omega \Psi(u_0)dx + C\iint_{Q_T}f^2dxdt.
 \end{equation}
-\end{obs}
+\end{proof}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				TEMPORAL DER. BOUND
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Control of the temporal derivative}
 A similar, but perhaps a bit more involved argument can be used to make an estimate the temporal derivative.
 
-Let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 1$. If we multiply (\ref{GPME}) by $\zeta \partial_t\Phi(u)$ and integrate over $Q_T$ we get
+\begin{lemma}
+\label{lem:temporal_bound_classical}
+Let $u\in C^2_1(Q_T) \cap C(\overline{Q}_T)$ be a classical solution of (\ref{HDP}), where $f$ and $\partial_tf$ are continuous as well as $\Phi \in C^2(\mathbb{R})$. Further, let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 0$. Then
+\begin{equation}
+\label{temporal_bound_classical}
+\iint_{Q_T} \zeta \Phi'(u) |\partial_t u|^2 dxdt = \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+
+ If we multiply (\ref{GPME}) by $\zeta \partial_t\Phi(u)$ and integrate over $Q_T$ we get
 	\begin{equation}
 	\label{temporal_bound_start}
 	\iint_{Q_T}\zeta \Phi'(u)|\partial_t u|^2 dxdt = \iint_{Q_T} \left\{ \zeta \partial_t \Phi(u) \Delta \Phi(u)  + \zeta \partial_t \Phi(u) f \right\} dxdt.
@@ -359,32 +503,23 @@ Let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0)
 	\end{equation*}
 	So after using the divergence theorem together with the homogeneous boundary data, as well as noticing that $(\partial_t \nabla \Phi(u)) \cdot \nabla \Phi(u) = \frac{1}{2}\partial_t |\nabla \Phi(u)|^2$, we see that
 	\begin{equation*}
-	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T}\frac{\zeta}{2}\partial_t |\nabla \Phi(u)|^2 dxdt.
+	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T}\frac{\zeta}{2}\partial_t |\nabla \Phi(u)|^2 dxdt,
 	\end{equation*}
 	Integrating by parts in the temporal dimension, we end up with
 	\begin{equation*}
-	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = \iint_{Q_T} \frac{\partial_t \zeta}{2} |\nabla \Phi(u)|^2 dxdt - \frac{1}{2}\int_\Omega \left\{ |\nabla \Phi(u(T))|^2 - |\nabla \Phi(u_0)|^2 \right\} dx.
+	\int_0^T \zeta \int_\Omega \partial_t \Phi(u) \Delta \Phi(u) dxdt = \iint_{Q_T} \frac{\partial_t \zeta}{2} |\nabla \Phi(u)|^2 dxdt,
 	\end{equation*}
+	where the temporal end point integrals vanish since $\zeta(0) = \zeta(T) = 0$.
 	A similar inetgration by parts in the temporal dimension of the last term on the right hand side in (\ref{temporal_bound_start}) yields
 	\begin{equation*}
-	\iint_{Q_T} \zeta f \partial_t \Phi(u) dxdt = -\iint_{Q_T} \partial_t (\zeta f) \Phi(u) dxdt + \int_\Omega \left\{ f(T)\Phi(u(T)) - f(0)\Phi(u_0) \right\} dx.
+	\iint_{Q_T} \zeta f \partial_t \Phi(u) dxdt = -\iint_{Q_T} \partial_t (\zeta f) \Phi(u) dxdt
 	\end{equation*}
-	For the last term in this integral we can do the same trick as we did previously for the energy estimate. We use Cauchy-Schwarz and the inequality $\sqrt{ab} \leq \frac{c^2}{4}a + \frac{1}{c^2}b$. Then, after using a Poincaré inequality we can choose $c$ so that the integrals of $|\nabla \Phi(u)|^2$ at the temporal endpoints are cancelled. In toto we end up with
-	\begin{align*}
-	\iint_{Q_T} \zeta \Phi'(u) |\partial_t u|^2 dxdt &\leq \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt \\
-	&+ \frac{C}{2}\int_\Omega \left\{ f^2(T) - f^2(0) \right\} dx	\\
-	&= \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt \\
-	&+ C \iint_{Q_T} f\partial_t f dxdt.
-	\end{align*}
-	
-	
-A particular choice for $\zeta$, that's of interest is $\zeta(t) = 1$. Then we end up with the estimate
-\begin{equation}
-\label{temporal_bound}
-\iint_{Q_T} \Phi'(u) |\partial_t u|^2 dxdt \leq \iint_{Q_T}\left\{ -\partial_t f \Phi(u)   +Cf\partial_tf \right\}dxdt, 
-\end{equation}
-and in addition if $\Phi'(u)$ is bounded over all relevant values of $u$, e.g. given by the $L^\infty$-bound, then what we have here is an $L^2$-estimate of $\partial_t \Phi(u)$.
-	
+	where again we've made use of $\zeta(0) = \zeta(T) = 0$.
+	Putting all this back into (\ref{temporal_bound_start}) results in the desired equality 
+	\begin{equation}
+	\iint_{Q_T} \zeta \Phi'(u) |\partial_t u|^2 dxdt = \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt.
+	\end{equation}
+\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -411,22 +546,8 @@ for some known function $\psi$.
 
 Furthermore, we define
 \begin{equation*}
-A(x,t,u,\nabla u) = a(x,t,u,\nabla u) - \sum_{i=1}^d \left[ \frac{\partial a_i(x,t,u,\nabla u)}{\partial u} + \frac{\partial a_i(x,t,u,\nabla u)}{\partial x_i} \right]
+A(x,t,u,\nabla u) = a(x,t,u,\nabla u) - \sum_{i=1}^d \left[ \frac{\partial a_i(x,t,u,\nabla u)}{\partial u}\partial_{x_i}u + \frac{\partial a_i(x,t,u,\nabla u)}{\partial x_i} \right]
 \end{equation*}
-
-By the function space $H^{l, l/2}$, we mean the Banach space of functions $u$ that are continuous in $\bar{Q}_T$. So are all partial derivatives of the form $\partial_t^r D^\alpha u$, with $2r+|\alpha| <l$. The norm is given as
-\begin{equation*}
-	|u|_{Q_T}^{(l)} = \langle u \rangle^{(l)}_{Q_T} + \sum_{j=0}^{[l]}\langle u \rangle^{(j)}_{Q_T},
-\end{equation*}
-with
-\begin{align*}
-\langle u \rangle^{(j)}_{Q_T} &= \sum_{2r+|\alpha|=j} ||\partial_t^r D^\alpha u||_{C(\bar{Q}_T)} \\
-\langle u \rangle^{(l)}_{Q_T} &= \langle u \rangle^{(l)}_{x,Q_T} + \langle u \rangle^{(l/2)}_{t,Q_T} \\
-\langle u \rangle^{(l)}_{x,Q_T} &= \sum_{2r+|\alpha|=[l]} |\partial_t^r D^{\alpha}u|_{C^{0,l-[l]}(\bar{Q}_T)} \\
- \langle u \rangle^{(l/2)}_{t,Q_T} &= \sum_{0 < l - 2r -\alpha < 2} |\partial_t^r D^\alpha u|_{C^{0,(l-2r-s)/2}(\bar{Q}_T)},
-\end{align*}
-with the Hölder semi-norm with respect to $x$ and $t$ respectively in the last two definitions.
-
 
 
 \subsubsection{The big, general existence theorem}
@@ -439,7 +560,7 @@ Suppose that the following conditions hold.
 	\item For $(x,t) \in \overline{Q}_T$ 
 	\begin{equation}
 		\label{exist_cond1}
-		\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \Bigg|_{p=0} \geq 0, \quad A(x,t,u,0)u \geq -b_1 u^2 - b2
+		\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \Bigg|_{p=0} \geq 0, \quad A(x,t,u,0)u \geq -b_1 u^2 - b_2
 	\end{equation}
 	 holds for arbitrary $u$ and $\xi = (\xi_1, \xi_2, \ldots, \xi_d)$.
 	
@@ -447,20 +568,20 @@ Suppose that the following conditions hold.
 	\begin{equation}
 	\label{exist_cond3}
 		\begin{cases}
-			\nu\xi^2 \leq \sum_{i,j=1}^d\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu \xi^2 \\
+			\nu|\xi|^2 \leq \sum_{i,j=1}^d\frac{\partial a_i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu |\xi|^2 \\
 			\sum_{i=1}^d \left(|a_i| + |\frac{\partial a_i}{\partial u}|\right)(1+|p|) + \sum_{i,j=1}^d |\frac{\partial a_i}{\partial x_j}| + |a| \leq \mu (1 + |p|)^2. 		
 		\end{cases}
 	\end{equation}
 	where $\nu$ and $\mu$ are positive numbers.
 	
-	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$, the functions $a_i$, $a$, $\frac{\partial a_i}{\partial p_j}$, $\frac{\partial a_i}{\partial u}$, and $\frac{\partial a_i}{\partial x_i}$ are continuous functions satisfying a Hölder condition in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively.
+	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$, the functions $a_i$, $a$, $\frac{\partial a_i}{\partial p_j}$, $\frac{\partial a_i}{\partial u}$, and $\frac{\partial a_i}{\partial x_i}$ are continuous functions satisfying a Hölder condition in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively, for some $\beta \in (0,1]$.
 	
 	\item For $(x,t) \in \overline{Q}_T$, $|u| \leq M$ and $|p| \leq M_1$ the function $a(x,t,u,p)$ has the partial derivatives $\frac{\partial a}{\partial p_j}$ and $\frac{\partial a}{\partial u}$ and the functions $a_i$ and $a$ satisfy
 	\begin{equation}
 	\label{exist_cond4}
 	\begin{split}
-		&\Bigg| \frac{\partial a_i(x,t,u,p)}{\partial u}, \frac{a_i(x,t+h,u,p) - 		a_i(x,t,u,p)}{h}, \\
-		&\frac{\partial a}{\partial p}, \frac{\partial a}{\partial u}, \frac{a(x,t+h,u,p) - a(x,t,u,p)}{h} \Bigg| \leq \varphi(x,t).
+		&\Bigg| \frac{\partial a_i(x,t,u,p)}{\partial u}\Bigg|, \Bigg|\frac{a_i(x,t+h,u,p) - 		a_i(x,t,u,p)}{h}\Bigg|, \\
+		&\Bigg|\frac{\partial a}{\partial p}\Bigg|, \Bigg|\frac{\partial a}{\partial u}\Bigg|, \Bigg|\frac{a(x,t+h,u,p) - a(x,t,u,p)}{h} \Bigg| \leq \varphi(x,t).
 	\end{split}.
 	\end{equation}
 	Here $\varphi$ is required to satisfy
@@ -482,18 +603,38 @@ Suppose that the following conditions hold.
 	\item $\psi(x,t) \in H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$ and satisfy
 	\begin{equation}
 	\label{exist_cond5}
-	\psi_t - \frac{d}{dx_i}a_i(x,t,\psi,\psi_x) + a(x,t,\psi,\psi_x) = 0.
+	\psi_t - \frac{d}{dx_i}a_i(x,t,\psi,\nabla\psi) + a(x,t,\psi,\nabla\psi) = 0.
 	\end{equation}
 	on $\partial \Omega \times \{t=0\}$.
 	
-	\item $\partial \Omega \in C^{2+\beta}$\footnote{I can't seem to find a definition of this sort of boundary in \citep{ladyzhenskaya}. However, \citep{evans} has something vaguely familiar, but here integer values of the exponent is assumed.}.
+	\item $\partial \Omega \in C^{2,\beta}$.
 \end{enumerate}
 
-Under these conditions there exists a unique solution of problem (\ref{lady_parabolic_eq})  with boundary condition (\ref{lady_bc}) from the class $H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$. Moreover, this solution has derivatives $u_{xt}$ from $L^2(\overline{Q}_T)$.
+Under these conditions there exists a unique solution of problem (\ref{lady_parabolic_eq})  with boundary condition (\ref{lady_bc}) from the class $H^{2+\beta, 1+\beta/2}(\overline{Q}_T)$. Moreover, this solution has derivatives $\partial_t \nabla u$ from $L^2(\overline{Q}_T)$.
 \end{theorem}
 
 \subsubsection{From general to specific: Existence for the GPME}
-The general porous medium equation we are concerned with can be written
+Now we'll consider theorem \ref{thm:classical_existence} in the setting of (\ref{HDP}) and under which conditions a solution is guaranteed to exist. The result is summarised in the following corollary.
+
+\begin{cor}
+\label{cor:GPME_existence}
+Assume the following conditions are satisfied:
+	\begin{enumerate}[a)]
+		\item 	$\Phi: \mathbb{R} \to \mathbb{R}$ is in $C^2(\mathbb{R})$, satisfies (\ref{uniform_parabGPME}), and $\Phi$, $\Phi'$ and $\Phi''$ are all Lipschitz continuous.
+		
+		\item $f = f(x,t)$ is $C^1(Q_T)$, bounded and Lipschitz in both its variables.
+		
+		\item $u_0$ is in $C^2_c(\Omega)$; $u_0\in C^2(\Omega)$ and has compact support.
+		
+		\item $\partial \Omega$ is $C^{2+\beta}$-smooth.
+	
+	\end{enumerate}
+Then (\ref{HDP}) has a unique solution $u\in C^{2}_1(Q_T)\cap C(\overline{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $\partial_t \nabla u$ in $L^2(Q_T)$.
+\end{cor}
+
+\begin{proof}
+
+The general porous medium equation (\ref{GPME}) we are concerned with can be written
 \begin{equation*}
 u_t - \nabla \cdot (\nabla \Phi(u) ) - f(x,t) = 0,
 \end{equation*}
@@ -503,7 +644,7 @@ a_i(x,t,u,\nabla u) = \Phi'(u) u_{x_i}, \quad a(x,t,u,\nabla u) = -f(x,t).
 \end{equation}
 
 
-Let's go trhough each condition in theorem \ref{thm:classical_existence} to see what assumptions we must make to have a classical solution.
+Let's go through each condition in theorem \ref{thm:classical_existence} and verify that each are met.
 
 \begin{enumerate}[a)]
 	\item We consider fullfilling (\ref{exist_cond1}). We have
@@ -519,22 +660,19 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 	\begin{equation*}
 		A(x,t,u,p) = -f(x,t) - \sum_{i=1}^d \Phi''(u)p_i,
 	\end{equation*}
-	which means $A(x,t,u,0) = -f(x,t)$ (Also see that we need $\Phi \in C^2(\mathbb{R})$). Thus, according to (\ref{exist_cond1}) we need constants $b_1$ and $b_2$ so that
+	which means $A(x,t,u,0) = -f(x,t)$. Thus, according to (\ref{exist_cond1}) we need constants $b_1$ and $b_2$ so that
 	\begin{equation*}
 		f(x,t)u \leq b_1 u^2 + b_2.
 	\end{equation*}
-	We are able to choose $b_1$ and $b_2$ if, for example, $f(x,t)$ is bounded in $\overline{Q}_T$.
+	We are able to choose $b_1$ and $b_2$ since $f$ is continuous and bounded in $\overline{Q}_T$.
 	
 	\item We need $a_i(x,t,u,p)$ and $a(x,t,u,p)$ to be continuous. This translates to requiring that $\Phi'(u)$ and $f(x,t)$ are continuous. In addition $a_i(x,t,u,p)$ needs to be differentiable with respect to $x$, $t$, $u$ and $p$, which in our case means that $\Phi''(u)$ needs to be continuous.
 	
 	Considering the first inequality in (\ref{exist_cond3}) we have
 	\begin{equation*}
-		\sum_{i,j=1}^d \frac{\partial a_i(x,t,u,p)}{\partial p_j} \xi_i \xi_j = \sum_{i=1}^d \Phi'(u)\xi_i^2 =\Phi'(u)\xi^2.
+		\sum_{i,j=1}^d \frac{\partial a_i(x,t,u,p)}{\partial p_j} \xi_i \xi_j = \sum_{i=1}^d \Phi'(u)\xi_i^2 =\Phi'(u)\xi^2,
 	\end{equation*}
-	Assuming that $\Phi'(u)$ is strictly positive and continuous for $|u|\leq M$ we can set
-	\begin{equation}
-	0 < \nu = \text{inf}_{|u| \leq M}\Phi'(u) < \text{sup}_{|u| \leq M}\Phi'(u) \leq \mu.
-	\end{equation}
+	which is satisfied because of (\ref{uniform_parabGPME}).
 	
 	After establishing that
 	\begin{equation*}
@@ -571,13 +709,14 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 			\frac{\partial a_i(x,t,u,p)}{\partial x_j} &= 0
 		\end{cases}
 	\end{equation*}
-	to be Hölder continuous in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively. If we choose $\beta = 1$ (i.e. Lipschitz continuous for all variables except $t$) the only additional assumption we need to make on $\Phi$ is that $\Phi^{(3)}(u)$ is bounded for $|u| \leq M$, which means that $\Phi \in W^{3,\infty}(\mathbb{R})$. The additional assumptions we need to make on $f$ is that it needs to be Lipschitz continuous with respect to $x$ and that
+	to be Hölder continuous in $x$, $t$, $u$ and $p$ with exponents $\beta$, $\frac{\beta}{2}$, $\beta$ and $\beta$ respectively. This is satisfied for any $\beta \in (0,1]$ since $\Phi$, $\Phi'$, $\Phi''$ and $f$ are all assumed to be Lipschitz continuous.
+	With $\beta = 1$, the requirement of theorem \ref{thm:classical_existence} is that $f$ is Hölder continuous with exponent $1/2$ in time, i.e.
 	\begin{equation*}
 	|f(x,t) - f(x,s)| \leq C|t-s|^\frac{1}{2}
 	\end{equation*}
-	for some constant $C$. Note that for bounded domains, Lipschitz continuity implies Hölder continuity with lower exponent. So we could make the kind of a fortiori assumption that $f$ is Lipschitz continuous with respect to time. Or even that $f_t(x,t)$ is bounded.
+	for some constant $C$. Note that for bounded domains, Lipschitz continuity implies Hölder continuity with lower exponent. Therefore, this is satisfied with $f$ Lipschitz in time.
 	
-	\item For this condition we see that it seems even more natural to impose that $f$ is Lipschitz continuous in $t$, and that the domain is bounded. I.e. that $T<\infty$ and $\Omega$ is bounded. Then all the previous assumptions we've made on $\Phi$ and $f$ will ensure that this condition holds.
+	\item This condition holds from $\frac{\partial a_i}{\partial u}$, $\frac{\partial a}{\partial t}$ (the rest of the expressions in the condition are zero), and since we're considering $Q_T$, with $T$ finite, constants are integrable.
 	
 	\item We of course have
 	\begin{equation*}
@@ -586,30 +725,17 @@ Let's go trhough each condition in theorem \ref{thm:classical_existence} to see 
 		\Psi(x,0) &= u_0(x), \quad x\in \Omega 
 		\end{cases}
 	\end{equation*}
-	and so this condition isn't too hard to handle\footnote{I think...}. First off, we should require that $u_0$ vanish at the boundary, and that it is sufficiently smooth. To be more precise, $u_0$, $u'_0$ and $u''_0$ are all continuous and are zero at the boundary. The condition (\ref{exist_cond5}) holds trivially, because  $\Psi\big|_{\partial \Omega \times \{t=0\}} = 0$.
+	and so this condition isn't too hard to handle. First off, we should require that $u_0$ vanish at the boundary, and that it is sufficiently smooth. To be more precise, $u_0$, $\nabla u_0$ and $\Delta u_0$ are all continuous and are zero at the boundary. The condition (\ref{exist_cond5}) holds trivially, because  $\Psi\big|_{\partial \Omega \times \{t=0\}} = 0$.
 	
-	\item In this condition we can do nothing more than assume sufficient smoothness of the boundary.
+	\item This condition holds trivially.
 \end{enumerate}
+All conditions of theorem (\ref{thm:classical_existence}) are met, which yields the conclusion that (\ref{HDP}) with the additional assumption of this corollary has a unique solution $u \in C^2_1(Q_T)\cap C(\overline{Q}_T)$.
+\end{proof}
 
-It seems only appropriate that we summarise this somehow. A nice little corollary tailored for our purposes is just what we need now.
-
-\begin{cor}
-\label{cor:GPME_existence}
-Assume the following conditions are satisfied:
-	\begin{enumerate}[a)]
-		\item 	$\Phi: \mathbb{R} \to \mathbb{R}$ is in $C^2(\mathbb{R})$, strictly increasing, and $\Phi$, $\Phi'$ and $\Phi''$ are all Lipschitz continuous.
-		
-		\item $f = f(x,t)$ is $C^1(Q_T)$, bounded and Lipschitz in both its variables.
-		
-		\item $u_0$ is in $C^2_c(\Omega)$; $u_0$ and its derivatives vanish near the boundary $\partial \Omega$.
-		
-		\item $\partial \Omega$ is $C^{2+\beta}$-smooth.
-	
-	\end{enumerate}
-Then (\ref{HDP}) has a unique solution $u\in C^{2,1}(\bar{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $u_{xt}$ in $L^2(Q_T)$.
-\end{cor}
-
-We see that when these assumptions are fulfilled, the homogeneous Dirichlet problem is well posed, since uniqueness and stability are ensured by $L^1$-contractivity.
+\setcounter{rem}{0}
+\begin{rem}
+We end this section on classical solutions with the remark that the assumptions in corollary \ref{cor:GPME_existence} is a subset of the assumptions for lemma \ref{cor:l1-contractivity_classical}. Therefore, two solutions $u$ and $\hat{u}$ aquired from corollary \ref{cor:GPME_existence} will also satisfy (\ref{l1_contractivity}), i.e. $L^1$-stability. Hence, The homogeneous Dirichlet problem (\ref{HDP}) with the assumptions in corollary \ref{cor:GPME_existence} is well-posed.
+\end{rem}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -619,7 +745,7 @@ We see that when these assumptions are fulfilled, the homogeneous Dirichlet prob
 \section{Weak solutions}
 In the previous sections we saw what assumptions needs to be made for the homogeneous Dirichlet problem to be well posed. Allthough a very nice result, the assumptions on the data are far too strict. Especially degenerate problems, where $\Phi$ is only increasing and not stricly so, are not valid for this existence result. In addition the assumptions on smoothness are often violated in applications. This heuristic will now lead us into a discussion of weak solutions, a more general sense of solution. 
 
-In this section we will aim to prove well-posedness of weak solutions, and what sort of assumptions we'll need to put on the data to ensure it, well-posedness that is. Again, this follows \citep[Ch. 5]{vazquez2007porous} quite closely. However, the proofs are worked out in greater detail than presented there. We will, unless stated otherwise, assume that $\Phi$ is an increasing function, and not only stricly increasing.
+In this section we will aim to prove well-posedness of weak solutions, and what sort of assumptions we'll need to put on the data to ensure it, well-posedness that is. Again, this follows \citep[Ch. 5]{vazquez2007porous} quite closely. However, the proofs are worked out in much greater detail than presented there. We will, unless stated otherwise, assume that $\Phi$ is a strictly increasing function.
 
 Let's just jump off with the definition of weak solutions that we will be using in this text.
 \begin{mydef}[Weak solutions]
@@ -667,7 +793,7 @@ This is a pretty neat proof using a smart choice of $\eta$. So let's assume $u_1
 \label{weak_diff}
 \iint_{Q_T}\nabla(\Phi(u_2) - \Phi(u_1)) \cdot \nabla \eta - (u_2 - u_1)\partial_t \eta dxdt = 0.
 \end{equation}
-Now the inspired move\footnote{Of course, this isn't my proof so that sort of horn-tooting is in good taste.} is choosing
+Now the inspired move is choosing
 \begin{equation*}
 \eta(x,t) = \begin{cases}
 		\int_t^T(\Phi(u_2) - \Phi(u_1))ds, \quad &\text{ if } 0 < t < T \\
@@ -712,14 +838,14 @@ From this we may conclude that both integral terms in (\ref{unique}) are zero, w
 \begin{equation*}
 \iint_{Q_T}(u_2 - u_1)\partial_t \eta dx dt = 0.
 \end{equation*}
-This should hold for any test function $\eta$, and so the weak derivative of $u_2 - u_1$ with respect to time is zero. Because $u_2$ and $u_1$ have identical initial condition $u_0$ we conclude that $u_2 = u_1$.
+This should hold for any test function $\eta$, and so the weak derivative of $u_2 - u_1$ with respect to time is zero. Because $u_2$ and $u_1$ have identical initial condition $u_0$ we conclude that $u_2 = u_1$ almost everywhere.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %			EXISTENCE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Existence}
-As the assumptions in theorem \ref{thm:uniqueness} may hint at, some additional assumptions on $u$ and $\Phi(u)$ needs to be put to ensure that the homogeneous Dirichlet problem is well posed in the weak setting. There are some alternatives, and of course, any further analysis will be informed what sort of additional condition we want a weak solution $u$ to fulfill. The one we will be using here is guided by the notion that in a physical system the energy should be controlled, and is therefore called a weak energy solution. 
+As the assumptions in theorem \ref{thm:uniqueness} may hint at, some additional assumptions on $u$ and $\Phi(u)$ needs to be put to ensure that the homogeneous Dirichlet problem is well posed in the weak setting. There are some alternatives, and of course, any further analysis will be informed by what sort of additional condition we want a weak solution $u$ to fulfill. The one we will be using here is guided by the notion that in a physical system the energy should be controlled, and is therefore called a weak energy solution. 
 
 Recall our definition of $\Psi$ in (\ref{phi_primitive}) as the primitive of $\Phi$,
 and we define the function space $L_\Psi(\Omega) = \{ u\in L^1(\Omega): \Psi(u)\in L^1(\Omega)\}$.
@@ -734,19 +860,19 @@ holds.
 \end{mydef}
 \setcounter{obs}{0}
 \begin{obs}
-If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as with the energy identity in (\ref{spatial_derivative_bound}) to get that $\Phi(u) \in L^2(0,T: H_0^1(\Omega))$.
+If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as we did in deriving (\ref{spatial_derivative_bound_w_poincare}), to get that $\Phi(u) \in L^2(0,T: H^1_0(\Omega))$.
 \end{obs}
 
 Now we jump in with trying to prove existence of signed, weak energy solutions. Following closely the proof provided in \citep{vazquez2007porous}. We will first prove existence of weak energy solutions under the assumption that $\Phi$ is strictly increasing, and then extend the result to the case of $\Phi$ being nondecreasing. Another useful addition to the proof will be that we will also incorporate a $L^1$-contractivity result.
 
 The proof will use an approximate problem which admits a unique solution from theorem \ref{thm:classical_existence}, and then employ the Rellich compactness argument (cf. appendix \ref{sec:compactness}) to get a limit which hopefully will be a weak energy solution.
 
-In the following we will assume $u_0 \in L_\Psi(\Omega)$ and $f\in L^p(\Omega)$ with $p = \frac{2d}{d+2}$ if $d \geq 3$, or for some $p>1$ if $d=1,2$\footnote{This choice of value for $p$, I can only say is a mystery for me at this moment, but it seems to be related to the Sobolev conjugate. Let's just stay curious and excited for now, shall we?}.
+In the following we will assume $u_0 \in L_\Psi(\Omega)$ and $f\in L^2(Q_T)$.
 
 The main theorem reads:
 \begin{theorem}
 \label{thm:weak_existence}
-Assume $u_0 \in L_\Psi(\Omega)$ and $f \in L^p (\Omega)$. Then the homogeneous, general porous medium equation (\ref{HDP}) has a weak solution defined in an infinite time interval, $T=\infty$. We have $u \in L^\infty(0,T:L_\Psi(\Omega))$ and $\Phi(u) \in L^2(0,T:H_0^1(\Omega))$, and the energy inequality (\ref{energy_ineq}) holds.
+Assume $u_0 \in L_\Psi(\Omega)$ and $f \in L^p (\Omega)$. Then the homogeneous, general porous medium equation (\ref{HDP}) has a weak solution defined in any finite time interval. We have $u \in L^\infty(0,T:L_\Psi(\Omega))$ and $\Phi(u) \in L^2(0,T:H_0^1(\Omega))$, and the energy inequality (\ref{energy_ineq}) holds.
 \end{theorem}
 
 We will not prove this in one big chunk, but rather split it off into smaller lemmas, and as already stated, some attention will also be paid to the $L^1$-contractivity.
@@ -757,7 +883,7 @@ We approximate $\Phi$ by the smooth approximations. To ensure suffient smoothnes
 \begin{equation*}
 \Phi_n'(s) = \left( \Phi' + \frac{1}{n}\right)*\varphi_{\frac{1}{n}},
 \end{equation*}
-where $\varphi_{\frac{1}{n}}(s) = n\varphi\left( \frac{s}{n} \right)$ and $\varphi$ is the standard mollifier. Then, we can approximate $\Phi$ as
+where $\varphi_{\frac{1}{n}}(s) = n\varphi(ns)$ and $\varphi$ is the standard mollifier. Then, we can approximate $\Phi$ as
 \begin{align*}
 \Phi_n(u) &= \int_0^u \int_\mathbb{R}\left( \Phi'(s-y) + \frac{1}{n}\right)\varphi_{\frac{1}{n}}(y)dyds \\
 &= \int_\mathbb{R}\varphi_{\frac{1}{n}}(y) \int_0^u \left( \Phi'(s-y) + \frac{1}{n}\right)dsdy \\
@@ -769,11 +895,12 @@ Further discussion of $\Phi$ and its sequence of approximations has been relegat
 
 
 
-We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq $min$\{n,|u_0|\}$.
+We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq \mathrm{min}\{n,|u_0|\}$.
+This construction can be done as follows: First, define $\tilde{u}_n = \mathrm{max}\{ \mathrm{min}\{u_0, n\}, -n\}$, so $u_0$ is truncated at $\pm n$. Then let $(V_n)$ be a sequence of open subsets so that $V_n \subset V_{n+1}$ for all $n$ as well as $\cup_{n\in \mathbb{N}}V_n = \Omega$, and we require $\mathrm{dist}(V_n,\partial \Omega) \geq \frac{2}{n}$. Then we set $u_n = (\chi_{V_n}\tilde{u}_n)*\varphi_{\frac{1}{n}}$, where $\chi_{V_n}$ is the characteristic function for $V_n$ and $\varphi_{\frac{1}{n}}$ is the scaled standard mollifier in $\mathbb{R}^d$. The requirement on the distance between $V_n$ and $\partial \Omega$ we see is to ensure that $u_{0,n}$ and its derivatives vanish at the boundary. 
 
-Apparently, also according to \citep{vazquez2007porous}, we also approximate $f$ by a sequnce of functions $f_n$ that converges to $f$ in $L^p(Q_T)$ for all\footnote{Not sure if \textit{sic}...} $p<\infty$, and is so that $|f_n| \leq |f|$ for all $n$.
+We also approximate $f$ by a sequence of $C^\infty(Q_T)$ functions $f_n$ that converge to $f$ in $L^2(Q_T)$, and is so that $|f_n| \leq |f|$ for all $n$.
 
-\subsubsection{$u_0$, $f$ and $\partial_t f$ bounded}
+\subsubsection{$u_0$, $f$, $\partial_t f$ bounded and $\Phi$ locally Lipschitz}
 Our first lemma then reads
 \begin{lemma}
 \label{lem:existence_part1}
@@ -792,26 +919,21 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 			u_n(x,t) &= 0, \quad \text{ on }  \partial \Omega \times (0,T).
 			\end{cases}
 		\end{equation}			
-	By virtue of theorem \ref{thm:classical_existence}, this approximate problem has a unique solution $u_n \in C^{2,1}(\overline{Q}_T)$. In addition we can from the maximum principle see that
+	By virtue of corollary \ref{cor:GPME_existence} this approximate problem has a unique solution $u_n \in C^2_1(Q_T)\cap C(\overline{Q}_T)$. In addition we can from the corollary   \ref{cor:Linf_bound_classical} see that
 	\begin{align*}
 	||u_n||_{L^\infty(Q_T)} &\leq ||u_{0,n}||_{L^\infty(\Omega)} + T||f_n||_{L^\infty(Q_T)} \\
-	&\leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)} = C.
+	&\leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)} = M.
 	\end{align*}
 	A bound independent of $n$.
 	
-	\item[Control of the spatial derivative:] Now we define $w_n = \Phi_n(u_n)$, and do exactly as when deriving (\ref{spatial_derivative_bound}) to get 
-	\begin{equation*}
-	\int_\Omega \Psi_n(u_n(T))dx + \iint_{Q_T}|\nabla w_n|^2dxdt = \int_\Omega \Psi_n(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt.
-	\end{equation*}
-	Considering the second term on the right hand side we have
-	\begin{equation*}
-	\iint_{Q_T}f_n w_n dxdt \leq C\iint_{Q_T}f_n^2 dxdt + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2dxdt,
-	\end{equation*}
-	after exactly the same argument as we did with (\ref{using_Poincare}). After putting it back
+	\item[Control of the spatial derivative:] Now we define $w_n = \Phi_n(u_n)$, and use (\ref{spatial_derivative_bound_w_poincare}) to get 
 	\begin{equation}
 	\label{exist_proof_spatial}
-	\int_\Omega \Psi_n(u_n(T))dx + \frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt \leq \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
+	\frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dx  \leq \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt,
 	\end{equation}
+	for each $n$.
+
+
 	and so we're getting close to a uniform bound on $\nabla w_n$ in $L^2(Q_T)$. We notice that
 	\begin{equation*}
 	\iint_{Q_T}f_n^2dxdt \leq \iint_{Q_T} f^2 dxdt,
@@ -822,7 +944,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\begin{equation*}
 	\Psi_n(u) = \int_0^{u}\Phi_n(s)ds,
 	\end{equation*}
-	from which it is to see that $\Psi_n(u) \leq 0$ for every $u \in \mathbb{R}$. It is also very much worthwhile to see that because $\Phi_n$ is monotone for every $n$ we have the estimate
+	from which it is easy to see that $\Psi_n(u) \leq 0$ for every $u \in \mathbb{R}$. It is also very much worthwhile to see that because $\Phi_n$ is monotone for every $n$ we have the estimate
 	\begin{equation*}
 	|\Psi_n(u)| \leq |\Phi_n(u)u|.
 	\end{equation*}
@@ -834,7 +956,8 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\begin{equation*}
 	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega |\Phi_n(u_{0})u_{0}|dx.
 	\end{equation*}
-	Now we do as in appendix \ref{app:Phi} to get a bound in $\Phi_n$ in terms of $\Phi$ and $u_0$. A crude estimate will be sufficient, and we have
+	
+	Now we derive an estimate on $\Phi_n$ in terms of $\Phi$ and $u_0$. A crude estimate will be sufficient, and we have
 	\begin{align*}
 	|\Phi_n(u) - \Phi(u)| &= \left|\frac{u}{n} + \int_\mathbb{R}\left( \Phi(u-y) - \Phi(u) - \Phi(y)\right)\varphi_{\frac{1}{n}}(y)dy \right| \\
 	&\leq \frac{|u|}{n} + \underset{y\in [-1/n, 1/n]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| + \mathrm{max}\{|\Phi(-1/n)|, |\Phi(1/n)|\} \\
@@ -843,28 +966,65 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	where we have used that $\mathrm{supp}(\varphi_{\frac{1}{n}})\subset [-1/n, 1/n]$ as well as that $\Phi$ is monotone. This, when considering $u_0$, we have
 	\begin{align*}
 	|\Phi_n(u_0)| &\leq |\Phi(u_0)| + |u_0| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u_0-y) - \Phi(u_0)| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
-	&= K.
+	& \leq \underset{|s| \leq ||u_0||_\infty}{\mathrm{sup}}|\Phi(s)| + ||u_0||_{\infty}\\
+	& + \underset{\underset{y\in[-1/n,1/n]}{|s| \leq ||u_0||_{\infty}}}{\mathrm{sup}}|\Phi(s-y) - \Phi(s)| + \mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
+	&= K < \infty.
 	\end{align*}
-	All terms are bounded since $u_0$ is bounded, and so we get the crude, but sufficient estimate
+	All terms are bounded since $u_0$ is bounded, and so we finally get the estimate
 	\begin{equation*}
 	\int_\Omega \Psi_n(u_{0,n})dx \leq K ||u_0||_{L^1(\Omega)},
 	\end{equation*}
-	which is finite from $u_0 \in L^1(\Omega)$. Most importantly, this shows that the left hand side of (\ref{exist_proof_spatial}) is bounded independently of $n$, which immediately implies that $\nabla w_n$ is a bounded sequence in $L^2(Q_T)$.
-	
-	\item[Control of the temporal derivative:] The derivation of (\ref{temporal_bound}) holds up in this case and we have
+	which is finite from $u_0 \in L^1(\Omega)$. Most importantly, this shows that the left hand side of (\ref{exist_proof_spatial}) is bounded independently of $n$, which immediately implies that $\nabla w_n$ is a bounded sequence in $L^2(Q_T)$. Notice also that from the Poincaré inequality,
 	\begin{equation*}
-	\label{exist_proof_temporal}
-	\iint_{Q_T} \Phi'_n(u_n)|\partial_t u_n|^2 dxdt \leq \iint_{Q_T} \left\{ -\partial_t f_n \Phi_n(u_n) + Cf_n\partial_tf_n \right\} dxdt.
+	\iint_{Q_T}w_n^2 dxdt \leq C\iint_{Q_T} |\nabla w_n|^2dxdt,	
 	\end{equation*}
-	Just to reiterate, $C$ is here the constant given by Poincaré inequality, and is as such only dependent on $\Omega$. 
+	$w_n$ is also uniformly bounded in $L^2(Q_T)$.
 	
-	Now, since we have assumed $\Phi$ to be locally Lipschitz, $|\Phi_n'(u_n)| \leq K < \infty$ over the relevant values of $u_n$, we notice that $|\partial_t w_n|^2 \leq K|\Phi'_n(u_n) (\partial_t u_n)^2|$. We have assumed both $f$ and $\partial_t f$ to be bounded, so we can put a uniform bound on the right hand side, independent of $n$. We conclude that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T)$.
-	
-	\item[Using a compactness argument:]From the two previous parts we have that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T)$, so by theorem \ref{thm:Rellich} it has convergent subsequence $\{w_{n_j}\}_{j \in \mathbb{N}}$ that converges to some $w$ in $L^2(Q_T)$. The energy estimate continues to hold in the limit as
+	\item[Control of the temporal derivative:] From lemma \ref{lem:temporal_bound_classical} we have for each $n$ and every cutoff function $\zeta\in C^1([0,T], [0,1])$
 	\begin{equation}
-	\iint_{Q_T}|\nabla w|^2 dxdt \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}fw dxdt.
+	\iint_{Q_T} \zeta \Phi'_n(u_n) |\partial_t u_n|^2 dxdt = \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla w_n|^2 - \partial_t(\zeta f_n) w_n \right\} dxdt.
 	\end{equation}
-	Notice that since $w \in L^2(Q_T)$, we can from this inequality conclude that $w \in H^1(Q_T)$.
+	
+	Take now $0<\tau < \frac{T}{2}$, and take $\zeta(t)=1$ for $t\in [\tau, T-\tau]$. We define $Q_T^\tau = \Omega \times (\tau, T - \tau)$, then
+	\begin{align*}
+	\iint_{Q_T^\tau}\Phi'_n(u_n)|\partial_t u_n|^2 dxdt & \leq \iint_{Q_T}\zeta\Phi'_n(u_n)|\partial_t u_n|^2 dxdt \\
+	&= \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla w_n|^2 - \partial_t(\zeta f_n) w_n \right\} dxdt.
+	\end{align*}
+	From the uniform boundedness of $w_n$ and $\nabla w_n$ in $L^2(Q_T)$ as well as the boundedness of $\partial_t f$ enables us to deduce from the above inequality that $\Phi'_n(u_n)|\partial_t u_n|^2$ is uniformly bounded in $L^1(Q_T^\tau)$ for all $\tau > 0$.
+	Recall now that $|u_n| \leq M$ and $M$ is a constant independent of $n$, and so $[-M,M]$ is a compact subset of $\mathbb{R}$. By the local Lipschitz assumption on $\Phi$ there is a constant $L$, so that $\Phi'(s)\leq L$ for all $s\in [-M,M]$, and from the definition of $\Phi_n$ we then have that $\Phi'_n(s) \leq L + 1$ for all $s \in [-M,M]$ and all $n$. Hence $|\partial_t w_n|^2 \leq (L+1)\Phi'_n(u_n)|\partial_t u_n|^2$, and we have that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T^\tau)$.
+	
+	
+	\item[Using a compactness argument to get a weak limit of $w_n$:]From the two previous parts we have that $\{w_n\}_{n \in \mathbb{N}}$ is a bounded sequence in $H^1(Q_T^\tau)$ for $\tau >0$. The fact that we were only able to bound $\partial_t w_n$ in $L^2(Q_T^\tau)$ causes some problems in using the Rellich-Kondrachov theorem to get a converging subsequence of $w_n$. We'll remedy this by the following diagonal argument:
+	Let $(\tau_m)$ be a positive, decreasing sequence converging to $0$.
+	\begin{enumerate}[i)]
+	\item Consider $Q_T^{\tau_1}$. Then $w_n$ is bounded sequence in $H^1(Q_T^{\tau_1})$, and we use theorem \ref{Rellich} to get a subsequence $(w_{n_j}^1)$ that converges strongly to some $\tilde{w}_1$ in $L^2(Q_T^{\tau_1})$.
+	
+	\item $w_{n_j}^1$ is uniformly bounded in $H^1(Q_T^{\tau_2})$, and we use theorem \ref{Rellich} again to get a subsequence $(w_{n_j}^2)$ that converges to $\tilde{w}_2$. We have that $\tilde{w}_2 = \tilde{w}_1$ in $L^2(Q_T^{\tau_1})$.
+	
+	\item We proceed in this manner and for each $m \in \mathbb{R}$. $w_{n_j}^{m-1}$ is uniformly bounded in $H^1(Q_T^{\tau_m})$, so we use theorem \ref{Rellich} to get another subsequence $(w_{n_j}^m)$ that converges to $\tilde{w}_m$ in $L^2(Q_T^{\tau_m})$.
+	
+	\item We define the subsequence $(w_{n_j})$ by $w_{n_j} = w_{n_j}^j$, which will converge to some $w$ in $L^2(Q_T^\tau)$ for every $\tau > 0$, and hence in $L^2_loc(Q_T)$. Without loss of generality we assume $w_{n_j}$ converges to $w$ almost everywhere in $Q_T$ (If not, take yet another subsequence so that it does).
+\end{enumerate}	 
+
+	To determine that $w_{n_j}$ converges weakly to $w$ in $L^2(Q_T)$ we first note that every subsequence of $w_{n_j}$ is bounded in $L^2(Q_T)$ and by Banach-Alaoglu's theorem and that $L^2(Q_T)$ is a Hilbert deduce that the subsequence has a subsequence that converges weakly to some $v$. If we can prove that $v=w$ in $L^2(Q_T)$, then $w_{n_j}$ converges weakly to $w$, since every subsequence has a weakly convergent subsequence with the same limit.
+	
+	So assume that $v\neq w$, then there is an $\epsilon > 0$ and a subset $E\subset Q_T$ with positive measure where $|v-w| \geq \epsilon$. We can without loss of generality assume that $v > w$ in $E$.
+	
+	By the pointwise convergence of $w_{n_j}$ to $w$ and Egorov's theorem \citep[p. 120]{weiss1999course}	
+	there is a measurable set $B\subset E$ with positive measure over which $w_{n_j}$ converges uniformly to $w$. Therefore, for any $\delta > 0$ and sufficiently large $n$,
+	\begin{equation*}
+	\iint_B |w_{n_j}-w|dxdt \leq \delta |B|,
+	\end{equation*}
+	where $|B|>0$ is the measure of $B$. We conclude that
+	\begin{equation*}
+	\iint_B w_{n_j}dxdt \to \iint_B wdxdt.
+	\end{equation*}
+	
+	However, since $B$ is measurable the characteristic function $\chi_B \in L^2(Q_T)$, and by the weak convergence of $w_{n_j}$ to $v$ we have
+	\begin{equation*}
+	\iint_B w_{n_j}dxdt \to \iint_B vdxdt \geq \iint_B wdxdt + \epsilon|B|,
+	\end{equation*}
+	which is a contradiction. We conclude that $v=w$, and since this is true for any weakly convergent subsequence of $w_{n_j}$, this implies that $w_{n_j}$ converges weakly to $w$ in $L^2(Q_T)$.
 	
 	\item[Convergence of $u_{n_j}$:] Both $\Phi$ and its approximations $\Phi_n$ all admit a continuous inverse, and so
 	\begin{equation*}
@@ -1127,13 +1287,23 @@ where we have used that the $u_n$ satisfies the energy inequality. This complete
 \begin{appendix}
 \section{Passing derivative inside the integral}
 \label{sec:derivative}
+In this section we prove the assertion made in the proof of theorem \ref{thm:uniqueness} regarding passing the derivative inside an integral.
 
-We are now concern with whether
+\begin{lemma}
+Let $\varphi \in L^2(0,T: H^1(\Omega))$, then 
 \begin{equation}
 \label{diff_int}
 	\nabla \int_t^T \varphi(x,s)ds = \int_t^T \nabla\varphi(x,s)ds
 \end{equation}
-holds or not for $\varphi \in L^2(0,T:H_0^1 (\Omega))$. 
+weakly in $H^1_0(\Omega)$, meaning 
+\begin{equation*}
+\int_\Omega \psi \nabla \left(\int_t^T \varphi ds \right) dx = \int_\Omega \psi \left(\int_t^T \nabla \varphi ds \right) dx
+\end{equation*}
+for all $\psi \in H^1_0(\Omega)$.
+\end{lemma}
+
+\begin{proof}
+
 For simplicity we now only consider one spatial dimension.
 
 To begin with, assume that $\psi \in C^{\infty}_c(\Omega)$ and $\eta \in L^2(0,T: H_0^1(\Omega))\cap C^\infty_c(Q_T)$, then we have that
@@ -1148,24 +1318,75 @@ Assuming that $\partial_x \eta(x,s)$ is bounded, we can use the mean value theor
 \int_{\Omega}\psi \partial_x\left(\int_t^T \eta(x,s) ds\right)dx = \int_{\Omega}\psi \left(\int_t^T \partial_x\eta(x,s) ds\right)dx.
 \end{equation}
 
-To extend the result to $L^2(0,T:H_0^1 (\Omega))$ we use that $C_c^\infty$ is dense in this space. So let $\{\psi_n\},\{\varphi_n\}$ be two sequence converging to $\psi$ and $\varphi$ in $L^2(\Omega)$ and $L^2(0,T:H_0^1(\Omega))$ respectively. Considering the left hand side of (\ref{results_diff_first}), we get
+To extend the result to $L^2(0,T:H_0^1 (\Omega))$ we use that $C_c^\infty$ is dense in this space. So let $\{\psi_n\},\{\varphi_n\}$ be two sequence converging to $\psi$ and $\varphi$ in $H^1_0(\Omega)$ and $L^2(0,T:H_0^1(\Omega))$ respectively. Considering the left hand side of (\ref{results_diff_first}), we get
 \begin{align*}
 &\left|\int_{\Omega}\psi \partial_x \left( \int_t^T\varphi ds \right)dx - \int_{\Omega}\psi_n \partial_x \left( \int_t^T \varphi_n ds \right) dx \right| \\
-&\leq  \left| \int_{\Omega} \psi \partial_x \left(\int_t^T \varphi - \varphi_n ds\right)dx \right| + \left| \int_{\Omega}(\psi - \psi_n)\partial_x\left(\int_t^T \varphi_n ds\right) dx \right| \\
-&\leq ||\psi||_{L^2(\Omega)}|(\varphi -\varphi_n)|_{L^2(H_0^1)} + ||\psi-\psi_n||_{L^2}| \varphi_n |_{L^2(H_0^1)} \\
-&\leq ||\psi||_{L^2(\Omega)}||(\varphi -\varphi_n)||_{L^2(H_0^1)} + ||\psi-\psi_n||_{L^2}|| \varphi_n ||_{L^2(H_0^1)} \\
-&\to 0,
+&\leq \underbrace{\left| \int_{\Omega} \psi \partial_x \left(\int_t^T \varphi - \varphi_n ds\right)dx \right| }_{I} + \underbrace{\left| \int_{\Omega}(\psi - \psi_n)\partial_x\left(\int_t^T \varphi_n ds\right) dx \right|}_{II}
 \end{align*}
-after using the triangle- and Cauchy-Schwarz' inequality as well as the assumptions on convergence.
+after adding and subtracting $\int_\Omega \psi \partial_x \left(\int_t^T \varphi_n ds\right)dx$.
 
-An exactly similar approach can be done to the right hand side, and so passing the limit in (\ref{results_diff_first}) we get
+Let's go over these two integrals one at a time.
+\begin{enumerate}[I:]
+
+\item After using integration by parts and Cauchy-Schwarz, the first integrals is estimated as
+\begin{align*}
+\left| \int_{\Omega} \psi \partial_x \left(\int_t^T \varphi - \varphi_n ds\right)dx \right| &= \left| \int_\Omega (\partial_x \psi) \int_t^T\varphi - \varphi_n ds dx \right| \\
+&\leq ||\psi||_{H^1(\Omega)}\big|\big| \int_t^T \varphi - \varphi_n ds \big|\big|_{L^2(\Omega)}.
+\end{align*}
+For the latter of this factors we notice that since norms are convex we can use Jensen's inequality \citep[Theorem 2, p. 705]{evans} to get
+\begin{align*}
+\big|\big| \int_t^T \varphi - \varphi_n ds \big|\big|_{L^2(\Omega)} &\leq \int_t^T ||\varphi - \varphi_n||_{L^2(\Omega)}ds \\
+&\leq ||\varphi - \varphi_n||_{L^2(Q_T)} \\
+&\leq ||\varphi - \varphi_n||_{L^2(0,T: H^1(\Omega))},
+\end{align*}
+which we control by the convergence of $\varphi_n$ to $\varphi$.
+
+\item We do exactly the same steps as we did immediately above for I, but now convergence is controlled by the convergence of $\psi_n$ to $\psi$ in $H^1(\Omega)$.
+
+\end{enumerate}
+From the convergence of $I$ and $II$ we deduce that
 \begin{equation}
-\label{result_diff_final}
-\int_\Omega \psi \partial_x\left(\int_t^T \varphi(x,s)ds\right)dx = \int_\Omega \psi \left( \int_t^T \partial_x \varphi(x,s)ds \right) dx.
+\label{diff_results_LHS}
+\int_{\Omega}\psi \partial_x \left( \int_t^T\varphi ds \right)dx = \lim_{n\to \infty}\int_{\Omega}\psi_n \partial_x \left( \int_t^T \varphi_n ds \right) dx.
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+The right hand side can be handled identically, save for a detail.
+We do the same decomposition as
+\begin{align*}
+&\left| \int_\Omega \psi \left( \int_t^T \partial_x \varphi ds \right)dx - \int_\Omega \psi_n \left( \int_t^T \partial_x \varphi_n ds \right)dx \right| \\
+&\leq \underbrace{ \left| \psi \left( \int_t^T \partial_x (\varphi - \varphi_n)ds \right) dx\right|}_{I} + \underbrace{ \left| \int_\Omega (\psi - \psi_n) \left( \int_t^T \partial_x \varphi_n ds \right) dx \right|}_{II}.
+\end{align*}
+
+Again, let's take these term by term:
+
+\begin{enumerate}[I:]
+
+\item Using Cauchy-Schwarz immediately gives
+\begin{align*}
+\left| \psi \left( \int_t^T \partial_x (\varphi - \varphi_n)ds \right) dx\right| & \leq ||\psi||_{L^2(\Omega)} \big| \big| \int_t^T \partial_x(\varphi - \varphi_n) ds \big| \big|_{L^2(\Omega)} \\
+& \leq ||\psi||_{H^1(\Omega)}||\varphi - \varphi_n||_{L^2(0,T:H^1(\Omega))},
+\end{align*}
+where Jensen's inequality has been put to use yet another time. This is controlled by the convergence of $\varphi_n$ to $\varphi$ in $L^2(0,T: H^1(\Omega))$.
+
+\item The same steps as immediately above, only now convergence is controlled by the convergence of $\psi_n$ to $\psi$. 
+\end{enumerate}
+
+Hence we deduce that
+\begin{equation}
+\label{diff_results_RHS}
+\int_\Omega \psi \left( \int_t^T \partial_x \varphi ds \right)dx = \lim_{n \to \infty} \int_\Omega \psi_n \left( \int_t^T \partial_x \varphi_n ds \right)dx
 \end{equation}
 
-To get the more general (\ref{diff_int}), we simply apply this result for each individual spatial dimension while keeping the others fixed.
 
+With (\ref{diff_results_RHS}) and (\ref{diff_results_LHS}) we get
+\begin{align*}
+\int_{\Omega}\psi \partial_x \left( \int_t^T\varphi ds \right)dx &= \lim_{n\to \infty}\int_{\Omega}\psi_n \partial_x \left( \int_t^T \varphi_n ds \right) dx \\
+&= \lim_{n \to \infty} \int_\Omega \psi_n \left( \int_t^T \partial_x \varphi_n ds \right)dx \\
+&= \int_\Omega \psi \left( \int_t^T \partial_x \varphi ds \right)dx,
+\end{align*}
+which is the final result for differentiation in one spatial dimension. To get the more general (\ref{diff_int}), we simply apply this result for each individual spatial dimension while keeping the others fixed.
+
+\end{proof}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
