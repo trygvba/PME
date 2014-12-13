@@ -1003,7 +1003,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	
 	\item We proceed in this manner and for each $m \in \mathbb{R}$. $w_{n_j}^{m-1}$ is uniformly bounded in $H^1(Q_T^{\tau_m})$, so we use theorem \ref{Rellich} to get another subsequence $(w_{n_j}^m)$ that converges to $\tilde{w}_m$ in $L^2(Q_T^{\tau_m})$.
 	
-	\item We define the subsequence $(w_{n_j})$ by $w_{n_j} = w_{n_j}^j$, which will converge to some $w$ in $L^2(Q_T^\tau)$ for every $\tau > 0$, and hence in $L^2_loc(Q_T)$. Without loss of generality we assume $w_{n_j}$ converges to $w$ almost everywhere in $Q_T$ (If not, take yet another subsequence so that it does).
+	\item We define the subsequence $(w_{n_j})$ by $w_{n_j} = w_{n_j}^j$, which will converge to some $w$ in $L^2(Q_T^\tau)$ for every $\tau > 0$, and hence in $L^2_{loc}(Q_T)$. Without loss of generality we assume $w_{n_j}$ converges to $w$ almost everywhere in $Q_T$ (If not, take yet another subsequence so that it does).
 \end{enumerate}	 
 
 	To determine that $w_{n_j}$ converges weakly to $w$ in $L^2(Q_T)$ we first note that every subsequence of $w_{n_j}$ is bounded in $L^2(Q_T)$ and by Banach-Alaoglu's theorem and that $L^2(Q_T)$ is a Hilbert deduce that the subsequence has a subsequence that converges weakly to some $v$. If we can prove that $v=w$ in $L^2(Q_T)$, then $w_{n_j}$ converges weakly to $w$, since every subsequence has a weakly convergent subsequence with the same limit.
@@ -1026,6 +1026,25 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	\end{equation*}
 	which is a contradiction. We conclude that $v=w$, and since this is true for any weakly convergent subsequence of $w_{n_j}$, this implies that $w_{n_j}$ converges weakly to $w$ in $L^2(Q_T)$.
 	
+	
+	\item[$\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$:]
+	First off we note that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense. Indeed, the distributional gradient of $w_{n_j}$ is defined by
+	\begin{equation}
+	\iint_{Q_T}\nabla w_{n_j}\cdot \psi dxdt = -\iint_{Q_T} w_{n_j} \nabla \cdot \psi dxdt ,
+	\end{equation}
+	which is to hold for every $\psi \in C^\infty_c(Q_T)$. Since $w_{n_j}$ converges weakly to $w$
+	\begin{align*}
+	\iint_{Q_T}\nabla w_{n_j} \cdot \psi dxdt &= -\iint_{Q_T} w_{n_j} \nabla \cdot \psi dxdt \\
+	&\to -\iint_{Q_T} w \nabla \cdot \psi dxdt \\
+	&= \iint_{Q_T} \nabla w \cdot \psi dxdt,
+	\end{align*}
+	where the last inequality is by definition of the distributional derivative. From this we deduce that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense.
+	
+	Notice now that since $\nabla w_{n_j}$ is a bounded sequence in $L^2(Q_T)$ we can use Banach-Alaoglu's to say that every subsequence of $\nabla w_{n_j}$ has a weakly converging subsequence converging to some limit $v$. Since weak convergence implies convergence in the distributional sense and distributional limits are unique, we have that $v=\nabla w$.
+	Thus $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
+	
+		
+	 Lastly, note that with $w, \nabla w \in L^2(Q_T)$, $w \in L^2(0,T: H^1(\Omega))$.
 	\item[Convergence of $u_{n_j}$:] Both $\Phi$ and its approximations $\Phi_n$ all admit a continuous inverse, and so
 	\begin{equation*}
 	u_{n_j} = \Phi_{n_j}^{-1}(w_{n_j}).
@@ -1035,16 +1054,20 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	|u_{n_j} - \Phi^{-1}(w)| &= |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w)| \\
 		&\leq |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w_{n_j})| + |\Phi^{-1}(w_{n_j}) - \Phi^{-1}(w)|.
 	\end{align*}
-	 We have that $w_{n_j}$ is a bounded sequence, seeing as $u_{n_j}$ is bounded. Hence we can use proposition \ref{prop:inverse_uniform} to make the first term in the above inequality arbitrarily small. The second term is controlled by the observation that since $w_{n_j}$ converges to $w$ in $L^2(Q_T)$, the convergence is also pointwise, and the continuity of $\Phi^{-1}$. That means that
+	 We have that $w_{n_j}$ is a bounded sequence, seeing as $u_{n_j}$ is bounded. Hence we can use proposition \ref{prop:inverse_uniform} to make the first term in the above inequality arbitrarily small. The second term is controlled by the almost everywhere convergence of $w_{n_j}$ to $w$ and the continuity of $\Phi^{-1}$. That means that
 	 \begin{equation*}
 	 u_{n_j} \to u = \Phi^{-1}(w)
 	 \end{equation*}
-	 pointwise. We immediately see that $\Phi(u) = w$.
+	 almost everywhere. We immediately see that $\Phi(u) = w$.
 	 
 	 More importantly, since we have the uniform bound $u_{n_j} \leq M$ in $Q_T$ we can use the Dominated Convergence Theorem to state that $u_{n_j} \to u$ in $L^1(Q_T)$.
-	
-	 
-	\item[$u$ is a weak energy solution:] We already know that $u \in L^1(Q_T)$, and $\Phi(u)=w \in L^1(0,T: W^{1,1}(\Omega))$\footnote{Actually, this may not be as easy to see as I've stated here. Need to use yet another estimate to show this.}. So what's left is to show that
+	 It is also easy to see that
+	 \begin{equation}
+	 ||u||_{L^2(Q_T)} \leq M||u||_{L^1(Q_T)},
+	 \end{equation}
+	 which means that $u \in L^2(Q_T)$.
+
+	\item[$u$ is a weak solution:] We already know that $u \in L^1(Q_T)$, and $\Phi(u)=w \in L^1(0,T: W^{1,1}_0(\Omega))\subset L^2(0,T: H^1_0(\Omega))$ since $\Omega$ is bounded. So what's left is to show that
 	\begin{equation}
 	\label{claim_weak_solution}
 	\iint_{Q_T}\left\{ \nabla\Phi(u) \cdot \nabla \eta - u\partial_t \eta - f\eta \right\}dxdt - \int_\Omega u_0\eta\big|_{t=0}dx = 0
@@ -1055,12 +1078,44 @@ Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$
 	= &\iint_{Q_T}\left\{ \nabla(\Phi(u)-w_n) \cdot \nabla \eta - (u-u_n)\partial_t \eta - (f-f_n)\eta \right\}dxdt - \int_\Omega (u_0-u_{0,n})\eta\big|_{t=0}dx.
 	\end{align*}
 	
-	All the terms are controlled by the convergences of $w_n$, $u_n$, $u_{0,n}$, as long as the limit is taken along the subsequence for which we know $w_n$ converges. Thus, (\ref{claim_weak_solution}) holds, and $u$ is a weak energy solution.
+	All the terms are controlled by the convergences of $w_n$, $u_n$, $u_{0,n}$, as long as the limit is taken along the subsequence for which we know $w_n$ converges. Thus, (\ref{claim_weak_solution}) holds, and $u$ is a weak solution.
 	
-	We have from before that $u\in L^1(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique. In addition it is worth noticing that any accumulation point of the sequence of classical solutions is a weak energy energy solution, and so the uniqueness precludes any other accumulation point than $u$. I.e. the whole sequence $(u_n)$ converges to $u$.
+	
+	We have from before that $u\in L^2(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique. In addition it is worth noticing that any accumulation point of the sequence of classical solutions is a weak energy energy solution, and so the uniqueness precludes any other accumulation point than $u$. I.e. the whole sequence $(u_n)$ converges to $u$.
 
+
+	\item[Fulfillment of the energy inequality:]
+	We note that $\Psi_n(u_n)$ converges almost everywhere to $\Psi(u)$, which is shown similarly to how we showed that $u_{n_j}$ converges almost everywhere to $u$. We use the triangle inequality as
+	\begin{equation}
+	|\Psi_n(u_n) - \Psi(u)| \leq |\Psi_n(u_n) - \Psi(u_n)| + |\Psi(u_n) + \Psi(u)|.
+	\end{equation}
+	Because $|u_n| \leq M$ we use that $\Psi_n$ converges uniformly on compact sets (see proposition \ref{prop:Psi_uniform_convergence}) to control the first term. The second term is controlled by the almost everywhere convergence of $u_n$ to $u$ and the continuity of $\Psi$. By Fatou's lemma \citep[p. 162]{weiss1999course} and that $\Psi_n(u_n)$ are all nonnegative
+	\begin{equation}
+	\int_\Omega \Psi(u(T)) dx \leq \liminf_{n \to \infty} \int_\Omega \Psi_n(u_n(T))dx.
+	\end{equation}
+	
+	In addition, since $|\cdot|^2$ is convex and nonnegative, the functional $I[u]:= ||\nabla u||^2_{L^2(Q_T)}$ is weakly lower semicontinuous (cf. \citep[Theorem 1, p. 468]{evans}). Then, since $w_n$ converges weakly to $w$ we have that
+	\begin{equation}
+	\iint_{Q_T}|\nabla w|^2 dxdt \leq \liminf_{n \to \infty} \iint_{Q_T} |\nabla w_n|^2 dxdt.
+	\end{equation}
+	
+	Putting these two together and using a property of the limit inferior yields
+	\begin{align*}
+	\iint_{Q_T}|\nabla w|^2dxdt + \int_\Omega \Psi(u(T))dx &\leq \liminf_{n \to \infty} \iint_{Q_T} |\nabla w_n|^2 dxdt + \liminf_{n \to \infty} \int_\Omega \Psi_n(u_n(T))dx \\
+	&\leq \liminf_{n \to \infty} \left[ \iint_{Q_T} |\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dx \right].
+	\end{align*}
+	
+	Recall now that by lemma \ref{lem:Energy_equality_classical} 
+	\begin{equation*}
+	\iint_{Q_T} |\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dxdt = \int_\Omega \Psi(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt,
+	\end{equation*}
+	for each $n$, and so
+	\begin{align*}
+	\iint_{Q_T}|\nabla w|^2dxdt + \int_\Omega \Psi(u(T))dx &\leq \liminf_{n \to \infty} \left[\int_\Omega \Psi(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt \right] \\
+	&= \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f w dxdt,
+	\end{align*}
+	where in the last step we've made use of that $u_{0,n}$ converges to $u_0$ in $L_{\Psi}(\Omega)$, $w_n$ converges weakly to $w$ and the convergence of $f_n$ to $f$, both in $L^2(Q_T)$. This shows that (\ref{energy_ineq}) is satisfied, making $u$ a weak energy solution.
 \end{description}
-
 
 \end{proof}
 
@@ -1070,7 +1125,7 @@ We proceed by generalising the result of \ref{thm:weak_existence} to the case wh
 
 \begin{lemma}
 \label{lem:weak_existence_part2}
-Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$ and $\partial_t f$ are bounded.
+Theorem \ref{thm:weak_existence} holds with the additional assumption that $u_0$, $f$ and $\partial_t f$ are bounded, but still strictly increasing.
 \end{lemma}
 
 \begin{proof}
@@ -1078,7 +1133,7 @@ We begin this proof in the exact same manner as with the proof of lemma \ref{lem
 
 Looking back at the proof for lemma \ref{lem:existence_part1} the only part where we actually needed $\Phi$ to be locally Lipschitz was in controlling the temporal derivative of $\Phi_n(u_n)$ in $L^2(Q_T)$. This means we can in this case no longer say that $w_n$ is a bounded sequence in $H^1(Q_T)$.
 
-The strategy for showing that $u_n$ converges to a weak solution will be similar to that of lemma \ref{lem:existence_part1}, only now we will use the Rellich-Kondrachov Compactness Theorem on another sequence than $w_n$. I.e. we need a bounded sequence in $H^1(Q_T)$. To that end we define for $u \in \mathbb{R}$
+The strategy for showing that $u_n$ converges to a weak solution will be similar to that of lemma \ref{lem:existence_part1}, only now we will use the Rellich-Kondrachov Compactness Theorem on another sequence than $w_n$. 
 \begin{equation}
 Z_n(u) = \int_0^u \mathrm{min}\{1, \Phi_n'(s)\} ds,
 \end{equation}
@@ -1101,7 +1156,7 @@ which means that $|\nabla z_n|^2 \leq |\nabla w_n|^2$ in all of $Q_T$. As a triv
 \iint_{Q_T}|\nabla z_n|^2dxdt \leq \iint_{Q_T}|\nabla w_n|^2dxdt.
 \end{equation*}
 
-Seeing as estimate (\ref{exist_proof_spatial}), we can argue exactly as we did in the previous proof to say that $\nabla z_n$ is uniformly bounded in $L^2(Q_T)$.
+Considering (\ref{exist_proof_spatial}), we can argue exactly as we did in the previous proof to say that $\nabla z_n$ is uniformly bounded in $L^2(Q_T)$.
 Similarly we have the two inequalities
 \begin{equation*}
 |\partial_t z_n | \leq |\partial_t u_n|, \quad \text{ and} \quad |\partial_t z_n| \leq |\Phi_n'(u_n) \partial_t u_n|,
@@ -1110,7 +1165,7 @@ and as a consequence
 \begin{equation*}
 \iint_{Q_T}|\partial_t z_n|^2 dxdt \leq \iint_{Q_T} |\Phi_n'(u_n)|\cdot |\partial_t u_n|^2dxdt.
 \end{equation*}
-The estimate (\ref{exist_proof_temporal}) holds in this case as well, and by the assumptions on $f$ and its approximations we also have a uniform bound of $\partial_t z_n$ in $L^2(Q_T)$. Hence $z_n$ is a bounded sequence in $H^1(Q_T)$, and we can utilize the Rellich-Kondrachov Compactness Theorem (theorem \ref{Rellich}) again to conclude that there is a subsequence $\{z_{n_j}\}$ converging to some $z$ in $L^2(Q_T)$.
+Doing the same as in the previous proof we deduce that $z_n$ is uniformly bounded in $H^1(Q_T^\tau)$, for all $\tau$, and after an identical diagonal argument as before $(z_n)$ contains a subsequence that converges almost everywhere to some $z$. The convergence happens also weakly in $L^2(Q_T)$. We denote this subsequence by $(z_{n_j})$.
 
 Now we obviously have $u_{n_j} = Z_{n_j}^{-1}(z_{n_j})$, and so
 \begin{align*}
@@ -1122,10 +1177,12 @@ since $|z_{n_j}| \leq |u_{n_j}| \leq M$. And so the first term on the right hand
 
 We define $u=Z^{-1}(z)$ as the pointwise limit of $u_{n_j}$, and note as in the previous proof that $u_{n_j}$ also converges to $u$ in $L^1(Q_T)$.
 
-Similarly we can show that $w_{n_j}$ converges to $w=\Phi(u)$ and that $w \in L^2(Q_T)$.
-In addition, from a previous argument $\nabla w_n$ is bounded in $L^2$ independent of $n$, and so we conclude that $w \in H^1(Q_T)$.
+The rest of the proof is almost identical to that for lemma \ref{lem:existence_part1}. First, $w_{n_j}$ converges pointwise almost everywhere to some $w = \Phi(u)$, which follows from the fact that $\Phi_n$ converges uniformly to $\Phi$ on compact sets, and the continuity of $\Phi$. Since $w_n$ is bounded in $Q_T$ for all $n$ with uniform bound, we can use the dominated convergence theorem to deduce that $w \in L^2(Q_T)$.
 
-From this point on, proving that $u$ is a weak energy solution is identical to the last part of the proof of lemma \ref{lem:existence_part1}.
+It follows that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense, and since $w_{n_j}$ is bounded in $L^2(Q_T)$ we can deduce that $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
+
+
+Lastly, establishing that $u$ is a weak solution and satisfies inequality (\ref{energy_ineq}) follows the exact same argument as in the proof of lemma \ref{lem:existence_part1}.
 \end{proof}
 
 We will continue on with lifting more of the assumptions, in particular those on $f$ and $u_0$, but first an intermediate result is needed. The result is simply the $L^1$-stability presented in lemma \ref{lem:l1_stability_classical} only now for weak solutions.
@@ -1187,84 +1244,31 @@ for almost every $t \in [0,T]$, and so $(u_n)$ is a Cauchy sequence in $L^\infty
 \end{equation*}
 
 \item[$\Phi(u)$ is in $L^2(Q_T)$:]
-We also have pointwise convergence almost everywhere along a subsequence, so $\Phi(u_n)$ converges to $\Phi(u)$ almost everywhere in $Q_T$. Seeing as all $u_n$ are weak energy solutions we have
+This part of the proof will closely resemble the part of the proof for lemma \ref{lem:existence_part1}. See that since $\Phi$ is continuous, $\Phi(u_n)$ converges almost everywhere to $\Phi(u)$. With the energy inequality
 \begin{equation*}
-\iint_{Q_T}|\nabla \Phi(u_n)|^2dxdt + \int_\Omega \Psi(u_n(T)) dxdt \leq \int_\Omega \Psi(u_{0,n}) dx + \iint_{Q_T} f_n \Phi(u_n)dxdt,
+\iint_{Q_T} |\nabla w_n|^2dxdt + \int_{\Omega} \Psi(u_n(T))dxdt \leq \int_\Omega \Psi(u_{0,n})dx + \iint_{Q_T}f_n \Phi(u_n)dxdt
 \end{equation*}
-and we do as always to get
-\begin{equation*}
-\iint_{Q_T}|\nabla \Phi(u_n)|^2dxdt + 2\int_\Omega \Psi(u_n(T)) dxdt \leq 2\int_\Omega \Psi(u_{0,n}) dx + C\iint_{Q_T} f_n^2 dxdt.
-\end{equation*}
-From our assumptions on the apprxoimations we thus have that $\Phi(u_n)$ is a bounded sequence in $L^2(0,T: H^1(\Omega))$. As such we can by Banach-Alaoglu deduce $\Phi(u_n)$ has a subsequence $\Phi(u_{n_k})$ that converges weakly to some  $v$ in $L^2(Q_T)$. Suppose now that $v \neq \Phi(u)$ on  a set of positive measure. Without loss of generality we can for some $\delta > 0$ define $E = \{ (x,t) \in Q_T: v \geq \Phi(u) + \delta\}$. Fix now $\epsilon$, then by Egorov's theorem (cf. e.g. \citep[p. 120]{weiss1999course}) there is a measurable set $B \subset E$ over which $\Phi(u_n)$ converges uniformly to $\Phi(u)$, with $B$ having positive measure. Therefore, 
-\begin{equation*}
-\big|\iint_{B}\Phi(u_n) - \Phi(u) dxdt \big| \leq \epsilon |B|  
-\end{equation*}
-for sufficiently large $n$. Since $\epsilon$ was arbitrary it follows that
-\begin{equation*}
-\iint_B \Phi(u_n) dxdt \to \iint_B \Phi(u) dxdt.
-\end{equation*}
-However, the characteristic function of $B$, $\chi_B$, is in $L^2(Q_T)$, and so by the weak convergence of $\Phi(u_{n_k})$ to $v$ we have
-\begin{align*}
-\iint_{B} \Phi(u_{n_k})dxdt & \to \iint_{B} v dxdt \\
-& \geq \iint_{B} \Phi(u)dxdt + \delta|B|,
-\end{align*}
-which is a contradiction, and we conclude that $v=\Phi(u)$ almost everywhere, and in particular $\Phi(u) \in L^2(Q_T)$. Notice also that this argument holds for every subsequence of $\Phi(u_n)$, which means that every subsequence of $\Phi(u_n)$ has a subsequence converging weakly to $\Phi(u)$, and so $\Phi(u_n)$ converges weakly to $\Phi(u)$.
+holding for each $n$ we can do the same trick as when deriving (\ref{spatial_derivative_bound_w_poincare}) for classical solutions to arrive at the estimate
+\begin{equation}
+\frac{1}{2}\iint_{Q_T}|\nabla \Phi(u_n)|^2 dxdt + \int_\Omega \Psi(u_n(T))dx \leq \int_\Omega \Psi(u_{0,n})dx + C\iint_{Q_T}f_n^2dxdt,
+\end{equation}
+where $C$ is a constant independent of $n$.
+With the assumptions we've put on $f_n$ and $u_{0,n}$ we can conclude that $||f_n||_{L^2(Q_T)} \leq ||f||_{L^2(Q_T)}$ and $||\Psi(u_{0,n})||_{L^1(\Omega)} \leq ||\Psi(u_0)||_{L^1(\Omega)}$. This implies that $\nabla \Phi(u_n)$ is uniformly bounded in $L^2(Q_T)$, and as an extension $\Phi(u_n)$ is also bounded in $L^2(Q_T)$ from the Poincaré inequality.
 
-
+By Banach-Alaoglu every subsequence of $\Phi(u_n)$ has a weakly convergent subsequence, and by the pointwise convergence we can, after arguing as in the proof in lemma \ref{lem:existence_part1}, conclude that the weak limit is always $\Phi(u)$. This implies that $\Phi(u_n)$ converges weakly to $\Phi(u)$.
 
 \item[$\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$:]
-Now we claim that $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$ in $L^2(Q_T)$. Firstly, since $\nabla \Phi(u_n)$ is a bounded sequence in $L^2(Q_T)$, we can by the Banach-Alaoglu theorem together with $L^2(Q_T)$ being a Hilbert space deduce that some subsequence of $\nabla \Phi(u_n)$ converges weakly to some $v$ in $L^2(Q_T)$.
-
-Let now $\psi \in C_0^\infty(Q_T)$ and fix $\epsilon > 0$. Since $Q_T$ is bounded we can use Egorov's theorem (cf. e.g. \citep[p. 120]{weiss1999course}), to deduce that there is a set $E \subset Q_T$ with $|Q_T \setminus E| < \epsilon^2$ so that $\Phi(u_n)$ converges uniformly to $\Phi(u)$ in $E$. Hence, we have
-\begin{equation}
-\label{phi_distribution_convergence}
-\iint_{Q_T}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt = \iint_{E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt + \iint_{Q_T \setminus E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt.
-\end{equation}
-The first integral is controlled by the uniform convergence of $\Phi(u_n)$ on $E$. For the latter integral, use of Cauchy-Schwartz yields
-\begin{align*}
-\iint_{Q_T \setminus E}(\Phi(u_n) - \Phi(u))\nabla \cdot \psi dxdt &\leq ||\Phi(u_n) - \Phi(u)||_{L^2(Q_T)}||\nabla \cdot \psi||_{L^2(Q_T\setminus E)} \\
-&\leq (||\Phi(u_n)||_{L^2(Q_T)} + ||\Phi(u)||_{L^2(Q_T)})||\nabla \cdot \psi ||_{L^\infty(Q_T)}|Q_T\setminus E|^\frac{1}{2},
-\end{align*}
-and here we use that $\Phi(u_n)$ is uniformly bounded in $L^2(Q_T)$ and that $\Phi(u) \in L^2(Q_T)$. So we can make both integrals on the right hand side  in \ref{phi_distribution_convergence} arbitrarily small, and conclude that
-\begin{equation*}
-\iint_{Q_T}\Phi(u_n)\nabla \cdot \psi dxdt \to \iint_{Q_T} \Phi(u) \nabla \cdot \psi dxdt.
-\end{equation*}
-
-Since this argument holds for all $\psi \in C_0^\infty (Q_T)$ we can conclude that $\nabla \Phi(u_n)$ converges to $\nabla \Phi(u)$ in the distributional sense. Also we have that weak convergence in $L^2(Q_T)$ implies distributional convergence, so $v= \nabla \Phi(u)$. 
-
-This argument holds for every subsequence of $\nabla \Phi(u_n)$. I.e. every subsequence of $\nabla \Phi(u_n)$ has a subsequence that converges weakly to $\nabla \Phi(u)$ which implies that $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$ in $L^2(Q_T)$.
-
+The proof of this assertion is done by noticing from the weak convergence of $\Phi(u_n)$ we can as previously deduce that $\nabla \Phi(u_n)$ converges to $\nabla \Phi(u)$ in the distributional sense. In addition $\nabla \Phi(u_n)$ is a bounded sequence in $L^2(Q_T)$, and so every subsequence has a weakly convergent subsequence. Arguing as before, the limit point is always $\nabla \Phi(u)$, and so $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$.
 
 
 \item[$u$ is a weak solution:]
-We have established that $u \in L^1(Q_T)$, and $\Phi(u) \in L^2(0,T: H^1(\Omega)) \subset L^1(0,T: W^{1,1}(\Omega))$, and so all that remains is to consider the convergence of
-\begin{equation}
-\iint_{Q_T} \{ \nabla\Phi(u_n) \cdot \nabla \eta - u_n \partial_t \eta \} dxdt = \int_\Omega u_{0,n}\eta\big|_{t=0}dx + \iint_{Q_T} f_n \eta dxdt,
-\end{equation}
-which holds for each $n$ and every $\eta \in C^1(\overline{Q}_T)$. But this is easily seen to hold in the limit by the weak convergence of $\nabla \Phi(u_n)$ in $L^2(Q_T)$, the convergence of $u_n$ and $u_{0,n}$ in $L^1(Q_T)$ and $L^1(\Omega)$, and the convergence of $f_n$ in $L^2(Q_T)$.
-
-\item[Establishing the energy inequality:]
-By the continuity of $\Psi$, we have that $\Psi(u_n(T))$ converges almost everywhere to $\Psi(u(T))$, and so by Fatou's Lemma (cf. \citep[p. 126]{weiss1999course}) 
-\begin{equation*}
-\int_\Omega \Psi(u(T))dx \leq \underset{n \to \infty}{\mathrm{liminf}}\int_\Omega \Psi(u_n(T))dx. 
-\end{equation*}
-
-In addition, the mapping $I[u] = ||\nabla u||_{L^2(Q_T)}$ is convex, and therefore weakly lower semicontinuous \citep[p. 468]{evans}, which means that
-\begin{equation*}
-\iint_{Q_T} |\nabla \Phi(u) |^2 dxdt \leq  \underset{n \to \infty}{\mathrm{liminf}} \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt.
-\end{equation*}
-
-Putting, these two things together we can establish that
-\begin{align*}
-\iint_{Q_T} |\nabla \Phi(u) |^2 dxdt + \int_\Omega \Psi(u(T))dx &\leq \underset{n \to \infty}{\mathrm{liminf}} \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt + \underset{n \to \infty}{\mathrm{liminf}}\int_\Omega \Psi(u_n(T))dx \\
-&\leq \underset{n \to \infty}{\mathrm{liminf}} \left[ \iint_{Q_T} |\nabla \Phi(u_n)|^2 dxdt + \int_\Omega \Psi(u_n(T))dx \right] \\
-&\leq \underset{n \to \infty}{\mathrm{liminf}}\left[ \int_\Omega \Psi(u_{0,n}) + \iint_{Q_T}f_n \Phi(u_n)dxdt \right] \\
-&= \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt,
-\end{align*}
-where we have used that the $u_n$ satisfies the energy inequality. This completes the proof.
+With the various convergences shown above or given by assumption, showing that $u$ is a weak solution and satisfies the energy inequality (\ref{energy_ineq}) is done identically as in the proof of lemma \ref{lem:existence_part1}.
 
 \end{description}
 \end{proof}
+
+
+\subsubsection{No longer $C^{2,\alpha}$ boundary}
 
 
 
@@ -1456,6 +1460,7 @@ It is obvious that $\Phi_n$ is infintely differentiable for each $n$, as well as
 
 The first property we'll consider is summarised in the following proposition.
 \begin{proposition}
+\label{prop:Phi_uniform_convergence}
 If $\Phi$ is continuous, $\Phi_n$ converges to $\Phi$ uniformly on compact sets.
 \end{proposition}
 \begin{proof}
@@ -1480,6 +1485,30 @@ Now we set $N = \mathrm{max}\{N_1,N_2,N_3\}$, and see that
 &= \epsilon,
 \end{align*}
 for every $n \geq N$, which proves the proposition.
+\end{proof}
+
+Another useful fact about our approximations is the following:
+
+\begin{proposition}
+\label{prop:Psi_uniform_convergence}
+$\Psi_n$ converges uniformly to $\Psi$ on compact sets.
+\end{proposition}
+\begin{proof}
+Let $K$ be a compact set in $\mathbb{R}$, and take $R$ to be so that $|u| \leq R$ for all $u \in K$. Fix $\epsilon > 0$, and see that for any $u\in K$
+\begin{align*}
+|\Psi_n(u) - \Psi(u)| &\leq \left|\int_0^u \Phi_n(s) - \Phi(s)ds \right| \\
+&\leq \int_0^u |\Phi_n(s) - \Phi(s)|ds.
+\end{align*}
+By proposition \ref{prop:Phi_uniform_convergence} we can take find an $N \in \mathbb{N}$ so that
+\begin{equation*}
+|\Phi_n(s) - \Phi(s)| < \frac{\epsilon}{R}
+\end{equation*}
+for all $n \geq N$ and $s \in [-R, R]$. Thus,
+\begin{align*}
+|\Psi_n(u) - \Psi(u)| &\leq \int_0^u |\Phi_n(s) - \Phi(s)|ds \\
+&< \frac{\epsilon}{R}|u| \leq \epsilon.
+\end{align*}
+With $\epsilon$ being arbitrary, this proves the assertion.
 \end{proof}
 
 In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
