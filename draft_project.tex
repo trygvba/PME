@@ -13,13 +13,60 @@
 \usepackage[numbers]{natbib}
 
 \usepackage{lmodern}
-
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \begin{document}
-\title{Draft for project}
-\author{Trygve Bærland}
-\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	TITLE PAGE:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+\pagenumbering{roman}
+\begin{titlepage}
+\begin{center}
+
+% Upper part of the page. The '~' is needed because \\
+% only works if a paragraph has started.
+
+\textsc{\LARGE Norwegians University of Science and Technology}\\[1.5cm]
+
+\textsc{\Large TMA4500: Spesialisation project}\\[0.5cm]
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries The general porous medium equation \\[0.4cm] }
+
+\HRule \\[1.5cm]
+
+% Author and supervisor
+\noindent
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Trygve \textsc{Bærland}
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Espen R. \textsc{Jakobsen}
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+
+\end{center}
+\end{titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		END OF TITLE PAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \abstract{For now, heavily reliant on \citep{vazquez2007porous}.}
 
+\newpage
+\tableofcontents
+\pagenumbering{arabic}
 % My text categories:
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -28,7 +75,7 @@
 \newtheorem{lemma}{Lemma}[section]
 
 %Assumptions:
-\newtheorem{assumption}{Assumption}
+\newtheorem{assumption}{Assumption}[section]
 
 \theoremstyle{definition}
 \newtheorem{mydef}{Definition}[section]
@@ -46,6 +93,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				INTRODUCTION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Introduction}
 
 Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
@@ -149,14 +197,46 @@ Here $Q_T = \Omega \times (0,T]$, where $T$ may very well be infinite. Furthermo
 %				CLASSICAL SOLUTIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Classical solutions}
+\subsection{Preliminaries and assumptions}
 The strictest sense in which we can have a solution of (\ref{HDP}) is that there is a $u \in C^2_1(Q_T)\cap C(\overline{Q}_T)$ for which $u\big|_{t=0} = u_0$,  $u\big|_{\partial\Omega \times [0,T]} = 0$, and the equality
 \begin{equation*}
 \partial_t u = \Delta \Phi(u) + f
 \end{equation*}
-holds everywhere in $Q_T$. This means we must also impose that $\Phi \in C^2(\mathbb{R})$ and that $f$ is continuous. If $u \in C^2_1(Q_T)$, $\Phi$ and $f$ satisfy this we call $u$ a classical solution of (\ref{HDP}).
+holds everywhere in $Q_T$, and we call such a solution $u$ a classical solution.
 
+In this section, when deriving various results pertaining to classical solutions, we will do so under various assumptions on $\Phi$, $u_0$ and $f$. These assumptions are listed immediately below.
 
-In this section it is helpful to reformulate (\ref{HDP}) as 
+\begin{assumption}[Regularity of $\Phi$]
+\label{ass:classical_Phi_smooth}
+$\Phi \in C^2(\mathbb{R})$ and strictly increasing, as well as $\Phi(0) = 0$.
+\end{assumption}
+
+\begin{assumption}[Uniform parabolicity]
+\label{ass:classical_uniform_parabolicity}
+There exists constants $ 0 < \nu < \mu < \infty$ so that
+\begin{equation}
+\label{uniform_parabGPME}
+\nu \leq \Phi'(s) \leq \mu, \quad u \in \mathbb{R}
+\end{equation}
+holds for all $s \in \mathbb{R}$.
+\end{assumption}
+
+\begin{assumption}[Continuity of $f$]
+\label{ass:classical_f}
+$f$ is bounded and continuous in $\overline{Q}_T$.
+\end{assumption}
+
+\begin{assumption}[Continuity of $u_0$]
+\label{ass:classical_u_0}
+$u_0$ is bounded and continuous in $\overline{\Omega}$. In addition, 
+\begin{equation}
+u_0\big|_{\partial \Omega} = 0.
+\end{equation}
+\end{assumption}
+
+Most of the above assumptions are naturally motivated by the regularity restrictions on a classical solution. For example if $f$ was discontinuous somewhere in $Q_T$ this would lead to a discontinuity of the time derivative of a solution.
+
+The only one that may not be immediately clear is assumption \ref{ass:classical_uniform_parabolicity}, and to somewhat motivate this assumption it is useful to consider the more general parabolic Dirichlet problem 
 \begin{equation}
 \label{general_parabolic_problem}
 	\begin{cases}
@@ -167,29 +247,26 @@ In this section it is helpful to reformulate (\ref{HDP}) as
 \end{equation}
 where $L$ is a differential operator that can be written in the divergence form
 \begin{equation}
+\label{divergence_operator}
 Lu = -\sum_{i=1}^d \partial_{x_i}(a^i(x,t,u,\nabla u)) + a(x,t,u,\nabla u),
 \end{equation}
 where the functions $a^i$ and $a$ are given and continuous with respect to all variables.
 
-In addition we assume that there are constants $0 < \nu < \mu < \infty $ so that
+Many results regarding problems of the type (\ref{general_parabolic_problem}) assumes there are constants $0 < \nu < \mu < \infty $ so that
 \begin{equation}
 \label{uniform_parabolicity}
 \nu |\xi|^2 \leq \sum_{i,j=1}^d \frac{\partial a^i(x,t,u,p)}{\partial p_j}\xi_i \xi_j \leq \mu |\xi|^2 
 \end{equation}
-for every $\xi \in \mathbb{R}^d$. If this condition is satisfied we say that the operator $\partial_t + L$ is \textbf{uniformly parabolic}.
+for every $\xi \in \mathbb{R}^d$, all $(x,t) \in Q_T$ and all $u\in \mathbb{R}$. If this condition is satisfied we say that the operator $\partial_t + L$ is \textbf{uniformly parabolic}.
 
 With the special case
 \begin{equation*}
 a^i(x,t,u,p) = \Phi'(u)p_i,
 \end{equation*}
-(\ref{general_parabolic_problem}) reduces to the homogeneous Dirichlet (\ref{HDP}),
-and so (\ref{uniform_parabolicity}) translates to
-\begin{equation}
-\label{uniform_parabGPME}
-\nu \leq \Phi'(u) \leq \mu,
-\end{equation}
-for (\ref{HDP}) to be uniformly parabolic.
-We will in this section assume this to be true. I.e. that $\Phi'(u)$ is bounded from above as well as away from zero.
+(\ref{general_parabolic_problem}) reduces to the homogeneous Dirichlet problem (\ref{HDP}),
+and so (\ref{uniform_parabolicity}) translates to assumption \ref{ass:classical_uniform_parabolicity}.
+
+In this framework the remainder of this section considering classical solutions will be devoted to deriving various a priori estimates for classical solutions, and ending with a corollary stating sufficient conditions for existence of a classical solution to (\ref{HDP}). As we will see, these conditions are quite strict, leading us naturally to want to consider weak solutions, which the next section is devoted to.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %			MAXIMUM PRINCIPLE:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,7 +294,7 @@ The first main estimate we'll deal with is a $L^\infty$ bound on a classical sol
 Using this theorem we can prove the comparison principle:
 \begin{lemma}[Comparison principle]
 \label{lemma:comparison}
-Let $\Phi \in C^2(\mathbb{R})$ and satisfy (\ref{uniform_parabGPME}), and let $u,v \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two solutions of the General Porous Medium Equation (\ref{GPME}) in $Q_T$ with initial data $u_0$, $v_0$, loading $f$, $\tilde{f}$ respectively as well as prescribed Dirchlet data on the boundary. Further, assume that $v\big|_{\Gamma_T} \geq u\big|_{\Gamma_T}$, and  $\tilde{f} \geq f$ in $Q_T$. Then $u \leq v$ in $Q_T$.
+Under assumptions \ref{ass:classical_Phi_smooth}-\ref{ass:classical_u_0}, let $u,v \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two solutions of the General Porous Medium Equation (\ref{GPME}) in $Q_T$ with initial data $u_0$, $v_0$, loading $f$, $\tilde{f}$ respectively as well as prescribed Dirchlet data on the boundary. Further, assume that $v\big|_{\Gamma_T} \geq u\big|_{\Gamma_T}$, and  $\tilde{f} \geq f$ in $Q_T$. Then $u \leq v$ in $Q_T$.
 \end{lemma}
 \begin{proof}
 The strategy will be to set $w = v-u$ and derive a initial- and boundary value problem that  $w$ solves. First off, we see that
@@ -257,7 +334,7 @@ By assumption $\mathrm{min}_{\Gamma_T}w \geq 0$, so $v \geq u$. We conclude the 
 Let's now use this lemma to get an $L^\infty$-bound on classical solutions.
 \begin{cor}
 \label{cor:Linf_bound_classical}
-Assume $\Phi \in C^2(\mathbb{R})$ and satisfy (\ref{uniform_parabGPME}). If $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ is a solution of (\ref{HDP}), and $u_0$ is bounded in $\Omega$ and $f$ bounded in $Q_T$, then
+Under the same assumptions as Lemma \ref{lemma:comparison},  let $u \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be a classical solution of (\ref{HDP}), then
 	\begin{equation}
 		\label{infinity_bound}
 		||u||_{L^\infty(Q_T)} \leq ||u_0||_{L^\infty(\Omega)} + T||f||_{L^\infty(Q_T)}.
@@ -301,11 +378,11 @@ which  is what we wanted to prove.
 %				L^1-CONTRACTIVITY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$L^1$-contractivity}
-In this section we let $u,\hat{u} \in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$ be two smooth solutions of the homogeneous Dirichlet problem (\ref{HDP}) with initial data $u_0$, $\hat{u}_0$ and loading $f$, $\hat{f}$ respectively. To reach our goal of deriving stability of solutions in $L^1$ we start off with the following lemma, from which the main result will be an almost immediate consequence.
+Moving right along, the next a priori estimate up for consideration is one regarding stability in $L^\infty(0,T: L^1(\Omega))$. To reach our goal we start off with the following lemma, from which the main result will be an almost immediate consequence.
 
 \begin{lemma}
 \label{lem:l1_stability_classical}
-Let $u, \hat{u} \in C^2_1(Q_T)\cap C(\overline{Q}_T)$, be two classical solutions of the homogeneous Dirichlet problem (\ref{HDP}), with initial data $u_0$ and $\hat{u}_0$ as well as loading $f$ and $\hat{f}$, respectively. Assume further that $\Phi$ is strictly increasing, and $\Phi(0)=0$. Then, for $\tau, t \in [0,T]$, the inequality 
+Under assumptions \ref{ass:classical_Phi_smooth}, \ref{ass:classical_f} and \ref{ass:classical_u_0}, let $u, \hat{u} \in C^2_1(Q_T)\cap C(\overline{Q}_T)$, be two classical solutions of the homogeneous Dirichlet problem (\ref{HDP}), with initial data $u_0$ and $\hat{u}_0$ as well as loading $f$ and $\hat{f}$, respectively. Then, for $\tau, t \in [0,T]$, the inequality 
 \begin{equation}
 \label{l1_contr_part1}
 \int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
@@ -317,7 +394,7 @@ is satisfied.
 Let $p: \mathbb{R} \to \mathbb{R}$ be a $C^1$ function satisfying $p(s) = 0$ for $s \leq 0$, $p'(s) \geq 0$ for all $s\in \mathbb{R}$, and $0 \leq p(s) \leq 1$ for $s > 0$. Define now $w = \Phi(u) - \Phi(\hat{u})$, and multiply $p(w)$ with the difference of (\ref{GPME}) for $u$ and $\hat{u}$ to get
 \begin{equation}
 \label{l1_stab_step1}
-\partial_t(u-\hat{u})p(w) = p(w)\Delta w + p(w)f.
+\partial_t(u-\hat{u})p(w) = p(w)\Delta w + p(w)(f-\hat{f}).
 \end{equation}
 Integrating over $\Omega$, and using integration by parts on the first part on the right hand side yields
 \begin{equation*}
@@ -330,30 +407,47 @@ where $\hat{n}$ is the unit normal vector pointing out of $\Omega$. The boundary
 	&\leq \int_{\Omega}(f-\hat{f})_+ dx,
 \end{align*}
 where the last step follows from the fact that $0 \leq p(w) \leq 1$. Here $(\cdot)_+ = \mathrm{max}\{\cdot, 0\}$.
-Now, let $p$ converge pointwise to the positive sign function $\mathrm{sign}_0^+$ defined
+Now, let $p$ converge pointwise in an increasing fashion to the positive sign function $\mathrm{sign}_0^+$ defined
 \begin{equation*}
 \mathrm{sign}^+_0(s) = \begin{cases}
 1&, \quad \text{for } s>0 \\
 0&, \quad \text{for } s\leq 0.
 \end{cases}
 \end{equation*}
-In the convergence of $p$, the integrand $\partial_t(u-\hat{u})p(w)$ is dominated by $\partial_t (u - \hat{u}) \mathrm{sign}_0^+(w)$ which is integrable from the continuity requirements, and so the Dominated Convergence Theorem implies that
-\begin{equation*}
-\int_\Omega \partial_t(u-\hat{u})p(w) dx \to \int_\Omega \partial_t (u - \hat{u}) \mathrm{sign}_0^+(w)dx.
-\end{equation*}
 
-Notice now that $\mathrm{sign}_0^+(u-\hat{u}) = \mathrm{sign}_0^+(\Phi(u) - \Phi(\hat{u}))$ because of the assumption that $\Phi$ is strictly increasing. In addition we have $\partial_t (u-\hat{u})_+ = \mathrm{sign}_0^+ \partial_t (u - \hat{u})$, in the weak derivative sense. Thus
+We need to ensure then that
+\begin{equation}
+\label{cool_use_of_MCT}
+\int_\Omega \partial_t (u - \hat{u}) p(w) dx \underset{n \to \infty}{\to} \int_\Omega \partial_t (u - \hat{u})\mathrm{sign}^+_0(w)dx.
+\end{equation}
+It is obvious that $\partial_t (u - \hat{u})p(w)$ converges pointwise to $\partial_t (u-\hat{u})\mathrm{sign}_0^+(w)$, and we proceed by defining the two sets
+\begin{equation*}
+\begin{cases}
+\Omega_+ &= \{ x \in \Omega: \partial_t (u - \hat{u}) \geq 0 \}, \text{ and} \\
+\Omega_- &=  \{ x \in \Omega: \partial_t (u - \hat{u}) < 0\} 
+\end{cases}
+\end{equation*}
+and split up the integral in following fashion,
+\begin{equation}
+\int_\Omega \partial_t (u - \hat{u}) p(w) dx = \int_{\Omega_+}\partial_t (u - \hat{u}) p(w)dx - \int_{\Omega_-} -\partial_t (u - \hat{u}) p(w)dx. 
+\end{equation}
+
+In both integrals the integrands are nonnegative and converge monotonically to $\pm \partial_t (u - \hat{u})\mathrm{sign}^+_0(w)$, and so use of the Monotone convergence theorem (cf. \citep[Thm. 5.6, p. 165]{weiss1999course}) to conclude that (\ref{cool_use_of_MCT}) is indeed valid.
+
+
+Notice now that $\mathrm{sign}_0^+(u-\hat{u}) = \mathrm{sign}_0^+(\Phi(u) - \Phi(\hat{u}))$ because of the assumption that $\Phi$ is strictly increasing. In addition we have $\partial_t (u-\hat{u})_+ = \mathrm{sign}_0^+(u-\hat{u}) \partial_t (u - \hat{u})$, in the weak derivative sense. Thus
 \begin{equation*}
 \int_\Omega \partial_t(u-\hat{u})p(w) dx \to \int_\Omega \partial_t (u-\hat{u})_+ dx,
 \end{equation*}
-which implies that
-\begin{equation*}
-\partial_t \int_{\Omega}(u-\hat{u})_+dx \leq \int_{\Omega}(f-\hat{f})_+ dx,
-\end{equation*}
 and integrating in time from $\tau$ to $t$ yields
 \begin{equation*}
-\int_{\Omega}(u(t)-\hat{u}(t))_+dx \leq \int_{\Omega}(u(\tau)-\hat{u}(\tau))_+dx + \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
+\int_\tau^t \int_{\Omega}\partial_t(u(t)-\hat{u}(t))_+dx \leq \int_\tau^t\int_{\Omega}(f-\hat{f})_+dxdt.
 \end{equation*}
+
+Using Fubini's theorem to interchange the integration on the left hand side then finally results in
+\begin{equation}
+\int_\Omega (u(t) - \hat{u})_+ dx \leq \int_\Omega (u(\tau) - \hat{u}(\tau))_+ dx + int_\tau^t \int_\Omega (f-\hat{f})_+ dxdt.
+\end{equation}
 \end{proof}
 
 
@@ -381,7 +475,7 @@ Since $|a| = (a)_+ + (-a)_+$, the sum of these inequalities yields the desired r
 \end{proof}
 An obvious consequence of lemma \ref{cor:l1-contractivity_classical} is uniqueness of classical solutions.
 \begin{cor}
-If $\Phi$ is strictly and $f$ is continuous, then the homogeneous Dirichlet problem (\ref{HDP}) has at most on solution in $C^2_1(Q_T)\cap C(\overline{Q}_T)$.
+Under the same assumptions as Lemma \ref{lem:l1_stability_classical}, then the homogeneous Dirichlet problem (\ref{HDP}) has at most on solution in $C^2_1(Q_T)\cap C(\overline{Q}_T)$.
 \end{cor}
 
 \begin{proof}
@@ -406,11 +500,12 @@ The bound on the spatial derivative is then summarised in the following lemma.
 
 \begin{lemma}
 \label{lem:Energy_equality_classical}
-For a classical solution $u\in C^{2,1}(Q_T) \cap C(\overline{Q}_T)$ of (\ref{HDP})
+With the same assumptions as Lemma \ref{lem:l1_stability_classical} we have for a classical solution $u\in C^{2,1}(Q_T) \cap C(\overline{Q}_T)$ of (\ref{HDP}) that
 \begin{equation}
 \label{spatial_derivative_bound}
-\iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt.
+\iint_{Q_\tau} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(\tau))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_\tau} f\Phi(u)dxdt,
 \end{equation}
+for every $\tau \in [0,T]$.
 \end{lemma}
 
 \begin{proof}
@@ -418,21 +513,21 @@ We start off by multiplying (\ref{GPME}) with $\Phi(u)$ to get
 \begin{equation*}
 \Phi(u)\partial_t u = \Phi(u)\Delta \Phi(u) + \Phi(u)f,
 \end{equation*}
-and we notice that $\Phi(u)\partial_t u = \partial_t \Psi(u)$. That means when we integrate over $Q_T$ we have
+and we notice that $\Phi(u)\partial_t u = \partial_t \Psi(u)$. That means when we integrate over $Q_t$ we have
 \begin{equation*}
-\iint_{Q_T} \partial_t \Psi(u)dxdt = \int_\Omega \Psi(u(T))dx - \int_\Omega \Psi(u_0)dx.
+\iint_{Q_\tau} \partial_t \Psi(u)dxdt = \int_\Omega \Psi(u(\tau))dx - \int_\Omega \Psi(u_0)dx.
 \end{equation*}
 On the diffusive term we can use integration by parts, so
 \begin{equation*}
-\iint_{Q_T}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_0^T \int_{\partial\Omega} \Phi(u)\nabla \Phi(u) \cdot \hat{n}dS,
+\iint_{Q_\tau}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_\tau} |\nabla \Phi(u)|^2dxdt + \int_0^\tau \int_{\partial\Omega} \Phi(u)\nabla \Phi(u) \cdot \hat{n}dS,
 \end{equation*}
 where $\hat{n}$ is the outward unit normal. By the Dirichlet condition
 \begin{equation*}
-\iint_{Q_T}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_T} |\nabla \Phi(u)|^2dxdt,
+\iint_{Q_\tau}\Phi(u) \Delta \Phi(u) dxdt = -\iint_{Q_\tau} |\nabla \Phi(u)|^2dxdt,
 \end{equation*}
 and notice that this step would have been valid for homogeneous Neumann condition as well. In toto 
 \begin{equation*}
-\iint_{Q_T} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(T))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f\Phi(u)dxdt.
+\iint_{Q_\tau} |\nabla \Phi(u)|^2dxdt + \int_\Omega \Psi(u(\tau))dx = \int_\Omega \Psi(u_0)dx + \iint_{Q_\tau} f\Phi(u)dxdt.
 \end{equation*}
 \end{proof}
 \setcounter{obs}{0}
@@ -450,7 +545,7 @@ for some $C$ dependent only on $\Omega$ and the number of spatial dimensions $d$
 \end{cor}
 
 \begin{proof}
-For the term involving $f$ in (\ref{spatial_derivative_bound}) we use the inequality $ab \leq \frac{a^2}{4c} + cb^2$ for any reals $a$ and $b$, and any positive $c$, to get
+Set $\tau=T$ in (\ref{spatial_derivative_bound}), and for the term involving $f$ in (\ref{spatial_derivative_bound}) we use the inequality $ab \leq \frac{a^2}{4c} + cb^2$ for any reals $a$ and $b$, and any positive $c$, to get
 \begin{equation*}
 \iint_{Q_T}f\Phi(u) dxdt \leq \frac{1}{4c}\iint_{Q_T}f^2dxdt + c\iint_{Q_T}\Phi(u)^2 dxdt.
 \end{equation*}
@@ -483,7 +578,7 @@ A similar, but perhaps a bit more involved argument can be used to make an estim
 
 \begin{lemma}
 \label{lem:temporal_bound_classical}
-Let $u\in C^2_1(Q_T) \cap C(\overline{Q}_T)$ be a classical solution of (\ref{HDP}), where $f$ and $\partial_tf$ are continuous as well as $\Phi \in C^2(\mathbb{R})$. Further, let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 0$. Then
+Under the same assumptions as in Lemma \ref{lem:l1_stability_classical}, assume in addition that $\partial_t f$ is continuous. Let $u\in C^2_1(Q_T) \cap C(\overline{Q}_T)$ be a classical solution of (\ref{HDP}). Further, let $\zeta = \zeta(t)$ be a $C^1([0,T],[0,1])$ cutoff function so that $\zeta(0) = \zeta(T) = 0$. Then
 \begin{equation}
 \label{temporal_bound_classical}
 \iint_{Q_T} \zeta \Phi'(u) |\partial_t u|^2 dxdt = \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla \Phi(u)|^2 - \partial_t(\zeta f) \Phi(u) \right\} dxdt.
@@ -526,13 +621,13 @@ Let $u\in C^2_1(Q_T) \cap C(\overline{Q}_T)$ be a classical solution of (\ref{HD
 %				EXISTENCE:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Existence}
-Now we move on to tackle one of the central questions with regards to the well-posedness of (\ref{HDP}), viz. existence, and in particular what sort of assumptions we need to put on $u_0$, $f$ and $\Phi$ to be guaranteed that a solution exists.
+Now we move on to tackle one of the central questions with regards to the well-posedness of (\ref{HDP}), viz. existence, and in particular what sort of assumptions we can put on $u_0$, $f$ and $\Phi$ to be guaranteed that a solution exists.
 
 We will make good use of an admittedly quite harrowing theorem presented in \citep{ladyzhenskaya}. This theorem is quite general in its formulation and our job here will mainly be to translate all the conditions to the general porous medium equation, but before delving into this mammoth, let's set the stage, and introduce some notation used by Ladyzhenskaya et. al.
 
 \subsubsection{Preliminaries}
 
-As in the section on the maximum principle it will be useful to recast our PDE to the form
+Recalling the divergence form (\ref{divergence_operator}) at the beginning of this section, it will be useful to consider a general parabolic equation of the form
 \begin{equation}
 \label{lady_parabolic_eq}
 	u_t - \sum_{i=1}^d\frac{d}{dx_i}a_i(x,t,u,\nabla u) + a(x,t,u,\nabla u) = 0
@@ -751,7 +846,7 @@ Let's just jump off with the definition of weak solutions that we will be using 
 \begin{mydef}[Weak solutions]
 A locally integrable function $u$ defined in $Q_T$ is said to be a \textbf{weak solution} of (\ref{HDP}) if
 \begin{enumerate}[i)]
-	\item $u \in L^1(Q_T)$ and $\Phi(u) \in L^1(0,T : W_0^{1,1}(\Omega))$\footnote{$f:\Omega \to \mathbb{R}$ is an element of $W^{k,p}(\Omega)$ if all weak derivatives with $|\alpha| \leq k$ exists and are in $L^p(\Omega)$. $W_0^{k,p}$ is the closure of $C^\infty_c(\Omega)$ in $W^{k,p}(\Omega)$.};
+	\item $u \in L^1(Q_T)$ and $\Phi(u) \in L^1(0,T : W_0^{1,1}(\Omega))$;
 	\item $u$ satisfies
 		\begin{equation}
 		\label{weak}
@@ -781,7 +876,7 @@ and now all that remains is rearranging the terms to get (\ref{weak}).
 %				UNIQUENESS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Uniqueness}
-
+The first result we'll prove for weak solutions is uniqueness under some additional assumptions. The proof can be found in \citep{vazquez2007porous}, but here worked out in greater detail. The result is also somewhat improved upon by here admitting $\Phi$ to be nondecreasing, rather than strictly increasing.
 \begin{theorem}[Uniqueness]
 \label{thm:uniqueness}
 	Assuming in addition that $u \in L^2(Q_T)$ and $\Phi(u) \in L^2(0,T : H_0^1(\Omega))$, (\ref{HDP}) has at most one weak solution.
@@ -807,7 +902,7 @@ We then have
 	\nabla \eta &= \int_t^T\nabla (\Phi(u_2) - \Phi(u_1))ds,
 \end{cases}
 \end{equation*}
-where the time derivation is valid using the First Fundamentel Theorem of Calculus and that $\Phi(u_i) \in L^1(0,T : W_0^{1,1}(\Omega))$ by the definition of weak soultion. For the validity of the spatial derivative, confer appendix \ref{sec:derivative}.
+where the temporal differentiation is valid using the First Fundamentel Theorem of Calculus and that $\Phi(u_i) \in L^1(0,T : W_0^{1,1}(\Omega))$ by the definition of weak soultion. For the validity of the spatial derivative, confer appendix \ref{sec:derivative}.
 
 When putting these derivatives into the above equality we end up with
 \begin{equation}
@@ -819,7 +914,7 @@ When putting these derivatives into the above equality we end up with
 \end{equation}
 Let's take these in order:
 \begin{enumerate}[i)]
-	\item In the first integral we notice that $u_2 > u_1 \Rightarrow \Phi(u_2) \geq \Phi(u_1)$ and vice versa, so this integral is nonnegative.
+	\item In the first integral we notice that $u_2 \geq u_1 \Rightarrow \Phi(u_2) \geq \Phi(u_1)$ and vice versa, so this integral is nonnegative.
 	
 	\item For the second integral it is helpful to first only consider integration of the temporal dimensions, leaving us with
 	\begin{align*}
@@ -848,10 +943,13 @@ This should hold for any test function $\eta$, and so the weak derivative of $u_
 As the assumptions in theorem \ref{thm:uniqueness} may hint at, some additional assumptions on $u$ and $\Phi(u)$ needs to be put to ensure that the homogeneous Dirichlet problem is well posed in the weak setting. There are some alternatives, and of course, any further analysis will be informed by what sort of additional condition we want a weak solution $u$ to fulfill. The one we will be using here is guided by the notion that in a physical system the energy should be controlled, and is therefore called a weak energy solution. 
 
 Recall our definition of $\Psi$ in (\ref{phi_primitive}) as the primitive of $\Phi$,
-and we define the function space $L_\Psi(\Omega) = \{ u\in L^1(\Omega): \Psi(u)\in L^1(\Omega)\}$.
+and we define the function space $L_\Psi(\Omega) = \{ u\in L^1(\Omega): \Psi(u)\in L^1(\Omega)\}$. This is with the norm
+\begin{equation}
+||u||_{L_\Psi (\Omega)} = ||u||_{L^1(\Omega)} + ||\Psi(u)||_{L^1(\Omega)}.
+\end{equation}
 With this in mind we can define energy solutions in the following way:
 \begin{mydef}[Energy solution]
-We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, and $u_0 \in L_\Psi(\Omega)$, and the energy inequality
+We say that $u$ is a \textbf{weak energy solution} if it's a weak solution, $u_0 \in L_\Psi(\Omega)$, and the energy inequality
 \begin{equation}
 \label{energy_ineq}
 \iint_{Q_T} |\nabla \Phi(u)|^2 dxdt + \int_\Omega \Psi(u(x,T))dx \leq \int_\Omega \Psi(u_0)dx + \iint_{Q_T}f\Phi(u)dxdt
@@ -866,7 +964,7 @@ If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as we did in 
 We will prove the existence of weak energy solutions for the homogeneous Dirichlet problem (\ref{HDP}) under the following assumptions:
 \begin{assumption}
 \label{ass:Phi_general}
-$\Phi$ is absolutely continuous and nondecreasing. $\Phi(0) = 0$ and $\Phi(\pm \infty) = \pm \infty$.
+$\Phi$ is absolutely continuous and strictly increasing. $\Phi(0) = 0$ and $\Phi(\pm \infty) = \pm \infty$.
 \end{assumption}
 
 \begin{assumption}
@@ -883,11 +981,6 @@ On our way to proving existence under these assumptions, we will also need some 
 \begin{assumption}
 \label{ass:f_ft_u_0_bounded}
 $f$, $\partial_t f$ are bounded in $Q_T$, and $u_0$ is bounded in $\Omega$.
-\end{assumption}
-
-\begin{assumption}
-\label{ass:Phi_strictly_increasing}
-$\Phi$ is strictly increasing.
 \end{assumption}
 
 \begin{assumption}
@@ -928,27 +1021,14 @@ where $\varphi_{\frac{1}{n}}(s) = n\varphi(ns)$ and $\varphi$ is the standard mo
 Further discussion of $\Phi$ and its sequence of approximations has been relegated to appendix \ref{app:Phi} for sake of continuity.
 
 
-
-
 We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, and converging in $L_\Psi(\Omega)$. We also ask that $|u_{0,n}| \leq \mathrm{min}\{n,|u_0|\}$.
 This construction can be done as follows: First, define $\tilde{u}_n = \mathrm{max}\{ \mathrm{min}\{u_0, n\}, -n\}$, so $u_0$ is truncated at $\pm n$. Then let $(V_n)$ be a sequence of simply connected, compact subsets so that $K_n \subset K_{n+1}$ for all $n$ as well as $\cup_{n\in \mathbb{N}}K_n = \Omega$, and we require $\mathrm{dist}(K_n,\partial \Omega) \geq \frac{2}{n}$. Then we set $u_{0,n}= (\chi_{K_n}\tilde{u}_n)*\varphi_{\frac{1}{n}}$, where $\chi_{K_n}$ is the characteristic function for $K_n$ and $\varphi_{\frac{1}{n}}$ is the scaled standard mollifier in $\mathbb{R}^d$. The requirement on the distance between $V_n$ and $\partial \Omega$ we see is to ensure that $u_{0,n}$ and its derivatives vanish at the boundary. 
 
-We also approximate $f$ by a sequence of $C^\infty(Q_T)$ functions $f_n$ that converge to $f$ in $L^2(Q_T)$, and is so that $|f_n| \leq \mathrm{min}\{n,|f|\}$ for all $n$. These approximations can be done in a similar manner to those for $u_0$.
+We define the approximations of $f$ in a similar manner: Let $\tilde{f}_n = \mathrm{max}\{ \mathrm{min}\{f,n \}, -n\}$, and then define $f_n = \tilde{f}_n * \varphi_{\frac{1}{n}}$.
+Notice that by Young's inequality $||f_n||_{L^2(Q_T)} \leq ||\tilde{f}_n||_{L^2(Q_T)} \leq ||f||_{L^2(Q_T)}$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		PROOF OF EXISTENCE PART I:							  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{With all assumptions in place}
-The goal of this section will be to prove existence of a weak energy solution under all the assumptions \ref{ass:Phi_general}-\ref{ass:smooth_boundary}, but before doing that some preliminary facts should be established.
-
-\begin{proposition}
-\label{prop:classical_sols_seq}
-With assumptions \ref{ass:Phi_general}-\ref{ass:u_0}, \ref{ass:f_ft_u_0_bounded} and \ref{ass:smooth_boundary} as well as the approximations introduced in section \ref{sec:approximations}, we can identify a sequence $(u_n)$ of classical solutions of some homogeneous Dirichlet problems. Moreover, the sequence is uniformly bounded in $Q_T$ with some bound $M$.
-\end{proposition}
-
-\begin{proof}
-With the provided approximations, the problem
-\begin{equation}
+With these approximations at hand we can define an approximate problem to (\ref{HDP}), by
+ \begin{equation}
 	\label{approximate_problem}
 	\begin{cases}
 	\partial_t u_n &= \Delta\Phi_n(u_n) + f_n, \quad \text{ in } Q_T \\
@@ -956,6 +1036,22 @@ With the provided approximations, the problem
 	u_n(x,t) &= 0, \quad \text{ on }  \partial \Omega \times (0,T).
 	\end{cases}
 \end{equation}
+
+
+The main strategy in proving Theorem \ref{thm:weak_existence} is to show the right type of convergence for the solutions of (\ref{approximate_problem}). 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%		PROOF OF EXISTENCE PART I:							  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{With all assumptions in place}
+The goal of this section will be to prove existence of a weak energy solution under all the assumptions \ref{ass:Phi_general}-\ref{ass:smooth_boundary}, but before doing that some preliminary facts should be established.
+
+\begin{lemma}
+\label{prop:classical_sols_seq}
+With assumptions \ref{ass:Phi_general}-\ref{ass:u_0}, \ref{ass:f_ft_u_0_bounded} and \ref{ass:smooth_boundary} as well as the approximations introduced in section \ref{sec:approximations}, we can identify a sequence $(u_n)$ of classical solutions of (\ref{approximate_problem}). Moreover, there is a constant $M>0$, so that $|u_n(x,t)| \leq M$ in all of $Q_T$ and for all $n$.
+\end{lemma}
+
+\begin{proof}
+With the provided approximations, the approximate problem 
 will for each $n$ permit a classical solution by corollary \ref{cor:GPME_existence}. Then we simply define the sequence $(u_n) \subset C^2_1(Q_T)\cap C(\overline{Q}_T)$ as $u_n$ being for each $n$ the unique classical solution of (\ref{approximate_problem}).
 
 In addition we can from the corollary   \ref{cor:Linf_bound_classical} see that
@@ -966,18 +1062,18 @@ In addition we can from the corollary   \ref{cor:Linf_bound_classical} see that
 	A bound independent of $n$.  	
 \end{proof}
 
-Define now for each $n$ $w_n = \Phi_n(u_n)$. It's the sequence $(w_n)$ we will use the Rellich-Kondrachov compactness argument, which motivates the following two propositions.
+Define now for each $n$ $w_n = \Phi_n(u_n)$. It's the sequence $(w_n)$ we will use the Rellich-Kondrachov compactness argument, which motivates the following two lemmas.
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:spatial_boundedness}
 With the same assumptions as in proposition \ref{prop:classical_sols_seq},
-the sequences $(w_n)$ and $(\nabla w_n)$ are uniformly bounded in $L^2(Q_T)$. In other words $(w_n)$ is uniformly bounded $L^2(0,T: H^1_0(\Omega))$. Moreover, there is some $K >0$, depending only on $M$ and $\Phi$, so that
+the sequences $(w_n)$ and $(\nabla w_n)$ are uniformly bounded in $L^2(Q_T)$. In other words $(w_n)$ is uniformly bounded $L^2(0,T: H^1_0(\Omega))$. Moreover, there is some $K >0$, depending only on $M$ from Lemma \ref{prop:classical_sols_seq} and $\Phi$, so that
 \begin{equation}
 \label{gradwn_bound_uniform}
 ||\nabla w_n||_{L^2(Q_T)} \leq K||u_0||_{L^1(\Omega)} + ||f||_{L^2(Q_T)}.
 \end{equation}
 for all $n$.
-\end{proposition}
+\end{lemma}
 \begin{proof}
 Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poincare}) to get that
 	\begin{equation}
@@ -997,36 +1093,35 @@ Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poi
 	\begin{equation*}
 	\Psi_n(u) = \int_0^{u}\Phi_n(s)ds,
 	\end{equation*}
-	from which it is easy to see that $\Psi_n(u) \leq 0$ for every $u \in \mathbb{R}$. It is also very much worthwhile to see that because $\Phi_n$ is monotone for every $n$ we have the estimate
+	from which it is easy to see that $\Psi_n(u) \geq 0$ for every $u \in \mathbb{R}$. It is also very much worthwhile to see that because $\Phi_n$ is monotone for every $n$ we have the estimate
 	\begin{equation*}
-	|\Psi_n(u)| \geq |\Phi_n(u)u|.
+	|\Psi_n(u)| \leq |\Phi_n(u)u|.
 	\end{equation*}
 	This leads to
 	\begin{equation*}
 	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega |\Phi_n(u_{0,n})u_{0,n}|dx	
 	\end{equation*}
-	Using now that $|u_{0,n}| \leq u_0$ and that $\Phi_n$ is monotone we can remove some of the dependence on $n$ as
-	\begin{equation*}
-	\int_\Omega \Psi_n(u_{0,n})dx \leq \int_\Omega |\Phi_n(u_{0})u_{0}|dx.
-	\end{equation*}
+
 	
-	Now we derive an estimate on $\Phi_n$ in terms of $\Phi$ and $u_0$. A crude estimate will be sufficient, and we have
+	Now we derive an estimate on the $\Phi_n$-part in terms of $\Phi$ and $u_0$. A crude estimate will be sufficient, and we have
 	\begin{align*}
 	|\Phi_n(u) - \Phi(u)| &= \left|\frac{u}{n} + \int_\mathbb{R}\left( \Phi(u-y) - \Phi(u) - \Phi(y)\right)\varphi_{\frac{1}{n}}(y)dy \right| \\
 	&\leq \frac{|u|}{n} + \underset{y\in [-1/n, 1/n]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| + \mathrm{max}\{|\Phi(-1/n)|, |\Phi(1/n)|\} \\
 	&\leq |u| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u-y) - \Phi(u)| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\},
 	\end{align*}
-	where we have used that $\mathrm{supp}(\varphi_{\frac{1}{n}})\subset [-1/n, 1/n]$ as well as that $\Phi$ is monotone. This, when considering $u_0$, we have
+	where we have used that $\mathrm{supp}(\varphi_{\frac{1}{n}})\subset [-1/n, 1/n]$ as well as that $\Phi$ is monotone. This, when considering $u_{0,n}$, we have
 	\begin{align*}
-	|\Phi_n(u_0)| &\leq |\Phi(u_0)| + |u_0| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u_0-y) - \Phi(u_0)| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
+	|\Phi_n(u_{0,n})| &\leq |\Phi(u_{0,n})| + |u_{0,n}| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u_{0,n}-y) - \Phi(u_{0,n})| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
 	& \leq \underset{|s| \leq ||u_0||_\infty}{\mathrm{sup}}|\Phi(s)| + ||u_0||_{\infty}\\
 	& + \underset{\underset{y\in[-1/n,1/n]}{|s| \leq ||u_0||_{\infty}}}{\mathrm{sup}}|\Phi(s-y) - \Phi(s)| + \mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
-	&= K < \infty.
+	&=: K < \infty.
 	\end{align*}
-	All terms are bounded since $u_0$ is bounded, and so we finally get the estimate
-	\begin{equation*}
-	\int_\Omega \Psi_n(u_{0,n})dx \leq K ||u_0||_{L^1(\Omega)},
-	\end{equation*}
+	In the last step we also made repeated use of $|u_{0,n}| \leq ||u_0||_\infty$.
+	All terms are bounded since $u_0$ is bounded. When also using that $||u_{0,n}||_{L^1(\Omega)} \leq ||u_0||_{L^1(\Omega)}$ we finally get the estimate
+	\begin{align*}
+	\int_\Omega \Psi_n(u_{0,n})dx &\leq K ||u_{0,n}||_{L^1(\Omega)} \\
+	&\leq K ||u_0||_{L^1(\Omega)}
+	\end{align*}
 	which is finite from $u_0 \in L^1(\Omega)$. Most importantly, this shows that the left hand side of (\ref{exist_proof_spatial}) is bounded independently of $n$, which immediately implies that $\nabla w_n$ is a bounded sequence in $L^2(Q_T)$. Notice also that from the Poincaré inequality,
 	\begin{equation*}
 	\iint_{Q_T}w_n^2 dxdt \leq C\iint_{Q_T} |\nabla w_n|^2dxdt,	
@@ -1034,13 +1129,13 @@ Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poi
 	$w_n$ is also uniformly bounded in $L^2(Q_T)$.
 \end{proof}
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:temporal_bound}
-With the same assumptions as in proposition \ref{prop:classical_sols_seq}, the sequence $(\Phi'_n(u_n) |\partial_t u_n|^2)$ is uniformly bounded in $L^1(Q_T^\tau)$ for all $0 < \tau < \frac{T}{2}$.
-\end{proposition}
+With the same assumptions as in Lemma \ref{prop:classical_sols_seq}, the sequence $(\Phi'_n(u_n) |\partial_t u_n|^2)$ is uniformly bounded in $L^1(Q_T^\tau)$ for all $0 < \tau < \frac{T}{2}$.
+\end{lemma}
 
 \begin{proof}
-From lemma \ref{lem:temporal_bound_classical} we have for each $n$ and every cutoff function $\zeta\in C^1([0,T], [0,1])$
+From Lemma \ref{lem:temporal_bound_classical} we have for each $n$ and every cutoff function $\zeta\in C^1([0,T], [0,1])$
 	\begin{equation}
 	\iint_{Q_T} \zeta \Phi'_n(u_n) |\partial_t u_n|^2 dxdt = \iint_{Q_T} \left\{ \frac{\partial_t \zeta}{2}|\nabla w_n|^2 - \partial_t(\zeta f_n) w_n \right\} dxdt.
 	\end{equation}
@@ -1055,16 +1150,16 @@ From lemma \ref{lem:temporal_bound_classical} we have for each $n$ and every cut
 
 with these facts in place, we are in a position where we can start deriving some limit points of the various sequences, and as such get a candidate for teh weak solution.
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:weak_convergence_w_n}
 With the same assumptions as in proposition \ref{prop:classical_sols_seq},
 $w_n$ contains a subsequence $(w_{n_j})$ converging almost everywhere to some $w \in L^2(Q_T)$. The convergence happens also weakly in $L^2(Q_T)$.
-\end{proposition}
+\end{lemma}
 
 \begin{proof}
-From proposition \ref{prop:spatial_boundedness} $w_n$ and $\nabla w_n$ are uniformly bounded in $L^2(Q_T)$.
+From Lemma \ref{prop:spatial_boundedness} $w_n$ and $\nabla w_n$ are uniformly bounded in $L^2(Q_T)$.
 
-Notice that we have from proposition \ref{prop:classical_sols_seq} that $||u_n||_{L^\infty(Q_T)} \leq M$ for all $n$. By assumption $\Phi$ is locally Lipschitz, and so there is a constant $L$ so that $\Phi'(s) \leq L$ for all $s \in [-M, M]$, and from the definition of $\Phi_n$ we then have taht $\Phi'_n(s) \leq L+1$ for all $s\in [-M,M]$ and all $n$. Hence $|\partial_t w_n|^2 \leq  (L+1)\Phi'_n(u_n)|\partial_t u_n|^2$, and by proposition \ref{prop:temporal_bound} we have that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T^\tau)$ for $\tau > 0$.As a consequence $w_n$ is uniformly bounded in $H^1(Q_T^\tau)$, for all $\tau > 0$.
+Notice that we have from Lemma \ref{prop:classical_sols_seq} that $||u_n||_{L^\infty(Q_T)} \leq M$ for all $n$. By assumption $\Phi$ is locally Lipschitz, and so there is a constant $L$ so that $\Phi'(s) \leq L$ for all $s \in [-M, M]$, and from the definition of $\Phi_n$ we then have taht $\Phi'_n(s) \leq L+1$ for all $s\in [-M,M]$ and all $n$. Hence $|\partial_t w_n|^2 \leq  (L+1)\Phi'_n(u_n)|\partial_t u_n|^2$, and by Lemma \ref{prop:temporal_bound} we have that $\partial_t w_n$ is uniformly bounded in $L^2(Q_T^\tau)$ for $\tau > 0$.As a consequence $w_n$ is uniformly bounded in $H^1(Q_T^\tau)$, for all $\tau > 0$.
 
  The fact that we were only able to bound $\partial_t w_n$ in $L^2(Q_T^\tau)$ causes some problems in using the Rellich-Kondrachov theorem to get a converging subsequence of $w_n$. We'll remedy this by the following diagonal argument:
 	Let $(\tau_m)$ be a positive, decreasing sequence converging to $0$.
@@ -1100,11 +1195,11 @@ Notice that we have from proposition \ref{prop:classical_sols_seq} that $||u_n||
 \end{proof}
 
 We can get a similar convergence result for $\nabla w_{n_j}$:
-\begin{proposition}
+\begin{lemma}
 \label{prop:gradw_weak_convergence}
 With the same assumptions as in proposition \ref{prop:classical_sols_seq},
 $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
-\end{proposition}
+\end{lemma}
 \begin{proof}
 First off we note that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense. Indeed, the distributional gradient of $w_{n_j}$ is defined by
 	\begin{equation}
@@ -1118,8 +1213,7 @@ First off we note that $\nabla w_{n_j}$ converges to $\nabla w$ in the distribut
 	\end{align*}
 	where the last inequality is by definition of the distributional derivative. From this we deduce that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense.
 	
-	Notice now that since $\nabla w_{n_j}$ is a bounded sequence in $L^2(Q_T)$ we can use Banach-Alaoglu's to say that every subsequence of $\nabla w_{n_j}$ has a weakly converging subsequence converging to some limit $v$. Since weak convergence implies convergence in the distributional sense and distributional limits are unique, we have that $v=\nabla w$.
-	Thus $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
+	Notice now that since $\nabla w_{n_j}$ is a bounded sequence in $L^2(Q_T)$ we can use Banach-Alaoglu's to say that every subsequence of $\nabla w_{n_j}$ has a weakly converging subsequence converging to some limit $v$. Since weak convergence implies convergence in the distributional sense and distributional limits are unique, we have that $v=\nabla w$. So every subsequence og $\nabla w_{n_j}$ has a subsequence that converges weakly to $\nabla w$, which implies that $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
 	
 		
 	 Lastly, note that with $w, \nabla w \in L^2(Q_T)$, $w \in L^2(0,T: H^1(\Omega))$.
@@ -1132,7 +1226,7 @@ Theorem \ref{thm:weak_existence} holds with the additional assumptions \ref{ass:
 \end{lemma}
 
 \begin{proof}
-With proposition \ref{prop:classical_sols_seq} we get a sequence of classical solutions $(u_n)$, uniformly bounded by some $M$. Propositions \ref{prop:weak_convergence_w_n} and \ref{prop:gradw_weak_convergence} provides subsequence of $w_n = \Phi_n(u_n)$, $(w_{n_j})$, that converges pointwise almost everywhere to some $w$. In addition $w_{n_j}$ and $\nabla w_{n_j}$ converges weakly in $L^2(Q_T)$ to $w$ and $\nabla w$ respectively. What remains to establish, is a candidate solution $u$, and show that this is a weak solution that satisfies (\ref{energy_ineq}).
+With Lemma \ref{prop:classical_sols_seq} we get a sequence of classical solutions $(u_n)$, uniformly bounded by some $M$. Lemmas \ref{prop:weak_convergence_w_n} and \ref{prop:gradw_weak_convergence} provides a subsequence of $w_n = \Phi_n(u_n)$, $(w_{n_j})$, that converges pointwise almost everywhere to some $w$. In addition $w_{n_j}$ and $\nabla w_{n_j}$ converges weakly in $L^2(Q_T)$ to $w$ and $\nabla w$ respectively. What remains to establish, is a candidate solution $u$, and show that this is a weak solution that satisfies (\ref{energy_ineq}).
 
 \begin{description}
 	\item[Convergence of $u_{n_j}$:] Both $\Phi$ and its approximations $\Phi_n$ all admit a continuous inverse (cf. appendix \ref{app:Phi}), and so
@@ -1195,7 +1289,7 @@ With proposition \ref{prop:classical_sols_seq} we get a sequence of classical so
 	&\leq \liminf_{n \to \infty} \left[ \iint_{Q_T} |\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dx \right].
 	\end{align*}
 	
-	Recall now that by lemma \ref{lem:Energy_equality_classical} 
+	Recall now that by Lemma \ref{lem:Energy_equality_classical} 
 	\begin{equation*}
 	\iint_{Q_T} |\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dxdt = \int_\Omega \Psi(u_{0,n})dx + \iint_{Q_T}f_n w_n dxdt,
 	\end{equation*}
@@ -1215,7 +1309,7 @@ With proposition \ref{prop:classical_sols_seq} we get a sequence of classical so
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{$\Phi$ no longer locally Lipschitz}
-We proceed by generalising the result lemma \ref{lem:existence_part1} to the case when $\Phi$ is no longer locally Lipschitz, i.e. lifting assumption \ref{ass:Phi_lipschitz}.
+We proceed by generalising Lemma \ref{lem:existence_part1} to the case when $\Phi$ is no longer locally Lipschitz, i.e. lifting assumption \ref{ass:Phi_lipschitz}.
 
 Looking back at the previous section, we see that the only place where we actually made use of $\Phi$ being locally Lipschitz, was in getting a uniform bound on $\partial_t w_n$ in $L^2(Q_T^\tau)$ by way of proposition \ref{prop:temporal_bound}. Because of this we'll take a small detour to find a sequence that enjoys the same uniform bounds as $w_n$ did in the previous section.
 
@@ -1230,7 +1324,7 @@ We then go on to define
 z_n(x,t) = Z_n(u_n(x,t)).
 \end{equation}
 
-The following proposition will establish that the sequence $(z_n)$ has the desired boundedness property.
+The following Lemma will establish that the sequence $(z_n)$ has the desired boundedness property.
 
 \begin{proposition}
 \label{prop:z_n_bounded_H1}
@@ -1249,7 +1343,7 @@ which means that $|\nabla z_n|^2 \leq |\nabla w_n|^2$ in all of $Q_T$. As a triv
 \begin{equation*}
 \iint_{Q_T}|\nabla z_n|^2dxdt \leq \iint_{Q_T}|\nabla w_n|^2dxdt.
 \end{equation*}
-Using proposition \ref{prop:spatial_boundedness} we conclude that both $z_n$ and $\nabla z_n$ are uniformly bounded in $L^2(Q_T)$.
+Using Lemma \ref{prop:spatial_boundedness} we conclude that both $z_n$ and $\nabla z_n$ are uniformly bounded in $L^2(Q_T)$.
 
 Similarly we have the two inequalities
 \begin{equation*}
@@ -1259,47 +1353,47 @@ and as a consequence
 \begin{equation*}
 \iint_{Q_T}|\partial_t z_n|^2 dxdt \leq \iint_{Q_T} |\Phi_n'(u_n)|\cdot |\partial_t u_n|^2dxdt.
 \end{equation*}
-With proposition \ref{prop:temporal_bound} $\partial_t z_n$ is uniformly bounded in $L^2(Q_T^\tau)$, and we conclude that $z_n$ is uniformly bounded in $H^1(Q_T^\tau)$.
+With Lemma \ref{prop:temporal_bound} $\partial_t z_n$ is uniformly bounded in $L^2(Q_T^\tau)$, and we conclude that $z_n$ is uniformly bounded in $H^1(Q_T^\tau)$.
 \end{proof}
 
-We are also able to establish some convergence results for $z_n$, summarised in propositions immediately below.
+We are also able to establish some convergence results for $z_n$, summarised in lemmas immediately below.
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:z_n_weak_convergence}
 Under the same assumptions as proposition \ref{prop:z_n_bounded_H1}, $z_n$ contains a subsequence $(z_{n_j})$ that converges almost everywhere to some $z$. The convergence happens also weakly in $L^2(Q_T)$. 
-\end{proposition}
-
-\begin{proof}
-This proof is almost identical to the proof of proposition \ref{prop:weak_convergence_w_n} and \ref{prop:gradw_weak_convergence}: Using proposition \ref{prop:z_n_bounded_H1} and Rellich-Kondrachov we can construct the same type of diagonal argument to extract a subsequence $(z_{n_j})$ that converges almost everywhere to $z$. Since $z_n$ is a bounded sequence in $L^2(Q_T)$, a reflexive Hilbert space, every subsequence contains a weakly convergent subsequence. The same use of Egorov's theorem as in proposition \ref{prop:weak_convergence_w_n} establishes that $z_{n_j}$ converges weakly to $z$ in $L^2(Q_T)$.
-\end{proof}
-
-
-This enables to prove existence in a slightly more general setting.
-\begin{lemma}
-\label{lem:weak_existence_part2}
-Theorem \ref{thm:weak_existence} holds with the additional assumptions \ref{ass:f_ft_u_0_bounded}, \ref{ass:Phi_strictly_increasing} and \ref{ass:smooth_boundary}.
 \end{lemma}
 
 \begin{proof}
-We use proposition \ref{prop:classical_sols_seq} to get a sequence $(u_n)$ of classical soltutions, and we can use this sequence to define $(z_n)$. Further, proposition \ref{prop:z_n_weak_convergence} provides us with a subsequence $(z_{n_j})$ that converges almost everywhere to $z$.
+This proof is almost identical to the proofs of lemmas \ref{prop:weak_convergence_w_n} and \ref{prop:gradw_weak_convergence}: Using Lemma \ref{prop:z_n_bounded_H1} and Rellich-Kondrachov we can construct the same type of diagonal argument to extract a subsequence $(z_{n_j})$ that converges almost everywhere to $z$. Since $z_n$ is a bounded sequence in $L^2(Q_T)$, a reflexive Hilbert space, every subsequence contains a weakly convergent subsequence. The same use of Egorov's theorem as in Lemma \ref{prop:weak_convergence_w_n} establishes that $z_{n_j}$ converges weakly to $z$ in $L^2(Q_T)$.
+\end{proof}
+
+
+This enables us to prove existence in a slightly more general setting.
+\begin{lemma}
+\label{lem:weak_existence_part2}
+Theorem \ref{thm:weak_existence} holds with the additional assumptions \ref{ass:f_ft_u_0_bounded} and \ref{ass:smooth_boundary}.
+\end{lemma}
+
+\begin{proof}
+We use Lemma \ref{prop:classical_sols_seq} to get a sequence $(u_n)$ of classical soltutions, and we can use this sequence to define $(z_n)$. Further, Lemma \ref{prop:z_n_weak_convergence} provides us with a subsequence $(z_{n_j})$ that converges almost everywhere to $z$.
 Now we obviously have $u_{n_j} = Z_{n_j}^{-1}(z_{n_j})$, and so
 \begin{align*}
 |u_{n_j} - Z^{-1}(z)| &= |Z_{n_j}^{-1}(z_{n_j}) - Z^{-1}(z)| \\
 &\leq |Z_{n_j}^{-1}(z_{n_j}) - Z^{-1}(z_{n_j})| + |Z^{-1}(z_{n_j})- Z^{-1}(z)|.
 \end{align*}
 The sequence $(z_{n_j})$ converges pointwise to $z$ as well as being uniformly bounded 
-since $|z_{n_j}| \leq |u_{n_j}| \leq M$. And so the first term on the right hand side in the above inequality is controlled by $Z_n^{-1}$ converging uniformly to $Z^{-1}$ on compact sets, as shown in proposition \ref{prop:Zinv_uniform_convergence}. The second term tends to zero since $z_{n_j}$ converges pointwise to $z$ and $Z^{-1}$ is continuous.
+since $|z_{n_j}| \leq |u_{n_j}| \leq M$. And so the first term on the right hand side in the above inequality is controlled by $Z_n^{-1}$ converging uniformly to $Z^{-1}$ on compact sets, as shown in Lemma \ref{prop:Zinv_uniform_convergence}. The second term tends to zero since $z_{n_j}$ converges pointwise to $z$ and $Z^{-1}$ is continuous.
 
 We define $u=Z^{-1}(z)$ as the pointwise limit of $u_{n_j}$, and note as in the previous proof that $u_{n_j}$ also converges to $u$ in $L^1(Q_T)$.
 
-The rest of the proof is almost identical to that for lemma \ref{lem:existence_part1}. First, $w_{n_j}$ converges pointwise almost everywhere to some $w = \Phi(u)$, which follows from the fact that $\Phi_n$ converges uniformly to $\Phi$ on compact sets, and the continuity of $\Phi$. Since $w_{n}$ is bounded in $Q_T$ for all $n$ with uniform bound, we can use the dominated convergence theorem to deduce that  $w \in L^2(Q_T)$.
+The rest of the proof is almost identical to that for Lemma \ref{lem:existence_part1}. First, $w_{n_j}$ converges pointwise almost everywhere to some $w = \Phi(u)$, which follows from the fact that $\Phi_n$ converges uniformly to $\Phi$ on compact sets, and the continuity of $\Phi$. Since $w_{n}$ is bounded in $Q_T$ for all $n$ with uniform bound, we can use the dominated convergence theorem to deduce that  $w \in L^2(Q_T)$.
 
-Since $\nabla w_{n_j}$ is a bounded sequence in $L^2(Q_T)$, by proposition \ref{prop:spatial_boundedness}, we can argue as in proposition \ref{prop:gradw_weak_convergence} to deduce that $\nabla w_{n_j}$ converges weakly to $\nabla w$.
+Since $\nabla w_{n_j}$ is a bounded sequence in $L^2(Q_T)$, by Lemma \ref{prop:spatial_boundedness}, we can argue as in Lemma \ref{prop:gradw_weak_convergence} to deduce that $\nabla w_{n_j}$ converges weakly to $\nabla w$:
 
-It follows that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense, and since $w_{n_j}$ is bounded in $L^2(Q_T)$ we can deduce that $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
+It follows that $\nabla w_{n_j}$ converges to $\nabla w$ in the distributional sense, and since $w_{n_j}$ is bounded in $L^2(Q_T)$ we can deduce, by way of Banach-Alaoglu's and the uniqueness of distributional limits, that $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
 
 
-Lastly, establishing that $u$ is a weak solution and satisfies inequality (\ref{energy_ineq}) follows the exact same argument as in the proof of lemma \ref{lem:existence_part1}.
+Lastly, establishing that $u$ is a weak solution and satisfies inequality (\ref{energy_ineq}) follows the exact same argument as in the proof of Lemma \ref{lem:existence_part1}.
 \end{proof}
 
 We will continue on with lifting more of the assumptions, in particular those on $f$ and $u_0$, but first an intermediate result is needed. The result is simply the $L^1$-stability presented in lemma \ref{lem:l1_stability_classical} only now for weak solutions.
