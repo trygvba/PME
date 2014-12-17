@@ -62,10 +62,18 @@ Espen R. \textsc{Jakobsen}
 %		END OF TITLE PAGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\abstract{For now, heavily reliant on \citep{vazquez2007porous}.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				ABSTRACT:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\abstract{This project is an exposition of the General Porous Medium Equation, which contains both the porous medium equation and the heat equation as special cases as well as the Stefan problem when considering the degenerate case. The first part is devoted to presenting some theory on classical solution with attention paid to important estimates. 
+
+ The theory is then extended to a weak setting for the weakly degenerate case. Again, proving well posedness will be the main focus, and to that end the concept of weak energy solutions is presented. In this framework existence, uniqueness and stability is proved, and attention is paid to showing that the estimates for classical solutions are inherited by weak solutions. }
 
 \newpage
+
 \tableofcontents
+\pagestyle{plain}
 \pagenumbering{arabic}
 % My text categories:
 \theoremstyle{plain}
@@ -95,19 +103,38 @@ Espen R. \textsc{Jakobsen}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Introduction}
+As a student first learning partial differential equations, one is bound to come across the heat equation early on. Its most common derivation stems from conservation principles of the form
+\begin{equation}
+\label{conservation_law}
+\partial_t u + \nabla \cdot \textbf{j} = f,
+\end{equation}
+where $u$ is some density, $\textbf{j}$ is the flux and $f$ is the production term, together with Fick's law of diffusion, stating that the density flux is negatively proportional to the density gradient. Put in symbols,
+\begin{equation*}
+\textbf{j} = -K\nabla u,
+\end{equation*}
+where $K$ is some constant.
 
-Let $\Omega \subset \mathbb{R}^d$ be an open, bounded, and simply connected domain. Then the filtration, or general porous medium equation is
+Although widely acclaimed, there are diffusive processes which the heat equation fails to model satisfactory, e.g. viscous groundwater flow. In that particular case a popular alternative for modelling the flux is Darcy's law. Here flux is negatively proportional to gradient of the pressure, rather than density. Then comes the second question of how to model the pressure. A common method is using the state equation for perfect gases, relating pressure to density by
+\begin{equation*}
+p = p_0 u^\gamma, 
+\end{equation*}
+for some constants $p_0$ and $\gamma \geq 1$. Putting this in for the flux in (\ref{conservation_law}) results in the PDE
+\begin{equation}
+\partial_t \rho = c \Delta u^\gamma +f,
+\end{equation}
+which is commonly called the Porous medium equation (PME).
 
+Taking it one step further, we can generalise the density flux as $\textbf{j} = -K\nabla \Phi(u)$ for some nondecreasing function $\Phi$. Then (\ref{conservation_law}) becomes what is called the Filtration equation, or the General porous medium equation and is written
 \begin{equation}
 \label{GPME}
-	\partial_t u = \Delta \Phi(u) + f,
+	\partial_t u = \Delta \Phi(u) + f.
 \end{equation}
 
- where $u, f: \Omega \times (0,\infty) \to \mathbb{R}$, and $\Phi: \mathbb{R} \to \mathbb{R}$.
+It is (\ref{GPME}) that we will focus on in this project and we'll consider $u: \Omega \times [0,\infty) \to \mathbb{R}$, for some open, bounded and simply connected subset $\Omega \subset \mathbb{R}^d$.
  
 The PDE (\ref{GPME}) encompasses some noteworthy special cases:
 \begin{example}[PME]
-When $\Phi(u) = u^m$ for $m>1$, (\ref{GPME}) is the Porous Medium Equation (PME), whose name is derived from its main application: Describing gas concentration flow in porous media, like rock. To allow for solutions with changing signs, one has $\Phi(u) = |u|^{m-1}u$. Notice that this choice of $\Phi$ is strictly increasing and locally Lipschitz continuous.
+When $\Phi(u) = u^m$ for $m>1$, (\ref{GPME}) is as already mentioned the Porous Medium Equation, whose name is derived from its main application: Describing fluid concentration flow in porous media, like rock. To allow for solutions with changing signs, one has $\Phi(u) = |u|^{m-1}u$. Notice that this choice of $\Phi$ is strictly increasing and locally Lipschitz continuous. The fact that $\Phi'(0) = 0$ makes the PME a weakly degenerate problem.
 \end{example}
 
 \begin{example}[FDE]
@@ -115,8 +142,12 @@ With the same choice of $\Phi(u) = |u|^{m-1}u$, only now with $0<m<1$ yields the
 \end{example}
 
 \begin{example}[Stefan problem]
-The Stefan problem can be posed with $\Phi(u) = (u-1)_+$, which is used to describe temperature distribution in a system with a phase transitions. E.g. melting an ice cube in a glass of water. Here $\Phi$ is no longer strictly increasing, which constitutes a degenerate problem.
+The Stefan problem can be posed with $\Phi(u) = (u-1)_+$, which is used to describe temperature distribution in a system with a phase transitions. E.g. melting an ice cube in a glass of water. Here $\Phi$ is no longer strictly increasing, which constitutes a  strongly degenerate problem.
 \end{example}
+
+
+
+
 
 \subsection{Basic sets and notation}
 Before delving into the actual analysis of our problem, let's just assure ourselves that we're on the same page when it comes to notation of various sets and function spaces.
@@ -177,7 +208,7 @@ Luckily this norm will not be of the most importance in what is to follow, but s
  
  
 \subsection{Problem statement}
-We will consider on the following Dirichlet problem:
+Rather than analysing all variants of well posed formulations of (\ref{GPME}), we will in this text restrict ourselves to consider the initial value problem with homogeneous Dirichlet boundary conditions on a bounded domain, which can be formulated as
 \begin{equation}
 \label{HDP}
 	\begin{cases}
@@ -186,12 +217,14 @@ We will consider on the following Dirichlet problem:
 		u(x,t) &= 0, \quad \text{ on } \partial\Omega \times [0,T].
 	\end{cases}
 \end{equation}
-Here $Q_T = \Omega \times (0,T]$, where $T$ may very well be infinite. Furthermore we denote by $\Gamma_T = \overline{Q}_T\backslash Q_T$ the parabolic boundary.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%		ASSUMPTIONS CAN POSSIBLY GO HERE???
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This restriction is of course so we can spend more time on the details for a hopefully richer understanding of some of the properties inherent in the general porous medium equation.
 
+The general layout of the project will be as follows: We'll begin by considering classical solutions of (\ref{HDP}) that satisfy (\ref{GPME}) at every point in $Q_T$. Here we will derive some important a priori estimates, including stability in $L^\infty$ and $L^1$ as well as control of both the spatial and temporal derivative. The section concludes with an existence result under quite strict assumptions. The results of this section can be found in books like \citep{vazquez2007porous} and \citep{ladyzhenskaya}.
+
+Then follows a discussion of weak solutions, showing uniqueness, existence and stability in $L^\infty(0,T: L^1(\Omega))$, most of the results in this section can be found in \citep[chapter 5]{vazquez2007porous}. However, here the proofs are much more detailed than can be found there, and as great care as the author could manage was placed on making sure that the a priori estimates for classical solutions, especially $L^1$-stability, was inherited to weak solutions as well. This focus on detail has the advantage of better showing how reliant PDE theory are on other branches of mathematics like functional analysis and measure theory, perhaps at the cost of making for a more cumbersome read.
+
+In addition the uniqueness result for weak solutions was also slightly improved upon relative to \citep{vazquez2007porous} in that the proof here includes the possibility that $\Phi$ is only nondecreasing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				CLASSICAL SOLUTIONS

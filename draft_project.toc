@@ -1,14 +1,14 @@
 \contentsline {section}{\numberline {1}Introduction}{2}
 \contentsline {subsection}{\numberline {1.1}Basic sets and notation}{2}
-\contentsline {subsection}{\numberline {1.2}Problem statement}{3}
+\contentsline {subsection}{\numberline {1.2}Problem statement}{4}
 \contentsline {section}{\numberline {2}Classical solutions}{4}
 \contentsline {subsection}{\numberline {2.1}Preliminaries and assumptions}{4}
 \contentsline {subsection}{\numberline {2.2}Maximum principle}{5}
-\contentsline {subsection}{\numberline {2.3}$L^1$-contractivity}{6}
-\contentsline {subsection}{\numberline {2.4}Control of the spatial derivative}{8}
-\contentsline {subsection}{\numberline {2.5}Control of the temporal derivative}{9}
-\contentsline {subsection}{\numberline {2.6}Existence}{10}
-\contentsline {subsubsection}{\numberline {2.6.1}Preliminaries}{10}
+\contentsline {subsection}{\numberline {2.3}$L^1$-contractivity}{7}
+\contentsline {subsection}{\numberline {2.4}Control of the spatial derivative}{9}
+\contentsline {subsection}{\numberline {2.5}Control of the temporal derivative}{10}
+\contentsline {subsection}{\numberline {2.6}Existence}{11}
+\contentsline {subsubsection}{\numberline {2.6.1}Preliminaries}{11}
 \contentsline {subsubsection}{\numberline {2.6.2}The big, general existence theorem}{11}
 \contentsline {subsubsection}{\numberline {2.6.3}From general to specific: Existence for the GPME}{12}
 \contentsline {section}{\numberline {3}Weak solutions}{15}
