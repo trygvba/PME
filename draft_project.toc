@@ -16,11 +16,11 @@
 \contentsline {subsection}{\numberline {3.2}Existence}{17}
 \contentsline {subsubsection}{\numberline {3.2.1}Preliminaries}{17}
 \contentsline {subsubsection}{\numberline {3.2.2}With all assumptions in place}{18}
-\contentsline {subsubsection}{\numberline {3.2.3}$\Phi $ no longer locally Lipschitz}{23}
-\contentsline {subsubsection}{\numberline {3.2.4}No longer $C^{2,\alpha }$ boundary}{26}
-\contentsline {subsubsection}{\numberline {3.2.5}Removing the assumptions on $f$ and $u_0$}{29}
-\contentsline {section}{\numberline {A}Passing derivative inside the integral}{32}
-\contentsline {section}{\numberline {B}Compactness argument}{34}
-\contentsline {section}{\numberline {C}Properties of the approximate nonlinearities}{35}
-\contentsline {subsection}{\numberline {C.1}Properties of $\Phi $ and its approximations}{35}
-\contentsline {subsection}{\numberline {C.2}Properties of $Z$ and its approximations}{38}
+\contentsline {subsubsection}{\numberline {3.2.3}$\Phi $ no longer locally Lipschitz}{24}
+\contentsline {subsubsection}{\numberline {3.2.4}No longer $C^{2,\alpha }$ boundary}{27}
+\contentsline {subsubsection}{\numberline {3.2.5}Removing the assumptions on $f$ and $u_0$}{30}
+\contentsline {section}{\numberline {A}Passing derivative inside the integral}{33}
+\contentsline {section}{\numberline {B}Compactness argument}{35}
+\contentsline {section}{\numberline {C}Properties of the approximate nonlinearities}{36}
+\contentsline {subsection}{\numberline {C.1}Properties of $\Phi $ and its approximations}{36}
+\contentsline {subsection}{\numberline {C.2}Properties of $Z$ and its approximations}{39}
