@@ -308,7 +308,7 @@ The first main estimate we'll deal with is a $L^\infty$ bound on a classical sol
 
 \begin{theorem}[Strong maximum principle]
 \begin{enumerate}[i)]
-	Suppose $\Omega$ is connected, and $u\in C^{2,1}(Q_T)\cap C(\overline{Q}_T)$, and $\partial_t + L$ is uniformly parabolic, then:
+	Suppose $\Omega$ is connected, and $u\in C^2_1(Q_T)\cap C(\overline{Q}_T)$, and $\partial_t + L$ is uniformly parabolic, then:
 	\item If
 	\begin{equation*}
 		\partial_tu + Lu \leq 0, \quad \text{ in } Q_T, 
@@ -663,7 +663,7 @@ We will make good use of an admittedly quite harrowing theorem presented in \cit
 Recalling the divergence form (\ref{divergence_operator}) at the beginning of this section, it will be useful to consider a general parabolic equation of the form
 \begin{equation}
 \label{lady_parabolic_eq}
-	u_t - \sum_{i=1}^d\frac{d}{dx_i}a_i(x,t,u,\nabla u) + a(x,t,u,\nabla u) = 0
+	u_t - \sum_{i=1}^d\frac{\partial}{\partial x_i}a_i(x,t,u,\nabla u) + a(x,t,u,\nabla u) = 0
 \end{equation}
 in $Q_T$. In addition we formulate the initial value and boundary as
 \begin{equation}
@@ -752,9 +752,9 @@ Assume the following conditions are satisfied:
 		
 		\item $f = f(x,t)$ is $C^1(Q_T)$, bounded and Lipschitz in both its variables.
 		
-		\item $u_0$ is in $C^2_c(\Omega)$; $u_0\in C^2(\Omega)$ and has compact support.
+		\item $u_0\in C^2(\Omega)$, and $u_0$, $\nabla u_0$ and $\Delta u_0$ vanish at the boundary.
 		
-		\item $\partial \Omega$ is $C^{2+\beta}$-smooth.
+		\item $\partial \Omega$ is $C^{2,\beta}$-smooth.
 	
 	\end{enumerate}
 Then (\ref{HDP}) has a unique solution $u\in C^{2}_1(Q_T)\cap C(\overline{Q}_T)$ for $T<\infty$. Moreover, this solution has derivatives $\partial_t \nabla u$ in $L^2(Q_T)$.
@@ -798,7 +798,7 @@ Let's go through each condition in theorem \ref{thm:classical_existence} and ver
 	
 	Considering the first inequality in (\ref{exist_cond3}) we have
 	\begin{equation*}
-		\sum_{i,j=1}^d \frac{\partial a_i(x,t,u,p)}{\partial p_j} \xi_i \xi_j = \sum_{i=1}^d \Phi'(u)\xi_i^2 =\Phi'(u)\xi^2,
+		\sum_{i,j=1}^d \frac{\partial a_i(x,t,u,p)}{\partial p_j} \xi_i \xi_j = \sum_{i=1}^d \Phi'(u)\xi_i^2 =\Phi'(u)|\xi|^2,
 	\end{equation*}
 	which is satisfied because of (\ref{uniform_parabGPME}).
 	
@@ -991,7 +991,7 @@ holds.
 \end{mydef}
 \setcounter{obs}{0}
 \begin{obs}
-If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as we did in deriving (\ref{spatial_derivative_bound_w_poincare}), to get that $\Phi(u) \in L^2(0,T: H^1_0(\Omega))$.
+If $f\in L^2(Q_T)$ we can do the same trick on the right hand side as we did in deriving (\ref{spatial_derivative_bound_w_poaincare}), to get that $\Phi(u) \in L^2(0,T: H^1_0(\Omega))$.
 \end{obs}
 
 We will prove the existence of weak energy solutions for the homogeneous Dirichlet problem (\ref{HDP}) under the following assumptions:
@@ -1058,7 +1058,7 @@ We also let $u_{0,n}\in C^\infty_c(\Omega)$ be a smooth approximation of $u_0$, 
 This construction can be done as follows: First, define $\tilde{u}_n = \mathrm{max}\{ \mathrm{min}\{u_0, n\}, -n\}$, so $u_0$ is truncated at $\pm n$. Then let $(V_n)$ be a sequence of simply connected, compact subsets so that $K_n \subset K_{n+1}$ for all $n$ as well as $\cup_{n\in \mathbb{N}}K_n = \Omega$, and we require $\mathrm{dist}(K_n,\partial \Omega) \geq \frac{2}{n}$. Then we set $u_{0,n}= (\chi_{K_n}\tilde{u}_n)*\varphi_{\frac{1}{n}}$, where $\chi_{K_n}$ is the characteristic function for $K_n$ and $\varphi_{\frac{1}{n}}$ is the scaled standard mollifier in $\mathbb{R}^d$. The requirement on the distance between $V_n$ and $\partial \Omega$ we see is to ensure that $u_{0,n}$ and its derivatives vanish at the boundary. See that this way of approximating $u_0$ ensures that $||u_{0,n}||_{L^1(\Omega)} \leq ||u_0||_{L^1(\Omega)}$ as well as $||u_{0,n}||_{L^\infty(\Omega)} \leq ||u_0||_{L^\infty(\Omega)}$ for all $n$ by Young's inequality for convolutions.
 
 We define the approximations of $f$ in a similar manner: Let $\tilde{f}_n = \mathrm{max}\{ \mathrm{min}\{f,n \}, -n\}$, and then define $f_n = \tilde{f}_n * \varphi_{\frac{1}{n}}$.
-Notice that by Young's inequality $||f_n||_{L^2(Q_T)} \leq ||\tilde{f}_n||_{L^2(Q_T)} \leq ||f||_{L^2(Q_T)}$.
+Notice that by Young's inequality $||f_n||_{L^2(Q_T)} \leq ||\tilde{f}_n||_{L^2(Q_T)} \leq ||f||_{L^2(Q_T)}$. Because of $\partial_t (\tilde{f}_n* \varphi_{\frac{1}{n}}) = (\partial_t \tilde{f}_n) *\varphi_{\frac{1}{n}}$, we also have that $||\partial_t f_n||_\infty \leq ||\partial_t f||_\infty$. This is true for any derivative of $f$ that exists, but it's only the time derivative estimate here that will become useful to us.
 
 With these approximations at hand we can define an approximate problem to (\ref{HDP}), by
  \begin{equation}
@@ -1100,15 +1100,15 @@ Define now for each $n$ $w_n = \Phi_n(u_n)$. It's the sequence $(w_n)$ we will u
 \begin{lemma}
 \label{prop:spatial_boundedness}
 With the same assumptions as in Lemma \ref{prop:classical_sols_seq},
-the sequences $(w_n)$ and $(\nabla w_n)$ are uniformly bounded in $L^2(Q_T)$. In other words $(w_n)$ is uniformly bounded $L^2(0,T: H^1_0(\Omega))$. Moreover, there is some $K >0$, depending only on $M$ from Lemma \ref{prop:classical_sols_seq} and $\Phi$, so that
+the sequences $(w_n)$ and $(\nabla w_n)$ are uniformly bounded in $L^2(Q_T)$. In other words $(w_n)$ is uniformly bounded $L^2(0,T: H^1_0(\Omega))$. Moreover, there are constants $B_1, B_2 >0$ depending only on $M$ from Lemma \ref{prop:classical_sols_seq} and $\Phi$, so that
 \begin{equation}
 \label{gradwn_bound_uniform}
-||\nabla w_n||_{L^2(Q_T)} \leq K||u_0||_{L^1(\Omega)} + ||f||_{L^2(Q_T)}.
+||\nabla w_n||_{L^2(Q_T)} \leq B_1||u_0||_{L^1(\Omega)} + B_2||f||_{L^2(Q_T)}.
 \end{equation}
 for all $n$.
 \end{lemma}
 \begin{proof}
-Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poincare}) to get that
+Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poaincare}) to get that
 	\begin{equation}
 	\label{exist_proof_spatial}
 	\frac{1}{2}\iint_{Q_T}|\nabla w_n|^2 dxdt + \int_\Omega \Psi_n(u_n(T))dx  \leq \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt
@@ -1147,19 +1147,22 @@ Since $u_n$ are classical solutions, we use (\ref{spatial_derivative_bound_w_poi
 	|\Phi_n(u_{0,n})| &\leq |\Phi(u_{0,n})| + |u_{0,n}| + \underset{y\in [-1, 1]}{\mathrm{sup}}|\Phi(u_{0,n}-y) - \Phi(u_{0,n})| +\mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
 	& \leq \underset{|s| \leq ||u_0||_\infty}{\mathrm{sup}}|\Phi(s)| + ||u_0||_{\infty}\\
 	& + \underset{\underset{y\in[-1/n,1/n]}{|s| \leq ||u_0||_{\infty}}}{\mathrm{sup}}|\Phi(s-y) - \Phi(s)| + \mathrm{max}\{|\Phi(-1)|, |\Phi(1)|\} \\
-	&=: K < \infty.
+	&=: \frac{B_1}{2} < \infty.
 	\end{align*}
 	In the last step we also made repeated use of $|u_{0,n}| \leq ||u_0||_\infty$.
 	All terms are bounded since $u_0$ is bounded. When also using that $||u_{0,n}||_{L^1(\Omega)} \leq ||u_0||_{L^1(\Omega)}$ we finally get the estimate
 	\begin{align*}
-	\int_\Omega \Psi_n(u_{0,n})dx &\leq K ||u_{0,n}||_{L^1(\Omega)} \\
-	&\leq K ||u_0||_{L^1(\Omega)}
+	\int_\Omega \Psi_n(u_{0,n})dx &\leq \frac{B_1}{2} ||u_{0,n}||_{L^1(\Omega)} \\
+	&\leq \frac{B_1}{2} ||u_0||_{L^1(\Omega)}
 	\end{align*}
 	which is finite from $u_0 \in L^1(\Omega)$. Most importantly, this shows that the left hand side of (\ref{exist_proof_spatial}) is bounded independently of $n$, which immediately implies that $\nabla w_n$ is a bounded sequence in $L^2(Q_T)$. Notice also that from the Poincaré inequality,
 	\begin{equation*}
 	\iint_{Q_T}w_n^2 dxdt \leq C\iint_{Q_T} |\nabla w_n|^2dxdt,	
 	\end{equation*}
-	$w_n$ is also uniformly bounded in $L^2(Q_T)$.
+	$w_n$ is also uniformly bounded in $L^2(Q_T)$. Lastly, setting $B_2 = 2C$ and multplying (\ref{exist_proof_spatial}) by $2$ we get
+	\begin{equation}
+	\iint_{Q_T} |\nabla w_n|^2 dxdt \leq B_1 ||u_0||_{L^1(\Omega)} + B_2 ||f||_{L^2(Q_T)}.
+	\end{equation}
 \end{proof}
 
 \begin{lemma}
@@ -1241,7 +1244,7 @@ Notice that we have from Lemma \ref{prop:classical_sols_seq} that $||u_n||_{L^\i
 We can get a similar convergence result for $\nabla w_{n_j}$:
 \begin{lemma}
 \label{prop:gradw_weak_convergence}
-With the same assumptions as in proposition \ref{prop:classical_sols_seq},
+With the same assumptions as in Lemma \ref{prop:classical_sols_seq},
 $\nabla w_{n_j}$ converges weakly to $\nabla w$ in $L^2(Q_T)$.
 \end{lemma}
 \begin{proof}
@@ -1282,7 +1285,7 @@ With Lemma \ref{prop:classical_sols_seq} we get a sequence of classical solution
 	|u_{n_j} - \Phi^{-1}(w)| &= |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w)| \\
 		&\leq |\Phi_{n_j}^{-1}(w_{n_j}) - \Phi^{-1}(w_{n_j})| + |\Phi^{-1}(w_{n_j}) - \Phi^{-1}(w)|.
 	\end{align*}
-	 We have that $w_{n_j}$ is a bounded sequence, seeing as $u_{n_j}$ is bounded. Hence we can use proposition \ref{prop:inverse_uniform} to make the first term in the above inequality arbitrarily small. The second term is controlled by the almost everywhere convergence of $w_{n_j}$ to $w$ and the continuity of $\Phi^{-1}$. That means that
+	 We have that $w_{n_j}$ is a bounded sequence, seeing as $u_{n_j}$ is bounded. Hence we can use Lemma \ref{prop:inverse_uniform} to make the first term in the above inequality arbitrarily small. The second term is controlled by the almost everywhere convergence of $w_{n_j}$ to $w$ and the continuity of $\Phi^{-1}$. That means that
 	 \begin{equation*}
 	 u_{n_j} \to u = \Phi^{-1}(w)
 	 \end{equation*}
@@ -1296,22 +1299,22 @@ With Lemma \ref{prop:classical_sols_seq} we get a sequence of classical solution
 	 which means that $u \in L^2(Q_T)$.
 	
 	\item[$u \in L^\infty(0,T: L_\Psi(\Omega)$:]
-	For any $t \in [0,T]$ we have by Fatou's Lemma \citep[p. 162]{weiss1999course} that 
+	For almost every $t \in [0,T]$ we have by Fatou's Lemma \citep[p. 162]{weiss1999course} that since $|u_{n_j}(t)|$ converges almost everywhere to $|u(t)|$ and are nonnegative, then
 	\begin{equation*}
-	||u(t)||_{L^1(\Omega)} \leq \liminf_{n \to \infty} ||u_n(t)||_{L^1(\Omega)}.
+	||u(t)||_{L^1(\Omega)} \leq \liminf_{j \to \infty} ||u_{n_j}(t)||_{L^1(\Omega)}.
 	\end{equation*}
 	Here we use Corollary \ref{cor:l1-contractivity_classical} with $\hat{u}=0$ as the solution to zero loading and initial data to get that
 	\begin{align}
-	||u(t)||_{L^1(\Omega)} &\leq \liminf_{n \to \infty} \left( ||u_{0,n}||_{L^1(\Omega)} + ||f_n||_{L^1(Q_T)}\right) \nonumber \\
+	||u(t)||_{L^1(\Omega)} &\leq \liminf_{j \to \infty} \left( ||u_{0,n_j}||_{L^1(\Omega)} + ||f_{n_j}||_{L^1(Q_T)}\right) \nonumber \\
 	&= ||u_0||_{L^1(\Omega)} + ||f||_{L^1(Q_T)},	
 	\end{align}
 	implying that $u \in L^\infty(0,T: L^1(\Omega))$.
 	
 	We do similarly for $\Psi(u(t))$, but first we need to show that $\Psi_n(u_n)$ converges almost everwhere to $\Psi(u)$. We use the triangle inequality as
 	\begin{equation}
-	|\Psi_n(u_n) - \Psi(u)| \leq |\Psi_n(u_n) - \Psi(u_n)| + |\Psi(u_n) + \Psi(u)|.
+	|\Psi_{n_j}(u_{n_j}) - \Psi(u)| \leq |\Psi_{n_j}(u_{n_j}) - \Psi(u_{n_j})| + |\Psi(u_{n_j}) + \Psi(u)|.
 	\end{equation}
-	Because $|u_n| \leq M$ we use that $\Psi_n$ converges uniformly on compact sets (see proposition \ref{prop:Psi_uniform_convergence}) to control the first term. The second term is controlled by the almost everywhere convergence of $u_n$ to $u$ and the continuity of $\Psi$.
+	Because $|u_n| \leq M$ we use that $\Psi_n$ converges uniformly on compact sets (see Lemma \ref{prop:Psi_uniform_convergence}) to control the first term. The second term is controlled by the almost everywhere convergence of $u_{n_j}$ to $u$ and the continuity of $\Psi$.
 	
 	Then, by Fatou's Lemma
 	\begin{equation*}
@@ -1319,7 +1322,7 @@ With Lemma \ref{prop:classical_sols_seq} we get a sequence of classical solution
 	\end{equation*}
 	since $\Psi_n$ is nonnegative. Using Corollary \ref{cor:spatial_bound_w_poincare} we get
 	\begin{align*}
-	\int_\Omega \Psi(u(t))dx &\leq \liminf_{n \to \infty} \left( \int_\Omega \Psi_n(u_{0,n})dx + C\iint_{Q_T}f_n^2 dxdt \right)\nonumber \\
+	\int_\Omega \Psi(u(t))dx &\leq \liminf_{j \to \infty} \left( \int_\Omega \Psi_{n_j}(u_{0,n_j})dx + C\iint_{Q_T}f_{n_j}^2 dxdt \right)\nonumber \\
 	&= \int_\Omega \Psi(u_0)dx + \iint_{Q_T} f^2dxdt, 
 	\end{align*}
 	and so we have that $u \in L^\infty(0,T: L_\Psi(\Omega))$.
@@ -1339,7 +1342,7 @@ With Lemma \ref{prop:classical_sols_seq} we get a sequence of classical solution
 	All the terms are controlled by the convergences of $w_n$, $u_n$, $u_{0,n}$, as long as the limit is taken along the subsequence for which we know $w_n$ converges. Thus, (\ref{claim_weak_solution}) holds, and $u$ is a weak solution.
 	
 	
-	We have from before that $u\in L^2(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique. In addition it is worth noticing that any accumulation point of the sequence of classical solutions is a weak solution, and so the uniqueness in theorem \ref{thm:uniqueness} precludes any other accumulation point than $u$. I.e. the whole sequence $(u_n)$ converges to $u$.
+	We have from before that $u\in L^2(Q_T)$ as well as $\Phi(u) \in L^2(0,T: H^1(\Omega))$, so the solution is unique. In addition it is worth noticing that any accumulation point of the sequence of classical solutions is a weak solution, and so the uniqueness in Theorem \ref{thm:uniqueness} precludes any other accumulation point than $u$. I.e. the whole sequence $(u_n)$ converges to $u$.
 
 
 	\item[Fulfillment of the energy inequality:]
@@ -1553,7 +1556,7 @@ Putting these back into (\ref{z_t_L2_almost_there}), we get
 
 
 \subsubsection{No longer $C^{2,\alpha}$ boundary}
-Following suit from the previous section, we'll now aim to prove Lemma \ref{lem:weak_existence_part2} without the assumption that $\partial \Omega$ is $C^{2,\alpha}$, of course, this is usually the case in applications, where the domain can have corners and such, making the boundary not sufficiently smooth to satisfy the assumptions in theorem \ref{thm:classical_existence} to provide a classical solution. The strategy for proving existence now will be to get a sequence of weak solution on smaller subdomains that will eventually converge to all of $Q_T$.
+Following suit from the previous section, we'll now aim to prove Lemma \ref{lem:weak_existence_part2} without the assumption that $\partial \Omega$ is $C^{2,\alpha}$, of course, this is usually the case in applications, where the domain can have corners and such, making the boundary not sufficiently smooth to satisfy the assumptions in Theorem \ref{thm:classical_existence} to provide a classical solution. The strategy for proving existence now will be to get a sequence of weak solution on smaller subdomains that will eventually converge to all of $Q_T$.
 
 To that end, we will in this section alter the approximations on $u_0$ and $f$ that were provided in section \ref{sec:approximations}. Take a sequence of simply connected compact sets $K_n \subset \Omega$ so that $K_n \subset K_{n+1}$ and $\cup_{n \in \mathbb{N}}K_n = \Omega$. Quite similarly to how we did when approximating $u_0$ in section \ref{sec:approximations}, but now with the additional asssumption that $\partial K_n$ is $C^{2,\alpha}$ smooth for each $n$. We'll also denote by $Q_n$ the time-space cylinder $K_n \times (0,T)$. 
 
@@ -1591,7 +1594,7 @@ Notice that for each $n$, $w_n= |\nabla w_n|=0$ in $Q_T\setminus Q_n$ by the con
 \begin{equation*}
 \iint_{Q_T} |\nabla w_n|^2dxdt + \int_\Omega \Psi(u_n(T)) = \iint_{Q_n}|\nabla w_n|^2dxdt + \int_{K_n} \Psi(u_n(T))dx.
 \end{equation*}
-For each $n$, $u_n$ is a weak energy solution in $Q_n$ and as satisfies \ref{energy_ineq}, giving
+For each $n$, $u_n$ is a weak energy solution in $Q_n$ and as satisfies (\ref{energy_ineq}), giving
 \begin{align}
 \label{step_spatial_bound_z_nonsmooth_boundary}
 \iint_{Q_T} |\nabla w_n|^2dxdt + \int_\Omega \Psi(u_n(T)) &\leq \int_{K_n}\Psi(u_{0,n})dx + \iint_{Q_n}f_n w_n dxdt \nonumber \\
@@ -1634,7 +1637,7 @@ That $z_n$ is bounded in $L^2(0,T: H_0^1(\Omega))$ follows from the observation 
 By Lemma \ref{prop:z_t_estimate} we can use the estimate (\ref{z_t_estimate}) as
 \begin{equation}
 \label{z_n_bounded_in_H1_start}
-\iint_{Q_T^\tau} |\partial_t z_n|^2 dxdt \leq \frac{||\partial_t \zeta||_\infty}{2}\left( K||u_{0,n}||_{L^1(K_n)} + ||f_n||_{L^2(Q_n)}\right) + \iint_{Q_n}|\partial_t (f_n \zeta ) w_n| dxdt,
+\iint_{Q_T^\tau} |\partial_t z_n|^2 dxdt \leq \frac{||\partial_t \zeta||_\infty}{2}\left( B_1||u_{0,n}||_{L^1(K_n)} + B_2||f_n||_{L^2(Q_n)}\right) + \iint_{Q_n}|\partial_t (f_n \zeta ) w_n| dxdt,
 \end{equation}
 where $\zeta = \zeta(t)$ is a smooth cutoff function from Lemma \ref{prop:z_t_estimate}, which has a bounded derivative.
 
@@ -1684,7 +1687,7 @@ All terms involving $n$ we can control by the various convergences. Thus, when p
 
 
 \subsubsection{Removing the assumptions on $f$ and $u_0$}
-We've finally arrived at the last section, where we'll prove theorem \ref{thm:weak_existence} without the assumption \ref{ass:f_ft_u_0_bounded}, which have proved so very useful for us up to this point. Let's just get to it then.
+We've finally arrived at the last section, where we'll prove Theorem \ref{thm:weak_existence} without the assumption \ref{ass:f_ft_u_0_bounded}, which have proved so very useful for us up to this point. Let's just get to it then.
 
 \begin{proof}[Proof of theorem \ref{thm:weak_existence}]
 As opposed to the previous weak existence proofs, the strategy here will be to use the $L^1$-contractivity to establish convergence, rather than a compactness argument.
@@ -1718,11 +1721,11 @@ With the assumptions we've put on $f_n$ and $u_{0,n}$ we can conclude that $||f_
 By Banach-Alaoglu every subsequence of $\Phi(u_n)$ has a weakly convergent subsequence, and by the pointwise convergence we can, after arguing as in the proof in Lemma \ref{prop:weak_convergence_w_n}, conclude that the weak limit is always $\Phi(u)$. This implies that $\Phi(u_n)$ converges weakly to $\Phi(u)$.
 
 \item[$\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$:]
-The proof of this assertion is done, as in the proof of proposition \ref{prop:gradw_weak_convergence}, by noticing from the weak convergence of $\Phi(u_n)$ we can deduce that $\nabla \Phi(u_n)$ converges to $\nabla \Phi(u)$ in the distributional sense. In addition $\nabla \Phi(u_n)$ is a bounded sequence in $L^2(Q_T)$, and so every subsequence has a weakly convergent subsequence. Arguing as before, the limit point is always $\nabla \Phi(u)$, and so $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$.
+The proof of this assertion is done, as in the proof of Lemma \ref{prop:gradw_weak_convergence}, by noticing from the weak convergence of $\Phi(u_n)$ we can deduce that $\nabla \Phi(u_n)$ converges to $\nabla \Phi(u)$ in the distributional sense. In addition $\nabla \Phi(u_n)$ is a bounded sequence in $L^2(Q_T)$, and so every subsequence has a weakly convergent subsequence. Arguing as before, the limit point is always $\nabla \Phi(u)$, and so $\nabla \Phi(u_n)$ converges weakly to $\nabla \Phi(u)$.
 
 
 \item[$u$ is a weak solution:]
-With the various convergences shown above or given by assumption, showing that $u$ is a weak solution and satisfies the energy inequality (\ref{energy_ineq}) is done identically as in the proof of lemma \ref{lem:existence_part1}. The same is true for showing that $u$ satisfies the energy inequality (\ref{energy_ineq}).
+With the various convergences shown above or given by assumption, showing that $u$ is a weak solution and satisfies the energy inequality (\ref{energy_ineq}) is done identically as in the proof of Lemma \ref{lem:existence_part1}. The same is true for showing that $u$ satisfies the energy inequality (\ref{energy_ineq}).
 \end{description}
 \end{proof}
 
@@ -1931,10 +1934,10 @@ Let's discuss some of the properties of the sequence of approximations to the no
 It is obvious that $\Phi_n$ is infintely differentiable for each $n$, as well as $\Phi_n'(u) \geq \frac{1}{n}$. In addition the construction is so that $\Phi_n(0) = 0$.
 
 The first property we'll consider is summarised in the following proposition.
-\begin{proposition}
+\begin{lemma}
 \label{prop:Phi_uniform_convergence}
 If $\Phi$ is continuous, $\Phi_n$ converges to $\Phi$ uniformly on compact sets.
-\end{proposition}
+\end{lemma}
 \begin{proof}
 This follows almost immediately from part iii) of theorem 7 of appendix C in \citep{evans}, which states that if $\Phi$ is continuous, then $\Phi * \varphi_{\frac{1}{n}}$ converges uniformly to $\Phi$ on compact sets. So let $K\subset \mathbb{R}$ be a compact set, and fix $\epsilon < 0$. Then there is an $N_1 \in \mathbb{N}$ so that
 \begin{equation*}
@@ -1961,17 +1964,17 @@ for every $n \geq N$, which proves the proposition.
 
 Another useful fact about our approximations is the following:
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:Psi_uniform_convergence}
 $\Psi_n$ converges uniformly to $\Psi$ on compact sets.
-\end{proposition}
+\end{lemma}
 \begin{proof}
 Let $K$ be a compact set in $\mathbb{R}$, and take $R$ to be so that $|u| \leq R$ for all $u \in K$. Fix $\epsilon > 0$, and see that for any $u\in K$
 \begin{align*}
 |\Psi_n(u) - \Psi(u)| &\leq \left|\int_0^u \Phi_n(s) - \Phi(s)ds \right| \\
 &\leq \int_0^u |\Phi_n(s) - \Phi(s)|ds.
 \end{align*}
-By proposition \ref{prop:Phi_uniform_convergence} we can take find an $N \in \mathbb{N}$ so that
+By Lemma \ref{prop:Phi_uniform_convergence} we can take find an $N \in \mathbb{N}$ so that
 \begin{equation*}
 |\Phi_n(s) - \Phi(s)| < \frac{\epsilon}{R}
 \end{equation*}
@@ -1983,11 +1986,12 @@ for all $n \geq N$ and $s \in [-R, R]$. Thus,
 With $\epsilon$ being arbitrary, this proves the assertion.
 \end{proof}
 
-In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
+In the remainder of this section we'll assume that $\Phi$ is continuous and strictly increasing, and that $\Phi( \pm \infty) = \pm \infty$, i.e. satisfies assumption \ref{ass:Phi_general}. Then it is obvious that both $\Phi$ is both one-to-one and onto, and so has an inverse $\Phi^{-1}$.
 
-\begin{proposition}
-$\Phi^{-1}$ is strictly increasing, and continuous.
-\end{proposition}
+\begin{lemma}
+\label{lem:Phi_inv_cont}
+With assumption \ref{ass:Phi_general} $\Phi^{-1}$ is strictly increasing, and continuous.
+\end{lemma}
 \begin{proof}
 Let's first prove that it's strictly increasing, which is easy. Take $y_1 < y_2$, and let $x_1$ and $x_2$ be so that $\Phi(x_i) = y_i$ for $i=1,2$. Then, because $\Phi$ is strictly increasing, we have $x_1 < x_2$. Which is the same as saying that
 \begin{equation*}
@@ -2008,9 +2012,9 @@ by using that $\Phi^{-1}$ is strictly increasing, as well as $\Phi(x-\epsilon) \
 
 This result is also valid for $\Phi_n$ for every $n \in \mathbb{N}$, beacause they are all continuous and stricly increasing. We then have the following helpful result.
 
-\begin{proposition}
-$\Phi_n^{-1}$ converges pointwise to $\Phi^{-1}$.
-\end{proposition}
+\begin{lemma}
+With the same assumptions as Lemma \ref{lem:Phi_inv_cont} $\Phi_n^{-1}$ converges pointwise to $\Phi^{-1}$.
+\end{lemma}
 
 \begin{proof}
 We need to consider $|\Phi_n^{-1}(y) - \Phi^{-1}(y)| = |x_n - x|$. Define $y_n = \Phi(x_n)$, then if we can show that $y_n \to y$ we can use the coninuity of $\Phi^{-1}$  to show that $x_n = \Phi^{-1}(y_n) \to \Phi^{-1}(y) = x$, and we would be done. It is now useful to see that
@@ -2034,7 +2038,7 @@ for every $x \in [x_1, x_2]$ and $n \geq N$. So take any $n \geq N$ and see that
 \begin{equation*}
 \Phi_n(x_2) \geq \Phi(x_2) - 1 = \Phi(x),
 \end{equation*}
-which by the strict monotonicity of $\Phi_n$ means that $x_n \leq x_2$. A similar argument yields $x_n \geq x_1$, and so we have that for every $n \geq N$ that $x_n \in [x_1, x_2]$. This means that $x_n$ is a bounded sequence, and hence we can use the unform convergence of $\Phi_n$ on compact sets to conclude that $y_n$ converges to $y$. Finally we have that
+which by the strict monotonicity of $\Phi_n$ means that $x_n \leq x_2$. A similar argument yields $x_n \geq x_1$, and so we have that for every $n \geq N$ that $x_n \in [x_1, x_2]$. This means that $x_n$ is a bounded sequence, and hence we can use the uniform convergence of $\Phi_n$ on compact sets to conclude that $y_n$ converges to $y$. Finally we have that
 \begin{equation*}
 x_n = \Phi_n^{-1} (y) = \Phi^{-1}(y_n) \overset{y_n\to y}{\to} \Phi^{-1}(y) = x
 \end{equation*}
@@ -2042,10 +2046,10 @@ x_n = \Phi_n^{-1} (y) = \Phi^{-1}(y_n) \overset{y_n\to y}{\to} \Phi^{-1}(y) = x
 
 We can go even a step further with the last result of this section. It will require a bit more involved argument, but will operate on some familiar ideas from our latest proof.
 
-\begin{proposition}
+\begin{lemma}
 \label{prop:inverse_uniform}
-$\Phi_n^{-1}$ converges to $\Phi^{-1}$ uniformly on compact sets.
-\end{proposition}
+With the same assumptions as Lemma \ref{lem:Phi_inv_cont} $\Phi_n^{-1}$ converges to $\Phi^{-1}$ uniformly on compact sets.
+\end{lemma}
 
 \begin{proof}
 Let $K \subset \mathbb{R}$ be a compact set, and fix $\epsilon > 0$. Our aim will be to establish that there is $N \in \mathbb{N}$ so that 
@@ -2109,15 +2113,15 @@ which implies that $x_n > x-\epsilon$. In toto we have that whenever $n\geq N$
 for every $y \in K$, which is exactly what we wanted to prove.
 \end{proof}
 
-Looking back at this proof, the only things we needed were that $\Phi$ is strictly increasing and continuous, and is locally Lipschitz, and that $\Phi_n$ converges to $\Phi$ uniformly on compact sets. So we can generalise our result in the following lemma.
+Looking back at this proof, the only things we needed were that $\Phi$ is strictly increasing and continuous, and is locally Lipschitz, and that $\Phi_n$ converges to $\Phi$ uniformly on compact sets. So we can generalise our result in the following Lemma.
 
 \begin{lemma}
 \label{lem:Inverse_uniform_general}
-Let $f: \mathbb{R} \to \mathbb{R}$ be a strictly monotone, continuous function, and let $\{f_n\}$ be a family of strictly monotone, continuous functions that converge to $f$ uniformly on compact sets. Then $f_n^{-1}$ converges to $f^{-1}$ uniformly on compact sets.
+Let $f: \mathbb{R} \to \mathbb{R}$ be a strictly monotone, continuous function, and let $\{f_n\}$ be a family of strictly monotone, continuous functions that converge to $f$ uniformly on compact sets. All functions are so that $f(\pm \infty) = \pm \infty$. Then $f_n^{-1}$ converges to $f^{-1}$ uniformly on compact sets.
 \end{lemma}
 
 \begin{proof}
-The proof is identical to that of proposition \ref{prop:inverse_uniform} with only minor alterations in notation.
+The proof is identical to that of Lemma \ref{prop:inverse_uniform} with only minor alterations in notation.
 \end{proof}
 
 \subsection{Properties of $Z$ and its approximations}
@@ -2138,9 +2142,9 @@ Z_n(u) = \int_0^u\mathrm{min}\{1, \Phi_n'(s)\}ds.
 
 As in the previous section we'll establish that $Z_n$ converges to $Z$ uniformly on compact sets, and continue on with the inverses and a similar convergence results for them. We'll start off with the following proposition:
 
-\begin{proposition}
+\begin{lemma}
 $Z_n$ converges pointwise to $Z$.
-\end{proposition}
+\end{lemma}
 \begin{proof}
 A useful identity to have in mind at this point is
 \begin{equation*}
@@ -2167,8 +2171,9 @@ and so
 \begin{equation*}
 |Z_n(u) - Z(u)| \leq \int_0^{|u|}|\Phi'*\varphi_{\frac{1}{n}}(s) - \Phi'(s)|ds + \frac{|u|}{n}.
 \end{equation*}
-We have of course complete control of the latter of these terms by making $n$ sufficiently large. For the first term we use part iv) of theorem 7 of appendix C in \citep{evans}, to state that $\Phi'*\varphi_{\frac{1}{n}}$ converges to $\Phi$ in $L^1_{loc}(\mathbb{R})$. With this we deduce that $Z_n$ converges pointwise to $Z$.
+We have of course complete control of the latter of these terms by making $n$ sufficiently large. For the first term we use part iv) of theorem 7 of appendix C in \citep{evans}, to state that $\Phi'*\varphi_{\frac{1}{n}}$ converges to $\Phi$ in $L^1_{loc}(\mathbb{R})$. With this we deduce that $Z_n$ converges pointwise almost everywhere to $Z$ on any compact set, at least along a subsequence. Since all $Z_n$ and $Z$ are continuous the convergence happens everywhere on any compact set.
 \end{proof}
+
 
 Next we will prove that $Z_n$ converges to $Z$ uniformly on compact sets, but for this we need the Arzela-Ascoli theorem, presented below for ease of reference, (cf. e.g. \citep[p 718]{evans}). This theorem hinges on the concept of equicontinuity, for which a definition is presented directly below.
 \begin{mydef}
@@ -2184,11 +2189,11 @@ We are now prepared for the Arzela-Ascoli theorem.
 A bounded, equicontinuous sequence, $(f_n)$, of continuous, real-valued functions has a subsequence which converges uniformly.
 \end{theorem}
 
-Using this powerful theorem we can prove the following:
-\begin{proposition}
+Using this powerful Theorem we can prove the following:
+\begin{lemma}
 \label{prop:Z_uniform_convergence}
-$Z_n$ converges to $Z$ uniformly on compact sets.
-\end{proposition}
+With the same assumptions as Lemma \ref{lem:Phi_inv_cont} $Z_n$ converges to $Z$ uniformly on compact sets.
+\end{lemma}
 \begin{proof}
 The proof will be done by contradiction. Take $K \subset \mathbb{R}$ to be a compact set, and consider a closed interval of the form $[-M,M]$, with $M$ so large as to contain $K$. Obviously, $Z_n$ is a bounded sequence, with
 \begin{equation*}
@@ -2210,10 +2215,10 @@ for every $k$, but this is in clear contradiction with the fact that $(Z_{n_k})$
 \end{proof}
 
 We'll continue on with the last result of this section.
-\begin{proposition}
+\begin{lemma}
 \label{prop:Zinv_uniform_convergence}
-With $\Phi$ strictly increasing and continuos, $Z$ is strictly increasing and continuous, and thus permits a strictly increasing and continuous inverse. Furthermore $Z_n^{-1}$ converges to $Z^{-1}$ uniformly on compact sets.
-\end{proposition}
+With the same assumptions as Lemma \ref{lem:Phi_inv_cont}, $Z$ is strictly increasing and continuous, and thus permits a strictly increasing and continuous inverse. Furthermore $Z_n^{-1}$ converges to $Z^{-1}$ uniformly on compact sets.
+\end{lemma}
 \begin{proof}
  We note that $Z_n' \geq \frac{1}{n}$, and is thus stricly increasing, permitting a continuous inverse $Z_n^{-1}$. 
 
@@ -2223,7 +2228,7 @@ Z(u) - Z(t) = \int_t^u \mathrm{min}\{1,\Phi'(s)\}ds \geq 0.
 \end{equation*}
 The only way this can be $0$ is if $\Phi' = 0$ a.e. everywhere on $(t,u)$, but if that were the case then $\Phi(u) = \Phi(t)$, in contradiction with $\Phi$ being strictly increasing. So $Z$ is strictly increasing, and has a continuous and strictly increasing inverse $Z^{-1}$.
 
-We have from proposition \ref{prop:Z_uniform_convergence} that $Z_n$ converges uniformly to $Z$ on compact sets, and so we can simply use lemma \ref{lem:Inverse_uniform_general} to conclude that $Z_n^{-1}$ converges uniformly to $Z^{-1}$ on compact sets.
+We have from Lemma \ref{prop:Z_uniform_convergence} that $Z_n$ converges uniformly to $Z$ on compact sets, and so we can simply use Lemma \ref{lem:Inverse_uniform_general} to conclude that $Z_n^{-1}$ converges uniformly to $Z^{-1}$ on compact sets.
 \end{proof}
 
 \end{appendix}
